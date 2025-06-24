@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Scanner App for Android - The Easiest Way to Validate Tickets</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎟️</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Use Inter font family */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style for the Paddle checkout container */
+        .paddle-container {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .paddle-container:hover {
+            transform: translateY(-5px);
+        }
+        .feature-headline {
+            font-size: 1.75rem; /* Equivalent to text-3xl */
+            font-weight: 700; /* Equivalent to font-bold */
+            line-height: 1.25; /* Similar to leading-tight */
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #a78bfa, #818cf8); /* Purple-400 to Indigo-600 */
+            margin-bottom: 0.5rem; /* mb-2 */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center the icon and text */
+            gap: 0.75rem; /* Space between emoji and text */
+        }
+        .feature-description {
+            font-size: 1.125rem; /* Equivalent to text-lg */
+            color: #d1d5db; /* gray-300 */
+            max-width: 48rem; /* max-w-2xl */
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white antialiased">
+
+    <div class="container mx-auto px-6 py-12 md:py-24 max-w-4xl text-center">
+
+        <header class="mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-600">
+                Ticket Scanner App
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8">
+                Seamlessly validate tickets for your events. Compatible with Spektrix®, our app offers fast and reliable ticket scanning right from your <a href="https://www.android.com/" target="_blank" class="text-indigo-400 hover:text-indigo-300 font-medium">Android™</a> device, ensuring simple operation for your team and a smooth entry process for your attendees.
+            </p>
+            
+            <div class="mb-12">
+                <a href="YOUR_GOOGLE_PLAY_STORE_LINK_HERE" target="_blank" class="inline-block transition-transform duration-300 ease-in-out hover:scale-105">
+                    <img src="https://i.ibb.co/zhd0mhGY/Get-It-On-Google-Play-Badge-Web-color-English.png" alt="Get it on Google Play" class="h-10 sm:h-12 mx-auto w-auto">
+                </a>
+            </div>
+            
+            <div class="space-y-10"> <div>
+                    <h2 class="feature-headline">
+                        ✨ Built by Arts Workers, For Arts Workers
+                    </h2>
+                    <p class="feature-description">
+                        Developed and rigorously tested by a team with extensive Front of House and Box Office experience. We use our app in our own venues, so it's designed with real-world operations in mind.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="feature-headline">
+                        💰 Budget-Friendly & Flexible
+                    </h2>
+                    <p class="feature-description">
+                        Our monthly subscription offers a low-risk, low-barrier-to-entry alternative to expensive, purpose-built ticket scanners. Only pay for the months you need – no long-term commitments or hidden fees.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="feature-headline">
+                        🛡️ Smart Redundancy, No Overpay
+                    </h2>
+                    <p class="feature-description">
+                        Whether you have existing scanners or not, our cost-effective 'pay-per-instance' model means you only pay for what you use. Running two venues but only scanning in one at a time? Issues with one device but have another spare? Log out and log in on another device instantly – never overpay for backup solutions.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="feature-headline">
+                        📱 Use Your Own Device
+                    </h2>
+                    <p class="feature-description">
+                        Forget costly dedicated hardware! Our app runs on >98% of Android™ devices, utilizing the built-in camera to scan ticket QR or barcodes. You likely already have the equipment you need to get scanning.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="feature-headline">
+                        ✅ Seamless Spektrix Compatibility
+                    </h2>
+                    <p class="feature-description">
+                        Our app is designed to be fully compatible with your existing <a href="https://www.spektrix.com/" target="_blank" class="text-indigo-400 hover:text-indigo-300 font-medium">Spektrix®</a> system, integrating smoothly into your current workflow for efficient ticket validation. Whether you use barcodes or QR codes, printed tickets or digital passes – this app supports them all.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="feature-headline">
+                        🚀 Try Before You Buy
+                    </h2>
+                    <p class="feature-description">
+                        Not sure if it's the right fit? We offer a free 7-day trial! <a href="mailto:dev@onthelat.ch" class="text-indigo-400 hover:text-indigo-300 font-medium">Contact us today</a> to request your trial key and experience the app firsthand.
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div id="checkout-container">
+                <h2 class="text-2xl font-semibold mb-6 text-gray-100">Get Your License:</h2>
+                
+                <div class="paddle-container bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700 min-h-[400px] flex items-center justify-center">
+                    
+                    <div class="text-gray-500">
+                        <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                        <p class="mt-4 font-medium">Your Paddle checkout will appear here.</p>
+                        <p class="text-sm">Edit the HTML to add your embed code.</p>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+        
+        <footer class="mt-16 text-center text-gray-500">
+            <p>&copy; 2025 On the Latch. All rights reserved.</p>
+            <p class="mt-2 text-sm">
+                <a href="eula.html" class="text-indigo-400 hover:text-indigo-300 mx-2">End-User License Agreement</a> | 
+                <a href="terms.html" class="text-indigo-400 hover:text-indigo-300 mx-2">Terms of Service</a> | 
+                <a href="privacy.html" class="text-indigo-400 hover:text-indigo-300 mx-2">Privacy Policy</a>
+            </p>
+            <p class="mt-4 text-sm text-gray-600">
+                Spektrix® is a registered trademark of Spektrix Ltd. Android™ is a trademark of Google LLC. This application is an independent product developed by On the Latch and is not affiliated with, endorsed by, or authorized by Spektrix Ltd. or Google LLC.
+            </p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
