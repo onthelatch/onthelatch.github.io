@@ -18,6 +18,10 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+        /* Smooth scroll for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
         /* Style for the Paddle checkout container */
         .paddle-container {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -47,18 +51,49 @@
             margin-right: auto;
             margin-bottom: 1.5rem; /* mb-6 */
         }
+        /* Style for FAQ questions - makes them clickable */
+        .faq-question {
+            cursor: pointer;
+            border-radius: 0.5rem; /* rounded-lg */
+            padding-left: 1rem; /* px-4 */
+            padding-right: 1rem; /* px-4 */
+            transition: background-color 0.2s ease-in-out;
+            @apply flex justify-between items-center py-4 border-b border-gray-700 text-gray-200;
+        }
+        .faq-question:hover {
+             background-color: rgba(255, 255, 255, 0.05);
+        }
+        .faq-answer {
+            @apply py-2 px-4 text-gray-400 text-left;
+            display: none; /* Hidden by default */
+        }
+        .faq-answer.show {
+            display: block; /* Show when 'show' class is added */
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white antialiased">
 
+    <nav class="bg-gray-800 p-4 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center max-w-4xl">
+            <a href="index.html" class="text-2xl font-bold text-indigo-400 hover:text-purple-300 transition-colors duration-200">On the Latch</a>
+            <div class="space-x-6">
+                <a href="#download-section" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">Download</a>
+                <a href="#pricing-section" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">Pricing</a>
+                <a href="#purchase-section" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">Purchase</a>
+                <a href="#faq-section" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">FAQ</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container mx-auto px-6 py-12 md:py-24 max-w-4xl text-center">
 
-        <header class="mb-12">
+        <section id="download-section" class="mb-12">
             <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-600">
-                Ticket Scanner App
+                The Ticket Scanner App for Arts Folk 🎟️
             </h1>
             <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8">
-                Seamlessly validate tickets for your events. Compatible with Spektrix®, our app offers fast and reliable ticket scanning right from your <a href="https://www.android.com/" target="_blank" class="text-indigo-400 hover:text-indigo-300 font-medium">Android™</a> device, ensuring simple operation for your team and a smooth entry process for your attendees.
+                Scan tickets without the drama. Our app is a fast, reliable, and affordable solution for <span style="color: #97cc52;">Spektrix®</span> users, running on the Android™ devices you already own. Give your team a tool they'll love and your attendees a smooth welcome.
             </p>
             
             <div class="mb-12">
@@ -66,80 +101,195 @@
                     <img src="https://i.ibb.co/zhd0mhGY/Get-It-On-Google-Play-Badge-Web-color-English.png" alt="Get it on Google Play" class="h-10 sm:h-12 mx-auto w-auto">
                 </a>
             </div>
-            
-            <div class="space-y-10"> <div>
-                    <h2 class="feature-headline">
-                        ✨ Built by Arts Workers, For Arts Workers
-                    </h2>
-                    <p class="feature-description">
-                        Developed and rigorously tested by a team with extensive Front of House and Box Office experience. We use our app in our own venues, so it's designed with real-world operations in mind.
-                    </p>
-                </div>
+        </section>
 
-                <div>
-                    <h2 class="feature-headline">
-                        💰 Budget-Friendly & Flexible
-                    </h2>
-                    <p class="feature-description">
-                        Our monthly subscription offers a low-risk, low-barrier-to-entry alternative to expensive, purpose-built ticket scanners. Only pay for the months you need – no long-term commitments or hidden fees.
-                    </p>
-                </div>
-
-                <div>
-                    <h2 class="feature-headline">
-                        🛡️ Smart Redundancy, No Overpay
-                    </h2>
-                    <p class="feature-description">
-                        Whether you have existing scanners or not, our cost-effective 'pay-per-instance' model means you only pay for what you use. Running two venues but only scanning in one at a time? Issues with one device but have another spare? Log out and log in on another device instantly – never overpay for backup solutions.
-                    </p>
-                </div>
-
-                <div>
-                    <h2 class="feature-headline">
-                        📱 Use Your Own Device
-                    </h2>
-                    <p class="feature-description">
-                        Forget costly dedicated hardware! Our app runs on >98% of Android™ devices, utilizing the built-in camera to scan ticket QR or barcodes. You likely already have the equipment you need to get scanning.
-                    </p>
-                </div>
-
-                <div>
-                    <h2 class="feature-headline">
-                        ✅ Seamless Spektrix Compatibility
-                    </h2>
-                    <p class="feature-description">
-                        Our app is designed to be fully compatible with your existing <a href="https://www.spektrix.com/" target="_blank" class="text-indigo-400 hover:text-indigo-300 font-medium">Spektrix®</a> system, integrating smoothly into your current workflow for efficient ticket validation. Whether you use barcodes or QR codes, printed tickets or digital passes – this app supports them all.
-                    </p>
-                </div>
-
-                <div>
-                    <h2 class="feature-headline">
-                        🚀 Try Before You Buy
-                    </h2>
-                    <p class="feature-description">
-                        Not sure if it's the right fit? We offer a free 7-day trial! <a href="mailto:dev@onthelat.ch" class="text-indigo-400 hover:text-indigo-300 font-medium">Contact us today</a> to request your trial key and experience the app firsthand.
-                    </p>
-                </div>
+        <section id="features-section" class="space-y-10 mb-16"> 
+            <div>
+                <h2 class="feature-headline">
+                    ✨ Built by Arts Workers, For Arts Workers
+                </h2>
+                <p class="feature-description">
+                    Developed and tested by a team with years of Front of House and Box Office experience. We use this app in our own venues, so it's designed for how things *actually* work on the ground.
+                </p>
             </div>
-        </header>
 
-        <main>
-            <div id="checkout-container">
-                <h2 class="text-2xl font-semibold mb-6 text-gray-100">Get Your License:</h2>
-                
-                <div class="paddle-container bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700 min-h-[400px] flex items-center justify-center">
-                    
-                    <div class="text-gray-500">
-                        <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                        </svg>
-                        <p class="mt-4 font-medium">Your Paddle checkout will appear here.</p>
-                        <p class="text-sm">Edit the HTML to add your embed code.</p>
+            <div>
+                <h2 class="feature-headline">
+                    💰 Budget-Friendly & Flexible
+                </h2>
+                <p class="feature-description">
+                    Our monthly subscription is a low-risk, low-cost alternative to those expensive, purpose-built ticket scanners. Only pay for the months you need – no scary long-term commitments.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="feature-headline">
+                    🛡️ Smart Redundancy, No Overpay
+                </h2>
+                <p class="feature-description">
+                    Got a backup device just in case? With our 'Active License' model, you don't pay for it unless you're using it. If your main scanner goes down, just log out and log in on the backup. Simple.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="feature-headline">
+                    📱 Use Your Own Device
+                </h2>
+                <p class="feature-description">
+                    Forget costly dedicated hardware! Our app runs on 98% of Android™ devices, using the built-in camera to scan QR codes and barcodes. You likely already have everything you need.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="feature-headline">
+                    ✅ Seamless <span style="color: #97cc52;">Spektrix®</span> Compatibility
+                </h2>
+                <p class="feature-description">
+                    This app integrates smoothly with your existing <span style="color: #97cc52;">Spektrix®</span> system for efficient ticket validation. Whether you use barcodes or QR codes, paper tickets or digital passes – it just works.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="feature-headline">
+                    🚀 Try Before You Buy
+                </h2>
+                <p class="feature-description">
+                    Not sure if it's the right fit? We offer a free 7-day trial! <a href="mailto:dev@onthelat.ch" class="text-indigo-400 hover:text-indigo-300 font-medium">Contact us today</a> to request your trial key and take it for a spin.
+                </p>
+            </div>
+        </section>
+
+        <section id="pricing-section" class="py-16 md:py-24 bg-gray-800 rounded-xl shadow-2xl mt-16">
+            <div class="container mx-auto px-6 max-w-4xl text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-600">
+                    Pricing That Makes Sense 🎭
+                </h2>
+                <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-12">
+                    We get it. Budgets are tight. That's why our 'Active License' model is built for how venues really work. Cancel anytime, and never pay for scanners gathering dust in a drawer.
+                </p>
+
+                <div class="max-w-2xl mx-auto bg-gray-900 p-8 rounded-xl shadow-lg border-2 border-purple-400 ring-4 ring-purple-400/20">
+                    <span class="text-sm font-bold uppercase text-purple-300 bg-purple-500/10 px-3 py-1 rounded-full mb-4 inline-block">Limited Time Offer</span>
+                    <h3 class="text-4xl font-bold text-white mb-4">Early Adopter License</h3>
+
+                    <div class="mb-6">
+                        <p class="text-5xl font-bold text-white mb-2">$15 <span class="text-2xl text-gray-400">USD</span></p>
+                        <p class="text-lg text-gray-300 mb-1">or £12.50 GBP / $20 CAD</p>
+                        <p class="text-md text-gray-500">(Your choice of currency at checkout)</p>
+                        <p class="text-lg text-gray-500 mt-2">
+                            <span class="line-through">$20 USD</span> per active license / month
+                        </p>
                     </div>
 
+                    <a href="#purchase-section" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg text-xl inline-block mb-8">Get the Early Adopter Offer</a>
+
+                    <ul class="text-left text-gray-300 space-y-4 text-lg max-w-md mx-auto">
+                        <li class="flex items-start"><svg class="w-6 h-6 mr-3 text-green-400 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>One <strong>Active License</strong> for one concurrent device.</span></li>
+                        <li class="flex items-start"><svg class="w-6 h-6 mr-3 text-green-400 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span><strong>Automatic Volume Discounts:</strong> 10% off for 4-9 licenses & 20% off for 10+ licenses.</span></li>
+                        <li class="flex items-start"><svg class="w-6 h-6 mr-3 text-green-400 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>All the <span style="color: #97cc52;">Spektrix®</span> Scanning Interface features you need.</span></li>
+                        <li class="flex items-start"><svg class="w-6 h-6 mr-3 text-green-400 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>Friendly email support & easy-to-follow setup guides.</span></li>
+                    </ul>
+                </div>
+                
+                <div class="mt-16 pt-12 border-t border-gray-700">
+                     <h3 class="text-3xl font-bold mb-8 text-gray-100">How It Saves You Money (Real-World Examples) ✨</h3>
+                     <div class="grid md:grid-cols-3 gap-8 text-left">
+                        
+                        <div class="bg-gray-900/50 p-6 rounded-lg">
+                            <h4 class="font-bold text-xl mb-2 text-purple-300">The Low-Cost Emergency Backup</h4>
+                            <p class="text-gray-400">You use one scanner but keep a spare tablet in case of issues. A volunteer breaks the camera on the first device ten minutes before showtime. No problem: log out on the broken device and log in on the backup. <strong class="text-gray-200">Because only one device is active at a time, you only need one license.</strong></p>
+                        </div>
+
+                        <div class="bg-gray-900/50 p-6 rounded-lg">
+                            <h4 class="font-bold text-xl mb-2 text-purple-300">The Multi-Space Venue</h4>
+                            <p class="text-gray-400">You run two performances spaces, but never on the same night. They're too far apart to move your devices between. Simply use your license in Venue A on Friday, log out at end-of-night, then log in and use the exact same license in Venue B on Saturday. <strong class="text-gray-200">Pay per active scanner, not per location.</strong></p>
+                        </div>
+                        
+                        <div class="bg-gray-900/50 p-6 rounded-lg">
+                            <h4 class="font-bold text-xl mb-2 text-purple-300">The Summer Festival</h4>
+                            <p class="text-gray-400">Running a 3-week festival in July? Subscribe for just that month and cancel when the event is over. <strong class="text-gray-200">No long-term contracts mean you're not paying for software during your dark months.</strong></p>
+                        </div>
+
+                     </div>
                 </div>
             </div>
-        </main>
+        </section>
+        <section id="faq-section" class="py-16 md:py-24 bg-gray-800 rounded-xl shadow-2xl mt-16 text-left px-6">
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-600">
+                Got Questions? We've Got Answers! 👇
+            </h2>
+
+            <div class="max-w-2xl mx-auto">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span class="text-xl font-semibold">📱 What devices can I use this on?</span>
+                        <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer">
+                        Our app runs on over 98% of Android™ devices, utilizing the built-in camera to scan tickets. This includes most modern Android smartphones and tablets.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span class="text-xl font-semibold">💡 How does the 'Active License' thing actually work?</span>
+                        <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer">
+                        It's simple! You just pay for each device that is *actively logged in* at the same time. If you log out on one phone and log in on another, it still only counts as one license. It’s perfect for having backup devices or moving between spaces without paying extra.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span class="text-xl font-semibold">🎁 Do I get a deal for buying a bunch of licenses?</span>
+                        <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer">
+                        You bet! Discounts are applied automatically at checkout. You'll get 10% off the total for 4-9 licenses, and a cool 20% off for 10 or more.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span class="text-xl font-semibold">🤔 Is this an official <span style="color: #97cc52;">Spektrix®</span> app?</span>
+                        <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer">
+                        No, this application is an independent product developed by On the Latch. While it is fully compatible with your existing <span style="color: #97cc52;">Spektrix®</span> system, it is not affiliated with, endorsed by, or authorized by Spektrix Ltd. (And if <span style="color: #97cc52;">Spektrix®</span> decide to stop the app working, we may not be able to fix it. But please don't do that, <span style="color: #97cc52;">Spektrix®</span> - we're here because we love you. You're in the arts too. You know how it feels to be broke and in love.)
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span class="text-xl font-semibold">🚀 How do I get my hands on the free trial?</span>
+                        <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer">
+                        To request your free 7-day trial key, please <a href="mailto:dev@onthelat.ch" class="text-indigo-400 hover:text-indigo-300 font-medium">contact us today</a>. We'll get you set up quickly!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="purchase-section" class="py-16 md:py-24">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gray-100">Ready to make Door Duty a breeze?</h2>
+            <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+                Your future, less-stressed-out self will thank you.
+            </p>
+            
+            <div class="paddle-container bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700 min-h-[400px] flex items-center justify-center">
+                
+                <div class="text-gray-500">
+                    <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 0 00-3-3H6a3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                    <p class="mt-4 font-medium">Your Paddle checkout will appear here.</p>
+                    <p class="text-sm">Edit the HTML to add your embed code.</p>
+                </div>
+
+            </div>
+        </section>
         
         <footer class="mt-16 text-center text-gray-500">
             <p>&copy; 2025 On the Latch. All rights reserved.</p>
@@ -149,11 +299,43 @@
                 <a href="privacy.html" class="text-indigo-400 hover:text-indigo-300 mx-2">Privacy Policy</a>
             </p>
             <p class="mt-4 text-sm text-gray-600">
-                Spektrix® is a registered trademark of Spektrix Ltd. Android™ is a trademark of Google LLC. This application is an independent product developed by On the Latch and is not affiliated with, endorsed by, or authorized by Spektrix Ltd. or Google LLC.
+                <span style="color: #97cc52;">Spektrix®</span> is a registered trademark of Spektrix Ltd. Android™ is a trademark of Google LLC. This application is an independent product developed by On the Latch and is not affiliated with, endorsed by, or authorized by <span style="color: #97cc52;">Spektrix®</span> Ltd. or Google LLC.
             </p>
         </footer>
 
     </div>
+
+    <script>
+        // JavaScript for FAQ accordion
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqQuestions = document.querySelectorAll('.faq-item .faq-question');
+
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const icon = question.querySelector('.toggle-icon');
+
+                    // Close other open answers
+                    document.querySelectorAll('.faq-answer.show').forEach(openAnswer => {
+                        if (openAnswer !== answer) {
+                            openAnswer.classList.remove('show');
+                            openAnswer.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(0deg)';
+                        }
+                    });
+
+                    // Toggle the clicked answer visibility
+                    answer.classList.toggle('show');
+
+                    // Rotate the arrow icon for the clicked item
+                    if (answer.classList.contains('show')) {
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
