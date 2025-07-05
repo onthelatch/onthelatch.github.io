@@ -13,6 +13,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Include the Paddle.js script with an onload callback -->
+    <script src="https://cdn.paddle.com/v2/paddle.js" onload="initializePaddleCheckout()"></script>
+    
     <style>
         /* Use Inter font family */
         body {
@@ -77,23 +80,41 @@
     <nav class="bg-gray-800 p-4 sticky top-0 z-50 shadow-lg">
         <div class="container mx-auto flex justify-between items-center max-w-4xl">
             <a href="index.html" class="text-2xl font-bold text-indigo-400 hover:text-purple-300 transition-colors duration-200">On the Latch</a>
-            <div class="space-x-6">
+            
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                    <svg id="menu-open-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                    <svg id="menu-close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="hidden md:flex space-x-6">
                 <a href="#download-section" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">Download</a>
                 <a href="#pricing-section" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">Pricing</a>
                 <a href="#purchase-section" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">Purchase</a>
                 <a href="#faq-section" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">FAQ</a>
             </div>
+            </div>
+
+        <div id="mobile-menu" class="hidden md:hidden mt-4">
+            <a href="#download-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Download</a>
+            <a href="#pricing-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Pricing</a>
+            <a href="#purchase-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Purchase</a>
+            <a href="#faq-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">FAQ</a>
         </div>
-    </nav>
+        </nav>
 
     <div class="container mx-auto px-6 py-12 md:py-24 max-w-4xl text-center">
 
         <section id="download-section" class="mb-12">
             <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-600">
-                The Ticket Scanner App for Arts Folk 🎟️
+                The <span style="color: #97cc52;">Spektrix®</span>-compatible Ticket Scanner App 🎟️
             </h1>
             <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8">
-                Scan tickets without the drama. Our app is a fast, reliable, and affordable solution for <span style="color: #97cc52;">Spektrix®</span> users, running on the Android™ devices you already own. Give your team a tool they'll love and your attendees a smooth welcome.
+                Scan tickets without the drama. Our app is a fast, reliable, and affordable solution for <span style="color: #97cc52;">Spektrix®</span> users, running on the Android™ devices you already own.
             </p>
             
             <div class="mb-12">
@@ -106,7 +127,7 @@
         <section id="features-section" class="space-y-10 mb-16"> 
             <div>
                 <h2 class="feature-headline">
-                    ✨ Built by Arts Workers, For Arts Workers
+                    ✨ Built by and for Arts Workers
                 </h2>
                 <p class="feature-description">
                     Developed and tested by a team with years of Front of House and Box Office experience. We use this app in our own venues, so it's designed for how things *actually* work on the ground.
@@ -115,28 +136,10 @@
 
             <div>
                 <h2 class="feature-headline">
-                    💰 Budget-Friendly & Flexible
-                </h2>
-                <p class="feature-description">
-                    Our monthly subscription is a low-risk, low-cost alternative to those expensive, purpose-built ticket scanners. Only pay for the months you need – no scary long-term commitments.
-                </p>
-            </div>
-
-            <div>
-                <h2 class="feature-headline">
-                    🛡️ Smart Redundancy, No Overpay
-                </h2>
-                <p class="feature-description">
-                    Got a backup device just in case? With our 'Active License' model, you don't pay for it unless you're using it. If your main scanner goes down, just log out and log in on the backup. Simple.
-                </p>
-            </div>
-
-            <div>
-                <h2 class="feature-headline">
                     📱 Use Your Own Device
                 </h2>
                 <p class="feature-description">
-                    Forget costly dedicated hardware! Our app runs on 98% of Android™ devices, using the built-in camera to scan QR codes and barcodes. You likely already have everything you need.
+                    Forget costly dedicated hardware! Our app runs on 98% of Android™ devices, using the built-in camera to scan QR codes and barcodes. You likely already have everything you need to start scanning.
                 </p>
             </div>
 
@@ -146,6 +149,24 @@
                 </h2>
                 <p class="feature-description">
                     This app integrates smoothly with your existing <span style="color: #97cc52;">Spektrix®</span> system for efficient ticket validation. Whether you use barcodes or QR codes, paper tickets or digital passes – it just works.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="feature-headline">
+                    🛡️ Smart Redundancy, Without Overpaying
+                </h2>
+                <p class="feature-description">
+                    Got a backup device just in case? With our 'Active License' model, you don't pay for it unless you're using it. If your main scanner goes down, just log out and log in on the backup. Simple.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="feature-headline">
+                    💰 Budget-Friendly & Flexible
+                </h2>
+                <p class="feature-description">
+                    Dark summers? Lucky you! Our monthly subscription is a low-risk, low-cost alternative to expensive purpose-built ticket scanners. Only pay for the months you need – no scary long-term commitments.
                 </p>
             </div>
 
@@ -192,22 +213,22 @@
                 </div>
                 
                 <div class="mt-16 pt-12 border-t border-gray-700">
-                     <h3 class="text-3xl font-bold mb-8 text-gray-100">How It Saves You Money (Real-World Examples) ✨</h3>
+                     <h3 class="text-3xl font-bold mb-8 text-gray-100">✨ How It Works For You (And Saves You Money) ✨</h3>
                      <div class="grid md:grid-cols-3 gap-8 text-left">
                         
                         <div class="bg-gray-900/50 p-6 rounded-lg">
                             <h4 class="font-bold text-xl mb-2 text-purple-300">The Low-Cost Emergency Backup</h4>
-                            <p class="text-gray-400">You use one scanner but keep a spare tablet in case of issues. A volunteer breaks the camera on the first device ten minutes before showtime. No problem: log out on the broken device and log in on the backup. <strong class="text-gray-200">Because only one device is active at a time, you only need one license.</strong></p>
+                            <p class="text-gray-400">You use one scanner but keep a spare tablet in case of issues. The screen on your primary device gets cracked ten minutes before doors. No problem: log out on the broken device and log in on the backup. <strong class="text-gray-200">Because only one device is active at a time, you only need one license.</strong></p>
                         </div>
 
                         <div class="bg-gray-900/50 p-6 rounded-lg">
                             <h4 class="font-bold text-xl mb-2 text-purple-300">The Multi-Space Venue</h4>
-                            <p class="text-gray-400">You run two performances spaces, but never on the same night. They're too far apart to move your devices between. Simply use your license in Venue A on Friday, log out at end-of-night, then log in and use the exact same license in Venue B on Saturday. <strong class="text-gray-200">Pay per active scanner, not per location.</strong></p>
+                            <p class="text-gray-400">You run two performances spaces, but never on the same night. Logistically you can't move your scanners between them constantly. Simply use your license in Venue A on Friday, log out at end-of-night, then log in and use the exact same license in Venue B on Saturday. <strong class="text-gray-200">Pay per active scanner, not per location.</strong></p>
                         </div>
                         
                         <div class="bg-gray-900/50 p-6 rounded-lg">
                             <h4 class="font-bold text-xl mb-2 text-purple-300">The Summer Festival</h4>
-                            <p class="text-gray-400">Running a 3-week festival in July? Subscribe for just that month and cancel when the event is over. <strong class="text-gray-200">No long-term contracts mean you're not paying for software during your dark months.</strong></p>
+                            <p class="text-gray-400">Running a 3-week festival in July? Subscribe for just that month and cancel when the event is over. <strong class="text-gray-200">No long-term contracts mean you don't have money tied up in equipment you're not using during your dark months.</strong></p>
                         </div>
 
                      </div>
@@ -226,7 +247,7 @@
                         <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="faq-answer">
-                        Our app runs on over 98% of Android™ devices, utilizing the built-in camera to scan tickets. This includes most modern Android smartphones and tablets.
+                        Our app runs on over 98% of Android™ devices, utilizing the built-in camera to scan tickets.
                     </div>
                 </div>
 
@@ -236,13 +257,13 @@
                         <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="faq-answer">
-                        It's simple! You just pay for each device that is *actively logged in* at the same time. If you log out on one phone and log in on another, it still only counts as one license. It’s perfect for having backup devices or moving between spaces without paying extra.
+                        It's simple! You just pay for each device that you need *actively logged in* at the same time. If you log out on one phone and log in on another, that's covered by one license. It’s perfect for having backup devices or moving between spaces without paying extra.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span class="text-xl font-semibold">🎁 Do I get a deal for buying a bunch of licenses?</span>
+                        <span class="text-xl font-semibold">🎁 Can I get a deal for buying a bunch of licenses?</span>
                         <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="faq-answer">
@@ -256,7 +277,7 @@
                         <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="faq-answer">
-                        No, this application is an independent product developed by On the Latch. While it is fully compatible with your existing <span style="color: #97cc52;">Spektrix®</span> system, it is not affiliated with, endorsed by, or authorized by Spektrix Ltd. (And if <span style="color: #97cc52;">Spektrix®</span> decide to stop the app working, we may not be able to fix it. But please don't do that, <span style="color: #97cc52;">Spektrix®</span> - we're here because we love you. You're in the arts too. You know how it feels to be broke and in love.)
+                        No, this application is an independent product developed by On the Latch. While it is fully compatible with your existing <span style="color: #97cc52;">Spektrix®</span> system, it is not affiliated with, endorsed by, or authorized by Spektrix Ltd. (And if <span style="color: #97cc52;">Spektrix®</span> decide to block the app from working, we may not be able to fix it. But please don't do that, <span style="color: #97cc52;">Spektrix®</span> - we're here because we love you. You're in the arts too - surely know how it feels to be broke and in love?)
                     </div>
                 </div>
 
@@ -272,22 +293,33 @@
             </div>
         </section>
 
+        <!-- THIS IS THE UPDATED SECTION -->
         <section id="purchase-section" class="py-16 md:py-24">
             <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gray-100">Ready to make Door Duty a breeze?</h2>
             <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-12">
                 Your future, less-stressed-out self will thank you.
             </p>
             
-            <div class="paddle-container bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700 min-h-[400px] flex items-center justify-center">
+            <div class="max-w-md mx-auto mb-8 text-left">
+                <label for="spektrix-id" class="block text-sm font-medium text-gray-400 mb-1">Spektrix Client ID</label>
+                <input type="text" id="spektrix-id" placeholder="e.g. mytheatre" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
                 
-                <div class="text-gray-500">
-                    <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 0 00-3-3H6a3 0 00-3 3v8a3 3 0 003 3z" />
-                    </svg>
-                    <p class="mt-4 font-medium">Your Paddle checkout will appear here.</p>
-                    <p class="text-sm">Edit the HTML to add your embed code.</p>
-                </div>
+                <label for="customer-email" class="block text-sm font-medium text-gray-400 mt-4 mb-1">Your Email</label>
+                <input type="email" id="customer-email" placeholder="your.email@example.com" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <button id="show-checkout-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg text-lg inline-block mb-8">
+                Proceed to Payment
+            </button>
 
+            <div class="paddle-container bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700 min-h-[400px]">
+                <div id="paddle-checkout-container">
+                    <div class="text-gray-500 text-center">
+                         <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 0 00-3-3H6a3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                        <p class="mt-4 font-medium">Please enter your details above to proceed.</p>
+                    </div>
+                </div>
             </div>
         </section>
         
@@ -305,9 +337,52 @@
 
     </div>
 
+    <!-- THIS IS THE UPDATED SCRIPT BLOCK -->
     <script>
-        // JavaScript for FAQ accordion
+        // This function will be called once the Paddle.js script has loaded
+        function initializePaddleCheckout() {
+            Paddle.Initialize({
+                token: 'test_29269ca6438ad989a04451ab6b0', // Your Client-Side Token
+                environment: 'sandbox',
+            });
+
+            document.getElementById('show-checkout-button').addEventListener('click', function() {
+                const spektrixId = document.getElementById('spektrix-id').value;
+                const email = document.getElementById('customer-email').value;
+
+                if (!spektrixId || !email) {
+                    alert('Please fill in both your Spektrix Client ID and email address.');
+                    return;
+                }
+
+                Paddle.Checkout.open({
+                    target: 'paddle-checkout-container',
+                    items: [{
+                        priceId: 'pri_01jzbr7ry6ysz1pbddg1v4yf5h', // The correct Price ID
+                        quantity: 1
+                    }],
+                    customer: {
+                        email: email,
+                    },
+                    customData: {
+                        "spektrix_client_id": spektrixId.toLowerCase()
+                    }
+                });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-open-icon');
+            const closeIcon = document.getElementById('menu-close-icon');
+
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                openIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
+        
             const faqQuestions = document.querySelectorAll('.faq-item .faq-question');
 
             faqQuestions.forEach(question => {
@@ -315,7 +390,6 @@
                     const answer = question.nextElementSibling;
                     const icon = question.querySelector('.toggle-icon');
 
-                    // Close other open answers
                     document.querySelectorAll('.faq-answer.show').forEach(openAnswer => {
                         if (openAnswer !== answer) {
                             openAnswer.classList.remove('show');
@@ -323,10 +397,8 @@
                         }
                     });
 
-                    // Toggle the clicked answer visibility
                     answer.classList.toggle('show');
 
-                    // Rotate the arrow icon for the clicked item
                     if (answer.classList.contains('show')) {
                         icon.style.transform = 'rotate(180deg)';
                     } else {
