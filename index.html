@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Load Paddle.js with the defer attribute -->
+    <!-- Load Paddle.js with the defer attribute to ensure it loads without blocking the page -->
     <script src="https://cdn.paddle.com/v2/paddle.js" defer></script>
     
     <style>
@@ -332,7 +332,7 @@
     </div>
 
     <!-- THIS IS THE UPDATED SCRIPT BLOCK -->
-    <script>
+    <script defer>
         document.addEventListener('DOMContentLoaded', () => {
             // Initialize Mobile Menu
             const menuButton = document.getElementById('mobile-menu-button');
