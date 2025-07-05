@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Load Paddle.js with the defer attribute -->
+    <!-- Load Paddle.js. The 'defer' attribute ensures it doesn't block page rendering. -->
     <script src="https://cdn.paddle.com/v2/paddle.js" defer></script>
     
     <style>
@@ -54,52 +54,56 @@
         </section>
     </div>
 
-    <script defer>
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // This check ensures Paddle.js has loaded before we try to use it
+            // This function sets up the Paddle checkout and attaches the event listener.
+            function initializePaddle() {
+                // Check if Paddle is available now
+                if (typeof Paddle !== 'undefined') {
+                    Paddle.Initialize({
+                        token: 'test_29269ca6438ad989a04451ab6b0', // Your Client-Side Token
+                        environment: 'sandbox',
+                    });
+
+                    const checkoutButton = document.getElementById('show-checkout-button');
+                    if (checkoutButton) {
+                        checkoutButton.addEventListener('click', () => {
+                            const spektrixId = document.getElementById('spektrix-id').value;
+                            const email = document.getElementById('customer-email').value;
+
+                            if (!spektrixId || !email) {
+                                alert('Please fill in both your Spektrix Client ID and email address.');
+                                return;
+                            }
+
+                            // This opens the Overlay Checkout
+                            Paddle.Checkout.open({
+                                items: [{
+                                    priceId: 'pri_01jzbr7ry6ysz1pbddg1v4yf5h', // The correct Price ID
+                                    quantity: 1
+                                }],
+                                customer: {
+                                    email: email,
+                                },
+                                customData: {
+                                    "spektrix_client_id": spektrixId.toLowerCase()
+                                }
+                            });
+                        });
+                    }
+                } else {
+                    console.error("Paddle.js has not loaded yet.");
+                }
+            }
+
+            // Check if Paddle is already loaded. If so, initialize immediately.
+            // If not, wait for the official 'paddle:load' event.
             if (typeof Paddle !== 'undefined') {
                 initializePaddle();
             } else {
-                // If not, we listen for the official 'paddle:load' event
-                window.addEventListener('paddle:load', () => {
-                    initializePaddle();
-                });
+                window.addEventListener('paddle:load', initializePaddle);
             }
         });
-
-        function initializePaddle() {
-            Paddle.Initialize({
-                token: 'test_29269ca6438ad989a04451ab6b0', // Your Client-Side Token
-                environment: 'sandbox',
-            });
-
-            const checkoutButton = document.getElementById('show-checkout-button');
-            if (checkoutButton) {
-                checkoutButton.addEventListener('click', () => {
-                    const spektrixId = document.getElementById('spektrix-id').value;
-                    const email = document.getElementById('customer-email').value;
-
-                    if (!spektrixId || !email) {
-                        alert('Please fill in both your Spektrix Client ID and email address.');
-                        return;
-                    }
-
-                    // This opens the Overlay Checkout
-                    Paddle.Checkout.open({
-                        items: [{
-                            priceId: 'pri_01jzbr7ry6ysz1pbddg1v4yf5h', // The correct Price ID
-                            quantity: 1
-                        }],
-                        customer: {
-                            email: email,
-                        },
-                        customData: {
-                            "spektrix_client_id": spektrixId.toLowerCase()
-                        }
-                    });
-                });
-            }
-        }
     </script>
 
 </body>
