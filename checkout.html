@@ -13,9 +13,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Load Paddle.js. The 'defer' attribute ensures it doesn't block page rendering. -->
-    <script src="https://cdn.paddle.com/v2/paddle.js" defer></script>
-    
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -47,8 +44,8 @@
                     <label for="customer-email" class="block text-sm font-medium text-gray-400 mt-4 mb-1">Your Email</label>
                     <input type="email" id="customer-email" placeholder="your.email@example.com" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
                 </div>
-                <button id="show-checkout-button" class="mt-8 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg text-lg inline-block">
-                    Purchase Now
+                <button id="purchase-button" class="mt-8 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg text-lg inline-block">
+                    Proceed to Secure Checkout
                 </button>
             </div>
         </section>
@@ -56,52 +53,31 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // This function sets up the Paddle checkout and attaches the event listener.
-            function initializePaddle() {
-                // Check if Paddle is available now
-                if (typeof Paddle !== 'undefined') {
-                    Paddle.Initialize({
-                        token: 'test_29269ca6438ad989a04451ab6b0', // Your Client-Side Token
-                        environment: 'sandbox',
-                    });
+            const purchaseButton = document.getElementById('purchase-button');
 
-                    const checkoutButton = document.getElementById('show-checkout-button');
-                    if (checkoutButton) {
-                        checkoutButton.addEventListener('click', () => {
-                            const spektrixId = document.getElementById('spektrix-id').value;
-                            const email = document.getElementById('customer-email').value;
+            if (purchaseButton) {
+                purchaseButton.addEventListener('click', () => {
+                    // 1. Get the values from the input fields
+                    const spektrixId = document.getElementById('spektrix-id').value;
+                    const email = document.getElementById('customer-email').value;
 
-                            if (!spektrixId || !email) {
-                                alert('Please fill in both your Spektrix Client ID and email address.');
-                                return;
-                            }
-
-                            // This opens the Overlay Checkout
-                            Paddle.Checkout.open({
-                                items: [{
-                                    priceId: 'pri_01jzbr7ry6ysz1pbddg1v4yf5h', // The correct Price ID
-                                    quantity: 1
-                                }],
-                                customer: {
-                                    email: email,
-                                },
-                                customData: {
-                                    "spektrix_client_id": spektrixId.toLowerCase()
-                                }
-                            });
-                        });
+                    if (!spektrixId || !email) {
+                        alert('Please fill in both your Spektrix Client ID and email address.');
+                        return;
                     }
-                } else {
-                    console.error("Paddle.js has not loaded yet.");
-                }
-            }
 
-            // Check if Paddle is already loaded. If so, initialize immediately.
-            // If not, wait for the official 'paddle:load' event.
-            if (typeof Paddle !== 'undefined') {
-                initializePaddle();
-            } else {
-                window.addEventListener('paddle:load', initializePaddle);
+                    // 2. Define the base URL for your Hosted Checkout
+                    // You can find this in your Paddle Dashboard under Catalog > Products > [Your Price] > Share
+                    const baseUrl = 'https://sandbox-pay.paddle.io/hsc_01jzc487kjykknxhpq4p1m34z8_r5d8t56qx7s0cjz4dydszb8fe7v5v9bn'; // <-- IMPORTANT: REPLACE THIS
+
+                    // 3. Build the final URL with parameters
+                    const checkoutUrl = new URL(baseUrl);
+                    checkoutUrl.searchParams.append('customer_email', email);
+                    checkoutUrl.searchParams.append('custom_data[spektrix_client_id]', spektrixId.toLowerCase());
+                    
+                    // 4. Redirect the user to the Paddle Hosted Checkout page
+                    window.location.href = checkoutUrl.toString();
+                });
             }
         });
     </script>
