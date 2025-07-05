@@ -13,8 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Include the Paddle.js script with an onload callback -->
-    <script src="https://cdn.paddle.com/v2/paddle.js" onload="initializePaddleCheckout()"></script>
+    <!-- Load Paddle.js and call setupPaddle() once it's loaded -->
+    <script src="https://cdn.paddle.com/v2/paddle.js" onload="setupPaddle()"></script>
     
     <style>
         /* Use Inter font family */
@@ -308,18 +308,12 @@
                 <input type="email" id="customer-email" placeholder="your.email@example.com" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
             </div>
             <button id="show-checkout-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg text-lg inline-block mb-8">
-                Proceed to Payment
+                Continue
             </button>
 
             <div class="paddle-container bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700 min-h-[400px]">
-                <div id="paddle-checkout-container">
-                    <div class="text-gray-500 text-center">
-                         <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 0 00-3-3H6a3 0 00-3 3v8a3 3 0 003 3z" />
-                        </svg>
-                        <p class="mt-4 font-medium">Please enter your details above to proceed.</p>
-                    </div>
-                </div>
+                <!-- The checkout will be embedded here, the placeholder is removed -->
+                <div id="paddle-checkout-container"></div>
             </div>
         </section>
         
@@ -339,8 +333,8 @@
 
     <!-- THIS IS THE UPDATED SCRIPT BLOCK -->
     <script>
-        // This function will be called once the Paddle.js script has loaded
-        function initializePaddleCheckout() {
+        // This function is called by the onload attribute of the paddle.js script tag
+        function setupPaddle() {
             Paddle.Initialize({
                 token: 'test_29269ca6438ad989a04451ab6b0', // Your Client-Side Token
                 environment: 'sandbox',
@@ -372,6 +366,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Mobile Menu
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const openIcon = document.getElementById('menu-open-icon');
@@ -383,6 +378,7 @@
                 closeIcon.classList.toggle('hidden');
             });
         
+            // Initialize FAQ Accordion
             const faqQuestions = document.querySelectorAll('.faq-item .faq-question');
 
             faqQuestions.forEach(question => {
