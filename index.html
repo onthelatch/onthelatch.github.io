@@ -13,8 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Load Paddle.js. The logic will be handled in the script block at the bottom of the body. -->
-    <script src="https://cdn.paddle.com/v2/paddle.js"></script>
+    <!-- Load Paddle.js and call setupPaddle() once it's loaded -->
+    <script src="https://cdn.paddle.com/v2/paddle.js" onload="setupPaddle()"></script>
     
     <style>
         /* Use Inter font family */
@@ -333,6 +333,43 @@
 
     <!-- THIS IS THE UPDATED SCRIPT BLOCK -->
     <script>
+        // This function is called by the onload attribute of the paddle.js script tag
+        function setupPaddle() {
+            if (typeof Paddle === 'undefined') {
+                console.error("Paddle.js has not loaded correctly.");
+                return;
+            }
+
+            Paddle.Initialize({
+                token: 'test_29269ca6438ad989a04451ab6b0', // Your Client-Side Token
+                environment: 'sandbox',
+            });
+
+            document.getElementById('show-checkout-button').addEventListener('click', function() {
+                const spektrixId = document.getElementById('spektrix-id').value;
+                const email = document.getElementById('customer-email').value;
+
+                if (!spektrixId || !email) {
+                    alert('Please fill in both your Spektrix Client ID and email address.');
+                    return;
+                }
+
+                Paddle.Checkout.open({
+                    target: 'paddle-checkout-container',
+                    items: [{
+                        priceId: 'pri_01jzbr7ry6ysz1pbddg1v4yf5h', // The correct Price ID
+                        quantity: 1
+                    }],
+                    customer: {
+                        email: email,
+                    },
+                    customData: {
+                        "spektrix_client_id": spektrixId.toLowerCase()
+                    }
+                });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             // Initialize Mobile Menu
             const menuButton = document.getElementById('mobile-menu-button');
@@ -340,11 +377,13 @@
             const openIcon = document.getElementById('menu-open-icon');
             const closeIcon = document.getElementById('menu-close-icon');
 
-            menuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                openIcon.classList.toggle('hidden');
-                closeIcon.classList.toggle('hidden');
-            });
+            if (menuButton) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    openIcon.classList.toggle('hidden');
+                    closeIcon.classList.toggle('hidden');
+                });
+            }
         
             // Initialize FAQ Accordion
             const faqQuestions = document.querySelectorAll('.faq-item .faq-question');
@@ -370,41 +409,6 @@
                     }
                 });
             });
-
-            // Initialize Paddle and the checkout button logic
-            // This check ensures Paddle.js has loaded before we try to use it
-            if (typeof Paddle !== 'undefined') {
-                Paddle.Initialize({
-                    token: 'test_29269ca6438ad989a04451ab6b0', // Your Client-Side Token
-                    environment: 'sandbox',
-                });
-
-                document.getElementById('show-checkout-button').addEventListener('click', function() {
-                    const spektrixId = document.getElementById('spektrix-id').value;
-                    const email = document.getElementById('customer-email').value;
-
-                    if (!spektrixId || !email) {
-                        alert('Please fill in both your Spektrix Client ID and email address.');
-                        return;
-                    }
-
-                    Paddle.Checkout.open({
-                        target: 'paddle-checkout-container',
-                        items: [{
-                            priceId: 'pri_01jzbr7ry6ysz1pbddg1v4yf5h', // The correct Price ID
-                            quantity: 1
-                        }],
-                        customer: {
-                            email: email,
-                        },
-                        customData: {
-                            "spektrix_client_id": spektrixId.toLowerCase()
-                        }
-                    });
-                });
-            } else {
-                console.error("Paddle.js has not loaded, so checkout cannot be initialized.");
-            }
         });
     </script>
 
