@@ -57,7 +57,6 @@
 
             if (purchaseButton) {
                 purchaseButton.addEventListener('click', () => {
-                    // 1. Get the values from the input fields
                     const spektrixId = document.getElementById('spektrix-id').value;
                     const email = document.getElementById('customer-email').value;
 
@@ -66,16 +65,14 @@
                         return;
                     }
 
-                    // 2. Define the base URL for your Hosted Checkout
-                    // You can find this in your Paddle Dashboard under Catalog > Products > [Your Price] > Share
-                    const baseUrl = 'https://sandbox-pay.paddle.io/hsc_01jzc487kjykknxhpq4p1m34z8_r5d8t56qx7s0cjz4dydszb8fe7v5v9bn'; // <-- IMPORTANT: REPLACE THIS
+                    const baseUrl = 'https://sandbox-pay.paddle.io/hsc_01jzc487kjykknxhpq4p1m34z8_r5d8t56qx7s0cjz4dydszb8fe7v5v9bn';
 
-                    // 3. Build the final URL with parameters
                     const checkoutUrl = new URL(baseUrl);
-                    checkoutUrl.searchParams.append('customer_email', email);
-                    checkoutUrl.searchParams.append('custom_data[spektrix_client_id]', spektrixId.toLowerCase());
                     
-                    // 4. Redirect the user to the Paddle Hosted Checkout page
+                    // CORRECTED PARAMETER NAMES
+                    checkoutUrl.searchParams.append('customer[email]', email);
+                    checkoutUrl.searchParams.append('custom[spektrix_client_id]', spektrixId.toLowerCase());
+                    
                     window.location.href = checkoutUrl.toString();
                 });
             }
