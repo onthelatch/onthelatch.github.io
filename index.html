@@ -70,16 +70,20 @@
     </style>
     
     <script>
-    window.PaddleLoader = window.PaddleLoader || {};
-    window.PaddleLoader.then = window.PaddleLoader.then || function(callback) {
-        (window.PaddleLoader._callbacks = window.PaddleLoader._callbacks || []).push(callback);
-    };
+document.addEventListener("DOMContentLoaded", () => {
+    function waitForPaddle(callback) {
+        const interval = setInterval(() => {
+            if (window.Paddle && window.Paddle.Environment && window.Paddle.Checkout) {
+                clearInterval(interval);
+                callback();
+            }
+        }, 100);
+    }
 
-    PaddleLoader.then(() => {
-        // Now it's safe to use Paddle
-        Paddle.Environment.set('sandbox'); // Remove this line for production
+    waitForPaddle(() => {
+        Paddle.Environment.set('sandbox'); // Remove for production
         Paddle.Initialize({
-            token: 'test_29269ca6438ad989a04451ab6b0' // Replace with production token when ready
+            token: 'test_29269ca6438ad989a04451ab6b0' // Replace with your live token
         });
 
         const purchaseButton = document.getElementById('purchase-button');
@@ -92,7 +96,8 @@
 
         if (purchaseButton) {
             purchaseButton.addEventListener('click', () => {
-                const quantity = parseInt(quantityInput.value);
+                console.log("Purchase button clicked!");
+				const quantity = parseInt(quantityInput.value);
                 const clientId = clientIdInput.value.trim();
 
                 if (!quantity || quantity < 1 || !clientId) {
@@ -129,7 +134,7 @@
             });
         }
 
-        // Existing mobile menu and FAQ accordion logic
+        // Menu & FAQ logic (same as before)
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         const menuOpenIcon = document.getElementById('menu-open-icon');
@@ -162,7 +167,9 @@
             });
         });
     });
+});
 </script>
+
 
     
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
