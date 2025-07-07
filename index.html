@@ -291,22 +291,25 @@
 
     </div>
 
-<script src="https://cdn.paddle.com/paddle.js"></script>
+<script>
+  const paddleScript = document.createElement('script');
+  paddleScript.src = 'https://cdn.paddle.com/paddle.js';
+  paddleScript.onload = () => {
+    Paddle.Setup({
+      token: 'test_29269ca6438ad989a04451ab6b0',
+      environment: 'sandbox'
+    });
 
-    <script>
-      // No import needed! Paddle is now available globally.
-      Paddle.Setup({
-        token: 'test_29269ca6438ad989a04451ab6b0',
-        environment: 'sandbox'
+    window.openOverlayCheckout = ({ priceId, quantity, clientId }) => {
+      console.log('Opening Paddle checkout with', { priceId, quantity, clientId });
+      Paddle.Checkout.open({
+        items: [{ priceId: priceId, quantity: quantity }],
+        customData: { spektrixClientId: clientId }
       });
-    
-      window.openOverlayCheckout = ({ priceId, quantity, clientId }) => {
-        console.log('Opening Paddle checkout with', { priceId, quantity, clientId });
-        Paddle.Checkout.open({
-          items: [{ priceId: priceId, quantity: quantity }],
-          customData: { spektrixClientId: clientId }
-        });
-      };
-    </script>
+    };
+  };
+  document.head.appendChild(paddleScript);
+</script>
+
 </body>
 </html>
