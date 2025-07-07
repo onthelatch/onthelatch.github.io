@@ -7,7 +7,7 @@
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎟️</text></svg>">
     
-  
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,6 +42,7 @@
             margin-right: auto;
             margin-bottom: 1.5rem;
         }
+        /* The @apply rules require the Tailwind script to be present */
         .faq-question {
             cursor: pointer;
             border-radius: 0.5rem;
@@ -290,113 +291,45 @@
 
     </div>
 
-   <script src="https://cdn.paddle.com/paddle/paddle.js" onload="setupCheckout()" onerror="paddleScriptError()"></script>
+    <script src="https://cdn.paddle.com/paddle/paddle.js" id="paddle-loader"></script>
 
     <script>
         /**
-         * IMPORTANT: The next two functions (paddleScriptError and setupCheckout)
-         * must be defined here, in the global scope. Do NOT wrap them inside
-         * another function or a 'DOMContentLoaded' listener, otherwise the 'onload'
-         * attribute on the script tag above will not be able to find them.
+         * This is the main function that sets up all interactive parts of the page.
+         * It will be called only after the Paddle.js script has successfully loaded.
          */
+        function initializePage() {
+            console.log("Success: Paddle.js loaded. Initializing page...");
+
+            // --- 1. Initialize Paddle ---
+            Paddle.Initialize({
+                token: 'test_12aa35b6613908729658fd28aba', // Your client-side token
+                environment: 'sandbox'
+            });
+
+            // --- 2. Set up UI (Menu & FAQ) ---
+            setupUI();
+
+            // --- 3. Set up Checkout ---
+            setupCheckout();
+        }
 
         /**
-         * This function runs if the Paddle script fails to load.
+         * This function runs if the Paddle.js script fails to load.
          */
-        function paddleScriptError() {
-            console.error("CRITICAL: The Paddle.js script failed to load. This is likely due to an ad-blocker or network issue. The checkout cannot function.");
+        function handlePaddleError() {
+            console.error("CRITICAL: The Paddle.js script failed to load. Checkout is disabled.");
             const validationError = document.getElementById('validation-error');
             if (validationError) {
                 validationError.textContent = 'Error: Checkout is unavailable. Please disable your ad-blocker and refresh.';
                 validationError.classList.remove('hidden');
             }
         }
-
+        
         /**
-         * This function is called by the `onload` attribute in the script tag above.
-         * It sets up all the checkout functionality.
+         * Sets up the mobile menu and the FAQ accordion.
          */
-        function setupCheckout() {
-            console.log("Debug: setupCheckout() called successfully.");
-
-            // --- Paddle Configuration ---
-            const PADDLE_CLIENT_TOKEN = 'test_12aa35b6613908729658fd28aba';
-            const PRICE_IDS = {
-                tier1: 'pri_01jzhhgahv7zy2k7t7g703fc9b',
-                tier2: 'pri_01jzhhkj7ehqhac6w842pergxj',
-                tier3: 'pri_01jzhhq89fn4fkd2pwf7t1f85s'
-            };
-
-            Paddle.Initialize({ 
-                token: PADDLE_CLIENT_TOKEN,
-                environment: 'sandbox' // Use 'production' for live transactions
-            });
-
-            // --- Elements ---
-            const quantityInput = document.getElementById('quantity-input');
-            const clientIdInput = document.getElementById('client-id-input');
-            const purchaseButton = document.getElementById('purchase-button');
-            const priceFeedback = document.getElementById('price-feedback');
-            const validationError = document.getElementById('validation-error');
-
-            // --- Logic ---
-            function updatePriceFeedback() {
-                const quantity = parseInt(quantityInput.value, 10) || 0;
-                if (quantity >= 10) {
-                    priceFeedback.textContent = 'Price: $12.00 USD per license / month (20% off).';
-                } else if (quantity >= 4) {
-                    priceFeedback.textContent = 'Price: $13.50 USD per license / month (10% off).';
-                } else {
-                    priceFeedback.textContent = 'Price: $15.00 USD per license / month.';
-                }
-            }
-
-            function openOverlayCheckout() {
-                const quantity = parseInt(quantityInput.value, 10);
-                const clientId = clientIdInput.value.trim().toLowerCase();
-
-                if (!quantity || quantity < 1 || !clientId) {
-                    validationError.textContent = 'Please fill in all fields.';
-                    validationError.classList.remove('hidden');
-                    return;
-                }
-                validationError.classList.add('hidden');
-
-                let priceId;
-                if (quantity >= 10) {
-                    priceId = PRICE_IDS.tier3;
-                } else if (quantity >= 4) {
-                    priceId = PRICE_IDS.tier2;
-                } else {
-                    priceId = PRICE_IDS.tier1;
-                }
-
-                Paddle.Checkout.open({
-                    items: [{ priceId: priceId, quantity: quantity }],
-                    customData: { spektrixClientId: clientId }
-                });
-            }
-
-            // --- Attach Event Listeners ---
-            if (purchaseButton) {
-                purchaseButton.addEventListener('click', openOverlayCheckout);
-            }
-            if (quantityInput) {
-                quantityInput.addEventListener('input', updatePriceFeedback);
-            }
-            
-            // Set initial price feedback
-            updatePriceFeedback();
-        }
-
-        /**
-         * This part of the script handles UI elements like the menu and FAQ.
-         * It MUST wait for the page's HTML to be ready, so we keep it 
-         * inside a DOMContentLoaded listener.
-         */
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("Debug: DOMContentLoaded event fired. Setting up UI.");
-            
+        function setupUI() {
             // Mobile menu logic
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -430,8 +363,80 @@
                     }
                 });
             });
-        });
+        }
+        
+        /**
+         * Sets up the purchase form and checkout button.
+         */
+        function setupCheckout() {
+             const PRICE_IDS = {
+                tier1: 'pri_01jzhhgahv7zy2k7t7g703fc9b',
+                tier2: 'pri_01jzhhkj7ehqhac6w842pergxj',
+                tier3: 'pri_01jzhhq89fn4fkd2pwf7t1f85s'
+            };
+
+            const quantityInput = document.getElementById('quantity-input');
+            const clientIdInput = document.getElementById('client-id-input');
+            const purchaseButton = document.getElementById('purchase-button');
+            const priceFeedback = document.getElementById('price-feedback');
+            const validationError = document.getElementById('validation-error');
+
+            function updatePriceFeedback() {
+                const quantity = parseInt(quantityInput.value, 10) || 0;
+                if (quantity >= 10) {
+                    priceFeedback.textContent = `Price: $12.00 USD per license / month (20% off).`;
+                } else if (quantity >= 4) {
+                    priceFeedback.textContent = `Price: $13.50 USD per license / month (10% off).`;
+                } else {
+                    priceFeedback.textContent = `Price: $15.00 USD per license / month.`;
+                }
+            }
+
+            function openOverlayCheckout() {
+                const quantity = parseInt(quantityInput.value, 10);
+                const clientId = clientIdInput.value.trim().toLowerCase();
+
+                if (!quantity || quantity < 1 || !clientId) {
+                    validationError.textContent = 'Please fill in all fields.';
+                    validationError.classList.remove('hidden');
+                    return;
+                }
+                validationError.classList.add('hidden');
+
+                let priceId;
+                if (quantity >= 10) {
+                    priceId = PRICE_IDS.tier3;
+                } else if (quantity >= 4) {
+                    priceId = PRICE_IDS.tier2;
+                } else {
+                    priceId = PRICE_IDS.tier1;
+                }
+
+                Paddle.Checkout.open({
+                    items: [{ priceId: priceId, quantity: quantity }],
+                    customData: { spektrixClientId: clientId }
+                });
+            }
+
+            if (purchaseButton) {
+                purchaseButton.addEventListener('click', openOverlayCheckout);
+            }
+            if (quantityInput) {
+                quantityInput.addEventListener('input', updatePriceFeedback);
+            }
+            
+            updatePriceFeedback();
+        }
+
+        /**
+         * FIX #3: This is the most robust way to run our code.
+         * We find the Paddle script tag in the HTML and manually add listeners to it.
+         * This avoids the "is not defined" error by giving us full control over the script loading order.
+         */
+        const paddleScript = document.getElementById('paddle-loader');
+        paddleScript.addEventListener('load', initializePage);
+        paddleScript.addEventListener('error', handlePaddleError);
     </script>
 
-    </body>
+</body>
 </html>
