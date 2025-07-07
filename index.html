@@ -293,150 +293,146 @@
 
     <script src="https://cdn.paddle.com/paddle/paddle.js" id="paddle-loader"></script>
 
-    <script>
-        /**
-         * This is the main function that sets up all interactive parts of the page.
-         * It will be called only after the Paddle.js script has successfully loaded.
-         */
-        function initializePage() {
-            console.log("Success: Paddle.js loaded. Initializing page...");
+    <script src="https://cdn.paddle.com/paddle/paddle.js" id="paddle-loader"></script>
 
-            // --- 1. Initialize Paddle ---
-            Paddle.Initialize({
-                token: 'test_12aa35b6613908729658fd28aba', // Your client-side token
-                environment: 'sandbox'
+<script>
+    const PRICE_IDS = {
+        tier1: 'pri_01jzhhgahv7zy2k7t7g703fc9b',
+        tier2: 'pri_01jzhhkj7ehqhac6w842pergxj',
+        tier3: 'pri_01jzhhq89fn4fkd2pwf7t1f85s'
+    };
+
+    const quantityInput = document.getElementById('quantity-input');
+    const clientIdInput = document.getElementById('client-id-input');
+    const purchaseButton = document.getElementById('purchase-button');
+    const priceFeedback = document.getElementById('price-feedback');
+    const validationError = document.getElementById('validation-error');
+
+    function updatePriceFeedback() {
+        const quantity = parseInt(quantityInput.value, 10) || 0;
+        if (quantity >= 10) {
+            priceFeedback.textContent = `Price: $12.00 USD per license / month (20% off).`;
+        } else if (quantity >= 4) {
+            priceFeedback.textContent = `Price: $13.50 USD per license / month (10% off).`;
+        } else {
+            priceFeedback.textContent = `Price: $15.00 USD per license / month.`;
+        }
+    }
+
+    function openOverlayCheckout() {
+        const quantity = parseInt(quantityInput.value, 10);
+        const clientId = clientIdInput.value.trim().toLowerCase();
+
+        if (!quantity || quantity < 1 || !clientId) {
+            validationError.textContent = 'Please fill in all fields.';
+            validationError.classList.remove('hidden');
+            return;
+        }
+
+        validationError.classList.add('hidden');
+
+        let priceId;
+        if (quantity >= 10) {
+            priceId = PRICE_IDS.tier3;
+        } else if (quantity >= 4) {
+            priceId = PRICE_IDS.tier2;
+        } else {
+            priceId = PRICE_IDS.tier1;
+        }
+
+        console.log("Opening Paddle checkout with", {
+            priceId,
+            quantity,
+            clientId
+        });
+
+        if (window.Paddle && window.Paddle.Checkout) {
+            Paddle.Checkout.open({
+                items: [{ priceId: priceId, quantity: quantity }],
+                customData: { spektrixClientId: clientId }
             });
+        } else {
+            console.error("Paddle checkout is not available. Please disable ad blockers and refresh.");
+            validationError.textContent = 'Checkout unavailable. Try disabling ad blockers and refreshing.';
+            validationError.classList.remove('hidden');
+        }
+    }
 
-            // --- 2. Set up UI (Menu & FAQ) ---
-            setupUI();
+    if (purchaseButton) {
+        purchaseButton.addEventListener('click', openOverlayCheckout);
+    }
 
-            // --- 3. Set up Checkout ---
-            setupCheckout();
+    if (quantityInput) {
+        quantityInput.addEventListener('input', updatePriceFeedback);
+        updatePriceFeedback(); // Set initial price
+    }
+
+    function setupUI() {
+        // Mobile menu logic
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const openIcon = document.getElementById('menu-open-icon');
+        const closeIcon = document.getElementById('menu-close-icon');
+
+        if (menuButton) {
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                openIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
         }
 
-        /**
-         * This function runs if the Paddle.js script fails to load.
-         */
-        function handlePaddleError() {
-            console.error("CRITICAL: The Paddle.js script failed to load. Checkout is disabled.");
-            const validationError = document.getElementById('validation-error');
-            if (validationError) {
-                validationError.textContent = 'Error: Checkout is unavailable. Please disable your ad-blocker and refresh.';
-                validationError.classList.remove('hidden');
-            }
-        }
-        
-        /**
-         * Sets up the mobile menu and the FAQ accordion.
-         */
-        function setupUI() {
-            // Mobile menu logic
-            const menuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const openIcon = document.getElementById('menu-open-icon');
-            const closeIcon = document.getElementById('menu-close-icon');
-
-            if (menuButton) {
-                menuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                    openIcon.classList.toggle('hidden');
-                    closeIcon.classList.toggle('hidden');
-                });
-            }
-        
-            // FAQ accordion logic
-            const faqQuestions = document.querySelectorAll('.faq-item .faq-question');
-            faqQuestions.forEach(question => {
-                question.addEventListener('click', () => {
-                    const answer = question.nextElementSibling;
-                    const icon = question.querySelector('.toggle-icon');
-                    document.querySelectorAll('.faq-answer.show').forEach(openAnswer => {
-                        if (openAnswer !== answer) {
-                            openAnswer.classList.remove('show');
-                            const otherIcon = openAnswer.previousElementSibling.querySelector('.toggle-icon');
-                            if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
-                        }
-                    });
-                    answer.classList.toggle('show');
-                    if (icon) {
-                        icon.style.transform = answer.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+        // FAQ accordion
+        const faqQuestions = document.querySelectorAll('.faq-item .faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('.toggle-icon');
+                document.querySelectorAll('.faq-answer.show').forEach(openAnswer => {
+                    if (openAnswer !== answer) {
+                        openAnswer.classList.remove('show');
+                        const otherIcon = openAnswer.previousElementSibling.querySelector('.toggle-icon');
+                        if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
                     }
                 });
+                answer.classList.toggle('show');
+                if (icon) {
+                    icon.style.transform = answer.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+                }
             });
-        }
-        
-        /**
-         * Sets up the purchase form and checkout button.
-         */
-        function setupCheckout() {
-             const PRICE_IDS = {
-                tier1: 'pri_01jzhhgahv7zy2k7t7g703fc9b',
-                tier2: 'pri_01jzhhkj7ehqhac6w842pergxj',
-                tier3: 'pri_01jzhhq89fn4fkd2pwf7t1f85s'
-            };
+        });
+    }
 
-            const quantityInput = document.getElementById('quantity-input');
-            const clientIdInput = document.getElementById('client-id-input');
-            const purchaseButton = document.getElementById('purchase-button');
-            const priceFeedback = document.getElementById('price-feedback');
-            const validationError = document.getElementById('validation-error');
+    function initializePage() {
+        console.log("✅ Paddle.js loaded. Initializing...");
 
-            function updatePriceFeedback() {
-                const quantity = parseInt(quantityInput.value, 10) || 0;
-                if (quantity >= 10) {
-                    priceFeedback.textContent = `Price: $12.00 USD per license / month (20% off).`;
-                } else if (quantity >= 4) {
-                    priceFeedback.textContent = `Price: $13.50 USD per license / month (10% off).`;
-                } else {
-                    priceFeedback.textContent = `Price: $15.00 USD per license / month.`;
-                }
-            }
-
-            function openOverlayCheckout() {
-                const quantity = parseInt(quantityInput.value, 10);
-                const clientId = clientIdInput.value.trim().toLowerCase();
-
-                if (!quantity || quantity < 1 || !clientId) {
-                    validationError.textContent = 'Please fill in all fields.';
-                    validationError.classList.remove('hidden');
-                    return;
-                }
-                validationError.classList.add('hidden');
-
-                let priceId;
-                if (quantity >= 10) {
-                    priceId = PRICE_IDS.tier3;
-                } else if (quantity >= 4) {
-                    priceId = PRICE_IDS.tier2;
-                } else {
-                    priceId = PRICE_IDS.tier1;
-                }
-
-                Paddle.Checkout.open({
-                    items: [{ priceId: priceId, quantity: quantity }],
-                    customData: { spektrixClientId: clientId }
-                });
-            }
-
-            if (purchaseButton) {
-                purchaseButton.addEventListener('click', openOverlayCheckout);
-            }
-            if (quantityInput) {
-                quantityInput.addEventListener('input', updatePriceFeedback);
-            }
-            
-            updatePriceFeedback();
+        if (window.Paddle && window.Paddle.Setup) {
+            Paddle.Setup({
+                token: 'test_12aa35b6613908729658fd28aba',
+                environment: 'sandbox'
+            });
+        } else {
+            console.error("🚨 Paddle.Setup not found even after script load.");
         }
 
-        /**
-         * FIX #3: This is the most robust way to run our code.
-         * We find the Paddle script tag in the HTML and manually add listeners to it.
-         * This avoids the "is not defined" error by giving us full control over the script loading order.
-         */
-        const paddleScript = document.getElementById('paddle-loader');
+        setupUI();
+    }
+
+    function handlePaddleError() {
+        console.error("🚫 Paddle.js script failed to load.");
+        if (validationError) {
+            validationError.textContent = 'Error: Checkout is unavailable. Please disable your ad-blocker and refresh.';
+            validationError.classList.remove('hidden');
+        }
+    }
+
+    const paddleScript = document.getElementById('paddle-loader');
+    if (paddleScript) {
         paddleScript.addEventListener('load', initializePage);
         paddleScript.addEventListener('error', handlePaddleError);
-    </script>
+    }
+</script>
+
 
 </body>
 </html>
