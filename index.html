@@ -303,10 +303,34 @@
     window.openOverlayCheckout = ({ priceId, quantity, clientId }) => {
       console.log('Opening Paddle checkout with', { priceId, quantity, clientId });
       Paddle.Checkout.open({
-        items: [{ priceId: priceId, quantity: quantity }],
+        items: [{ priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6', quantity }],
         customData: { spektrixClientId: clientId }
       });
     };
+
+    // ✅ Add click handler to purchase button
+    const purchaseButton = document.getElementById('purchase-button');
+    const quantityInput = document.getElementById('quantity-input');
+    const clientIdInput = document.getElementById('client-id-input');
+    const errorMsg = document.getElementById('validation-error');
+
+    purchaseButton.addEventListener('click', () => {
+      const quantity = parseInt(quantityInput.value);
+      const clientId = clientIdInput.value.trim();
+
+      if (!quantity || quantity < 1 || !clientId) {
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
+      errorMsg.classList.add('hidden');
+
+      window.openOverlayCheckout({
+        priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6', // 🔁 Replace with your actual Price ID
+        quantity,
+        clientId
+      });
+    });
   };
   document.head.appendChild(paddleScript);
 </script>
