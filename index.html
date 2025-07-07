@@ -62,6 +62,47 @@
             display: block;
         }
     </style>
+	<script src="https://cdn.paddle.com/paddle.js" onload="initializePaddle()"></script>
+<script>
+  function initializePaddle() {
+    Paddle.Setup({
+      token: 'test_29269ca6438ad989a04451ab6b0',
+      environment: 'sandbox'
+    });
+
+    window.openOverlayCheckout = ({ priceId, quantity, clientId }) => {
+      console.log('Opening Paddle checkout with', { priceId, quantity, clientId });
+      Paddle.Checkout.open({
+        items: [{ priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6', quantity }],
+        customData: { spektrixClientId: clientId }
+      });
+    };
+
+    const purchaseButton = document.getElementById('purchase-button');
+    const quantityInput = document.getElementById('quantity-input');
+    const clientIdInput = document.getElementById('client-id-input');
+    const errorMsg = document.getElementById('validation-error');
+
+    purchaseButton.addEventListener('click', () => {
+      const quantity = parseInt(quantityInput.value);
+      const clientId = clientIdInput.value.trim();
+
+      if (!quantity || quantity < 1 || !clientId) {
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
+      errorMsg.classList.add('hidden');
+
+      window.openOverlayCheckout({
+        priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6',
+        quantity,
+        clientId
+      });
+    });
+  }
+</script>
+
 </head>
 <body class="bg-gray-900 text-white antialiased">
 
@@ -290,50 +331,6 @@
         </footer>
 
     </div>
-
-<script>
-  const paddleScript = document.createElement('script');
-  paddleScript.src = 'https://cdn.paddle.com/paddle.js';
-  paddleScript.onload = () => {
-    Paddle.Setup({
-      token: 'test_29269ca6438ad989a04451ab6b0',
-      environment: 'sandbox'
-    });
-
-    window.openOverlayCheckout = ({ priceId, quantity, clientId }) => {
-      console.log('Opening Paddle checkout with', { priceId, quantity, clientId });
-      Paddle.Checkout.open({
-        items: [{ priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6', quantity }],
-        customData: { spektrixClientId: clientId }
-      });
-    };
-
-    // ✅ Add click handler to purchase button
-    const purchaseButton = document.getElementById('purchase-button');
-    const quantityInput = document.getElementById('quantity-input');
-    const clientIdInput = document.getElementById('client-id-input');
-    const errorMsg = document.getElementById('validation-error');
-
-    purchaseButton.addEventListener('click', () => {
-      const quantity = parseInt(quantityInput.value);
-      const clientId = clientIdInput.value.trim();
-
-      if (!quantity || quantity < 1 || !clientId) {
-        errorMsg.classList.remove('hidden');
-        return;
-      }
-
-      errorMsg.classList.add('hidden');
-
-      window.openOverlayCheckout({
-        priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6', // 🔁 Replace with your actual Price ID
-        quantity,
-        clientId
-      });
-    });
-  };
-  document.head.appendChild(paddleScript);
-</script>
 
 </body>
 </html>
