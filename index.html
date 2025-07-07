@@ -69,16 +69,17 @@
         }
     </style>
     
-    <script src="https://cdn.paddle.com/paddle.js"></script>
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js" onload="initializeApp()"></script>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    // All of our page logic is now wrapped in this function.
+    function initializeApp() {
 
-        // CORRECT: Initialize Paddle Billing in sandbox mode once the DOM is ready.
-        // Use Paddle.Initialize, not Paddle.Setup
+        // Initialize Paddle Billing in sandbox mode.
+        // This now runs safely after the Paddle object is available.
         Paddle.Environment.set('sandbox');
         Paddle.Initialize({
-            token: 'test_29269ca6438ad989a04451ab6b0' // Use your client-side token
+            token: 'test_29269ca6438ad989a04451ab6b0' // Your client-side token
         });
 
         // --- Paddle Checkout Logic ---
@@ -102,7 +103,6 @@
                 }
                 errorMsg.classList.add('hidden');
                 
-                // CORRECT: Call Paddle.Checkout.open with the correct structure for Paddle Billing
                 Paddle.Checkout.open({
                     items: [{
                         priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6', // Your price ID
@@ -154,14 +154,6 @@
             question.addEventListener('click', () => {
                 const isVisible = answer.classList.contains('show');
                 
-                // Optional: Close all other answers
-                // document.querySelectorAll('.faq-answer.show').forEach(openAnswer => {
-                //     openAnswer.classList.remove('show');
-                // });
-                // document.querySelectorAll('.toggle-icon.rotate-180').forEach(openIcon => {
-                //    openIcon.classList.remove('rotate-180');
-                // });
-
                 if (!isVisible) {
                     answer.classList.add('show');
                     icon.classList.add('rotate-180');
@@ -171,7 +163,7 @@
                 }
             });
         });
-    });
+    }
     </script>
 </head>
 <body class="bg-gray-900 text-white antialiased">
