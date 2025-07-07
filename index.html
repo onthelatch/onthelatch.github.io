@@ -180,18 +180,18 @@
                 <div class="mt-16 pt-12 border-t border-gray-700">
                      <h3 class="text-3xl font-bold mb-8 text-gray-100">✨ How It Works For You (And Saves You Money) ✨</h3>
                      <div class="grid md:grid-cols-3 gap-8 text-left">
-                        <div class="bg-gray-900/50 p-6 rounded-lg">
-                            <h4 class="font-bold text-xl mb-2 text-purple-300">The Low-Cost Emergency Backup</h4>
-                            <p class="text-gray-400">You use one scanner but keep a spare tablet in case of issues. The screen on your primary device gets cracked ten minutes before doors. No problem: log out on the broken device and log in on the backup. <strong class="text-gray-200">Because only one device is active at a time, you only need one license.</strong></p>
-                        </div>
-                        <div class="bg-gray-900/50 p-6 rounded-lg">
-                            <h4 class="font-bold text-xl mb-2 text-purple-300">The Multi-Space Venue</h4>
-                            <p class="text-gray-400">You run two performances spaces, but never on the same night. Logistically you can't move your scanners between them constantly. Simply use your license in Venue A on Friday, log out at end-of-night, then log in and use the exact same license in Venue B on Saturday. <strong class="text-gray-200">Pay per active scanner, not per location.</strong></p>
-                        </div>
-                        <div class="bg-gray-900/50 p-6 rounded-lg">
-                            <h4 class="font-bold text-xl mb-2 text-purple-300">The Summer Festival</h4>
-                            <p class="text-gray-400">Running a 3-week festival in July? Subscribe for just that month and cancel when the event is over. <strong class="text-gray-200">No long-term contracts mean you don't have money tied up in equipment you're not using during your dark months.</strong></p>
-                        </div>
+                         <div class="bg-gray-900/50 p-6 rounded-lg">
+                             <h4 class="font-bold text-xl mb-2 text-purple-300">The Low-Cost Emergency Backup</h4>
+                             <p class="text-gray-400">You use one scanner but keep a spare tablet in case of issues. The screen on your primary device gets cracked ten minutes before doors. No problem: log out on the broken device and log in on the backup. <strong class="text-gray-200">Because only one device is active at a time, you only need one license.</strong></p>
+                         </div>
+                         <div class="bg-gray-900/50 p-6 rounded-lg">
+                             <h4 class="font-bold text-xl mb-2 text-purple-300">The Multi-Space Venue</h4>
+                             <p class="text-gray-400">You run two performances spaces, but never on the same night. Logistically you can't move your scanners between them constantly. Simply use your license in Venue A on Friday, log out at end-of-night, then log in and use the exact same license in Venue B on Saturday. <strong class="text-gray-200">Pay per active scanner, not per location.</strong></p>
+                         </div>
+                         <div class="bg-gray-900/50 p-6 rounded-lg">
+                             <h4 class="font-bold text-xl mb-2 text-purple-300">The Summer Festival</h4>
+                             <p class="text-gray-400">Running a 3-week festival in July? Subscribe for just that month and cancel when the event is over. <strong class="text-gray-200">No long-term contracts mean you don't have money tied up in equipment you're not using during your dark months.</strong></p>
+                         </div>
                      </div>
                 </div>
             </div>
@@ -290,8 +290,11 @@
 
     </div>
 
+    <script src="https://cdn.paddle.com/paddle/paddle.js" onload="setupCheckout()"></script>
+    
     <script>
-        // --- Mobile Menu & FAQ Accordion ---
+        // --- UI Interactions (Menu and FAQ) ---
+        // This part runs as soon as the basic HTML page is loaded.
         document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -312,6 +315,7 @@
                     const answer = question.nextElementSibling;
                     const icon = question.querySelector('.toggle-icon');
 
+                    // Close other open answers
                     document.querySelectorAll('.faq-answer.show').forEach(openAnswer => {
                         if (openAnswer !== answer) {
                             openAnswer.classList.remove('show');
@@ -320,6 +324,7 @@
                         }
                     });
 
+                    // Toggle current answer
                     answer.classList.toggle('show');
                     if (icon) {
                         icon.style.transform = answer.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
@@ -327,23 +332,27 @@
                 });
             });
         });
-    </script>
 
-    <!-- START: New Paddle Hosted Checkout Script -->
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', () => {
+
+        // --- Paddle Checkout Logic ---
+        // This function is defined globally so it can be called by the `onload` attribute in the script tag above.
+        function setupCheckout() {
             // --- Configuration ---
-            // UPDATED: Create a NEW Hosted Checkout in your Paddle dashboard,
-            // but DO NOT add any prices/items to it. Leave it blank.
-            // Then, paste the new Hosted Checkout URL here.
-            const HOSTED_CHECKOUT_URL = 'https://sandbox-pay.paddle.com/hsc_01jzhrnp49dw0sps74jy6vkfh2_yhs2x72bcmcxqqmf6d5j2raez18v56z6';
+            const PADDLE_CLIENT_TOKEN = 'test_12aa35b6613908729658fd28aba'; // Replace with your actual Client-side Token
 
-            // Paste the Price IDs you copied from your Paddle dashboard.
+            // Price IDs from your Paddle dashboard
             const PRICE_IDS = {
-                tier1: 'pri_01jzhhgahv7zy2k7t7g703fc9b', // Price for 1-3 licenses
-                tier2: 'pri_01jzhhkj7ehqhac6w842pergxj', // Price for 4-9 licenses
-                tier3: 'pri_01jzhhq89fn4fkd2pwf7t1f85s'  // Price for 10+ licenses
+                tier1: 'pri_01jzhhgahv7zy2k7t7g703fc9b', // Price for 1-3 licenses ($15)
+                tier2: 'pri_01jzhhkj7ehqhac6w842pergxj', // Price for 4-9 licenses ($13.50)
+                tier3: 'pri_01jzhhq89fn4fkd2pwf7t1f85s'  // Price for 10+ licenses ($12)
             };
+
+            // --- Initialize Paddle ---
+            // We can safely call this now because this function only runs after paddle.js has loaded.
+            Paddle.Initialize({ 
+                token: PADDLE_CLIENT_TOKEN,
+                environment: 'sandbox' // Use 'sandbox' for testing, 'production' for live
+            });
 
             // --- Elements ---
             const quantityInput = document.getElementById('quantity-input');
@@ -354,7 +363,7 @@
 
             // --- Logic ---
             function updatePriceFeedback() {
-                const quantity = parseInt(quantityInput.value, 10);
+                const quantity = parseInt(quantityInput.value, 10) || 0;
                 if (quantity >= 10) {
                     priceFeedback.textContent = 'Price: $12.00 USD per license / month (20% off).';
                 } else if (quantity >= 4) {
@@ -364,7 +373,7 @@
                 }
             }
 
-            function redirectToCheckout() {
+            function openOverlayCheckout() {
                 const quantity = parseInt(quantityInput.value, 10);
                 const clientId = clientIdInput.value.trim().toLowerCase();
 
@@ -385,15 +394,17 @@
                     priceId = PRICE_IDS.tier1;
                 }
 
-                // 3. Construct the checkout URL with parameters
-                const checkoutUrl = new URL(HOSTED_CHECKOUT_URL);
-                // CORRECTED: Parameter names now use underscores as required.
-                checkoutUrl.searchParams.append('items[0][price_id]', priceId);
-                checkoutUrl.searchParams.append('items[0][quantity]', quantity);
-                checkoutUrl.searchParams.append('custom_data[spektrixClientId]', clientId);
-
-                // 4. Redirect the user to the Paddle Hosted Checkout
-                window.location.href = checkoutUrl.toString();
+                // 3. Open the Paddle Overlay Checkout
+                Paddle.Checkout.open({
+                    items: [{
+                        priceId: priceId,
+                        quantity: quantity
+                    }],
+                    customData: {
+                        // This data will be passed through to your webhooks
+                        spektrixClientId: clientId
+                    }
+                });
             }
 
             // --- Event Listeners ---
@@ -401,11 +412,12 @@
                 quantityInput.addEventListener('input', updatePriceFeedback);
             }
             if (purchaseButton) {
-                purchaseButton.addEventListener('click', redirectToCheckout);
+                purchaseButton.addEventListener('click', openOverlayCheckout);
             }
-        });
+            
+            // Set the initial price feedback text when the page loads
+            updatePriceFeedback();
+        }
     </script>
-    <!-- END: New Paddle Hosted Checkout Script -->
-
-</body>
+    </body>
 </html>
