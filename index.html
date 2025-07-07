@@ -291,24 +291,22 @@
 
     </div>
 
-<script type="module">
-  import Paddle from "https://cdn.paddle.com/paddle.js";
+<script src="https://cdn.paddle.com/paddle.js"></script>
 
-  Paddle.Setup({
-    token: 'live_c4a7703eaa228bf2d7cd85deadb',
-    environment: 'sandbox'
-  });
-
-  window.openOverlayCheckout = ({ priceId, quantity, clientId }) => {
-    console.log('Opening Paddle checkout with', { priceId, quantity, clientId });
-    Paddle.Checkout.open({
-      items: [{ priceId: priceId, quantity: quantity }],
-      customData: { spektrixClientId: clientId }
-    });
-  };
-</script>
-
-
-
+    <script type="module">
+      // No import needed! Paddle is now available globally.
+      Paddle.Setup({
+        token: 'test_29269ca6438ad989a04451ab6b0',
+        environment: 'sandbox'
+      });
+    
+      window.openOverlayCheckout = ({ priceId, quantity, clientId }) => {
+        console.log('Opening Paddle checkout with', { priceId, quantity, clientId });
+        Paddle.Checkout.open({
+          items: [{ priceId: priceId, quantity: quantity }],
+          customData: { spektrixClientId: clientId }
+        });
+      };
+    </script>
 </body>
 </html>
