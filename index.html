@@ -291,9 +291,7 @@
 
     </div>
 
-    <script src="https://cdn.paddle.com/paddle/paddle.js" id="paddle-loader"></script>
-
-    <script src="https://cdn.paddle.com/paddle/paddle.js" id="paddle-loader"></script>
+    <script src="https://cdn.paddle.com/paddle.js" id="paddle-loader"></script>
 
 <script>
     const PRICE_IDS = {
@@ -349,7 +347,6 @@
         if (window.Paddle && window.Paddle.Checkout) {
             Paddle.Checkout.open({
                 items: [{ priceId: priceId, quantity: quantity }],
-                customData: { spektrixClientId: clientId }
             });
         } else {
             console.error("Paddle checkout is not available. Please disable ad blockers and refresh.");
