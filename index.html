@@ -386,7 +386,7 @@
                 // 3. Construct the checkout URL with parameters
                 const checkoutUrl = new URL(HOSTED_CHECKOUT_URL);
                 checkoutUrl.searchParams.append('items[0][priceId]', priceId);
-                checkoutUrl.searchParams.append('items[0][quantity]', quantity);
+                checkoutUrl.search_params.append('items[0][quantity]', quantity);
                 checkoutUrl.searchParams.append('customData[spektrixClientId]', clientId);
 
                 // 4. Redirect the user to the Paddle Hosted Checkout
@@ -405,4 +405,4 @@
     <!-- END: New Paddle Hosted Checkout Script -->
 
 </body>
-</ht
+</html>
