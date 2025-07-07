@@ -61,57 +61,118 @@
         .faq-answer.show {
             display: block;
         }
+        .toggle-icon.rotate-180 {
+            transform: rotate(180deg);
+        }
+        .toggle-icon {
+            transition: transform 0.2s ease-in-out;
+        }
     </style>
-	<script src="https://cdn.paddle.com/paddle.js" onload="initializePaddle()"></script>
-<script>
-  function initializePaddle() {
-  Paddle.Setup({
-    token: 'test_29269ca6438ad989a04451ab6b0',
-    environment: 'sandbox'
-  });
+    
+    <script src="https://cdn.paddle.com/paddle.js"></script>
 
-  window.openOverlayCheckout = ({ priceId, quantity, clientId }) => {
-    console.log('Opening Paddle checkout with', { priceId, quantity, clientId });
-    Paddle.Checkout.open({
-      items: [{ priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6', quantity }],
-      customData: { spektrixClientId: clientId }
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // CORRECT: Initialize Paddle Billing in sandbox mode once the DOM is ready.
+        // Use Paddle.Initialize, not Paddle.Setup
+        Paddle.Environment.set('sandbox');
+        Paddle.Initialize({
+            token: 'test_29269ca6438ad989a04451ab6b0' // Use your client-side token
+        });
+
+        // --- Paddle Checkout Logic ---
+        const purchaseButton = document.getElementById('purchase-button');
+        const quantityInput = document.getElementById('quantity-input');
+        const clientIdInput = document.getElementById('client-id-input');
+        const errorMsg = document.getElementById('validation-error');
+        const priceFeedback = document.getElementById('price-feedback');
+        
+        const basePrice = 15;
+
+        if (purchaseButton) {
+            purchaseButton.addEventListener('click', () => {
+                const quantity = parseInt(quantityInput.value);
+                const clientId = clientIdInput.value.trim();
+
+                // Validate inputs
+                if (!quantity || quantity < 1 || !clientId) {
+                    errorMsg.classList.remove('hidden');
+                    return;
+                }
+                errorMsg.classList.add('hidden');
+                
+                // CORRECT: Call Paddle.Checkout.open with the correct structure for Paddle Billing
+                Paddle.Checkout.open({
+                    items: [{
+                        priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6', // Your price ID
+                        quantity: quantity
+                    }],
+                    customData: {
+                        spektrixClientId: clientId
+                    }
+                });
+            });
+        }
+        
+        // --- (Optional) Price Feedback UI ---
+        if (quantityInput && priceFeedback) {
+            quantityInput.addEventListener('input', (e) => {
+                 const quantity = parseInt(e.target.value) || 1;
+                 let priceText = `$${(basePrice * quantity).toFixed(2)} USD total / month.`;
+                 
+                 if (quantity >= 10) {
+                     priceText += ` (20% discount applied!)`;
+                 } else if (quantity >= 4) {
+                     priceText += ` (10% discount applied!)`;
+                 }
+                 priceFeedback.textContent = priceText;
+            });
+        }
+
+        // --- (Bonus) Mobile Menu Toggle Logic ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOpenIcon = document.getElementById('menu-open-icon');
+        const menuCloseIcon = document.getElementById('menu-close-icon');
+
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuOpenIcon.classList.toggle('hidden');
+                menuCloseIcon.classList.toggle('hidden');
+            });
+        }
+        
+        // --- (Bonus) FAQ Accordion Logic ---
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
+            const icon = item.querySelector('.toggle-icon');
+
+            question.addEventListener('click', () => {
+                const isVisible = answer.classList.contains('show');
+                
+                // Optional: Close all other answers
+                // document.querySelectorAll('.faq-answer.show').forEach(openAnswer => {
+                //     openAnswer.classList.remove('show');
+                // });
+                // document.querySelectorAll('.toggle-icon.rotate-180').forEach(openIcon => {
+                //    openIcon.classList.remove('rotate-180');
+                // });
+
+                if (!isVisible) {
+                    answer.classList.add('show');
+                    icon.classList.add('rotate-180');
+                } else {
+                    answer.classList.remove('show');
+                    icon.classList.remove('rotate-180');
+                }
+            });
+        });
     });
-  };
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const purchaseButton = document.getElementById('purchase-button');
-    const quantityInput = document.getElementById('quantity-input');
-    const clientIdInput = document.getElementById('client-id-input');
-    const errorMsg = document.getElementById('validation-error');
-
-    if (!purchaseButton) {
-      console.warn("Purchase button not found.");
-      return;
-    }
-
-    purchaseButton.addEventListener('click', () => {
-      const quantity = parseInt(quantityInput.value);
-      const clientId = clientIdInput.value.trim();
-
-      if (!quantity || quantity < 1 || !clientId) {
-        errorMsg.classList.remove('hidden');
-        return;
-      }
-
-      errorMsg.classList.add('hidden');
-
-      window.openOverlayCheckout({
-        priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6',
-        quantity,
-        clientId
-      });
-    });
-  });
-}
-
-
-</script>
-
+    </script>
 </head>
 <body class="bg-gray-900 text-white antialiased">
 
