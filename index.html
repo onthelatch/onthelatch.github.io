@@ -70,20 +70,24 @@
     </style>
     
     <script>
-    function initializeApp() {
-        // Initialize Paddle Billing in sandbox mode.
-        Paddle.Environment.set('sandbox');
+    window.PaddleLoader = window.PaddleLoader || {};
+    window.PaddleLoader.then = window.PaddleLoader.then || function(callback) {
+        (window.PaddleLoader._callbacks = window.PaddleLoader._callbacks || []).push(callback);
+    };
+
+    PaddleLoader.then(() => {
+        // Now it's safe to use Paddle
+        Paddle.Environment.set('sandbox'); // Remove this line for production
         Paddle.Initialize({
-            token: 'test_29269ca6438ad989a04451ab6b0' // Your client-side token
+            token: 'test_29269ca6438ad989a04451ab6b0' // Replace with production token when ready
         });
 
-        // --- Paddle Checkout Logic ---
         const purchaseButton = document.getElementById('purchase-button');
         const quantityInput = document.getElementById('quantity-input');
         const clientIdInput = document.getElementById('client-id-input');
         const errorMsg = document.getElementById('validation-error');
         const priceFeedback = document.getElementById('price-feedback');
-        
+
         const basePrice = 15;
 
         if (purchaseButton) {
@@ -91,16 +95,16 @@
                 const quantity = parseInt(quantityInput.value);
                 const clientId = clientIdInput.value.trim();
 
-                // Validate inputs
                 if (!quantity || quantity < 1 || !clientId) {
                     errorMsg.classList.remove('hidden');
                     return;
                 }
+
                 errorMsg.classList.add('hidden');
-                
+
                 Paddle.Checkout.open({
                     items: [{
-                        priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6', // Your price ID
+                        priceId: 'pri_01hts15vh7hm44sgawgyh4xnv6',
                         quantity: quantity
                     }],
                     customData: {
@@ -109,23 +113,23 @@
                 });
             });
         }
-        
-        // --- (Optional) Price Feedback UI ---
+
         if (quantityInput && priceFeedback) {
             quantityInput.addEventListener('input', (e) => {
-                 const quantity = parseInt(e.target.value) || 1;
-                 let priceText = `$${(basePrice * quantity).toFixed(2)} USD total / month.`;
-                 
-                 if (quantity >= 10) {
-                     priceText += ` (20% discount applied!)`;
-                 } else if (quantity >= 4) {
-                     priceText += ` (10% discount applied!)`;
-                 }
-                 priceFeedback.textContent = priceText;
+                const quantity = parseInt(e.target.value) || 1;
+                let priceText = `$${(basePrice * quantity).toFixed(2)} USD total / month.`;
+
+                if (quantity >= 10) {
+                    priceText += ` (20% discount applied!)`;
+                } else if (quantity >= 4) {
+                    priceText += ` (10% discount applied!)`;
+                }
+
+                priceFeedback.textContent = priceText;
             });
         }
 
-        // --- (Bonus) Mobile Menu Toggle Logic ---
+        // Existing mobile menu and FAQ accordion logic
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         const menuOpenIcon = document.getElementById('menu-open-icon');
@@ -138,8 +142,7 @@
                 menuCloseIcon.classList.toggle('hidden');
             });
         }
-        
-        // --- (Bonus) FAQ Accordion Logic ---
+
         const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach(item => {
             const question = item.querySelector('.faq-question');
@@ -148,7 +151,7 @@
 
             question.addEventListener('click', () => {
                 const isVisible = answer.classList.contains('show');
-                
+
                 if (!isVisible) {
                     answer.classList.add('show');
                     icon.classList.add('rotate-180');
@@ -158,10 +161,11 @@
                 }
             });
         });
-    }
-    </script>
+    });
+</script>
+
     
-    <script src="https://cdn.paddle.com/paddle/v2/paddle.js" onload="initializeApp()"></script>
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     
 </head>
 <body class="bg-gray-900 text-white antialiased">
