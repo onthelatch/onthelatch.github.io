@@ -333,8 +333,8 @@
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', () => {
             // --- Configuration ---
-            // This is the base URL for your Paddle Hosted Checkout.
-            const HOSTED_CHECKOUT_URL = 'https://sandbox-pay.paddle.com/';
+            // CORRECTED: This now points to YOUR specific Hosted Checkout link.
+            const HOSTED_CHECKOUT_URL = 'https://sandbox-pay.paddle.io/hsc_01jzc487kjykknxhpq4p1m34z8';
 
             // Paste the Price IDs you copied from your Paddle dashboard.
             const PRICE_IDS = {
@@ -385,6 +385,7 @@
 
                 // 3. Construct the checkout URL with parameters
                 const checkoutUrl = new URL(HOSTED_CHECKOUT_URL);
+                // CORRECTED: Parameter names now use underscores as required.
                 checkoutUrl.searchParams.append('items[0][price_id]', priceId);
                 checkoutUrl.searchParams.append('items[0][quantity]', quantity);
                 checkoutUrl.searchParams.append('custom_data[spektrixClientId]', clientId);
