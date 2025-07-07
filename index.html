@@ -7,14 +7,13 @@
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎟️</text></svg>">
     
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Load Paddle.js with the defer attribute -->
-    <script src="https://cdn.paddle.com/v2/paddle.js" defer></script>
     
     <style>
         /* Use Inter font family */
@@ -25,7 +24,14 @@
         html {
             scroll-behavior: smooth;
         }
-        .feature-headline {
+        /* Style for the Paddle checkout container */
+       .paddle-container {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+       .paddle-container:hover {
+            transform: translateY(-5px);
+        }
+       .feature-headline {
             font-size: 1.75rem; /* Equivalent to text-3xl */
             font-weight: 700; /* Equivalent to font-bold */
             line-height: 1.25; /* Similar to leading-tight */
@@ -39,7 +45,7 @@
             justify-content: center; /* Center the icon and text */
             gap: 0.75rem; /* Space between emoji and text */
         }
-        .feature-description {
+       .feature-description {
             font-size: 1.125rem; /* Equivalent to text-lg */
             color: #d1d5db; /* gray-300 */
             max-width: 48rem; /* max-w-2xl */
@@ -48,7 +54,7 @@
             margin-bottom: 1.5rem; /* mb-6 */
         }
         /* Style for FAQ questions - makes them clickable */
-        .faq-question {
+       .faq-question {
             cursor: pointer;
             border-radius: 0.5rem; /* rounded-lg */
             padding-left: 1rem; /* px-4 */
@@ -56,14 +62,14 @@
             transition: background-color 0.2s ease-in-out;
             @apply flex justify-between items-center py-4 border-b border-gray-700 text-gray-200;
         }
-        .faq-question:hover {
+       .faq-question:hover {
              background-color: rgba(255, 255, 255, 0.05);
         }
-        .faq-answer {
+       .faq-answer {
             @apply py-2 px-4 text-gray-400 text-left;
             display: none; /* Hidden by default */
         }
-        .faq-answer.show {
+       .faq-answer.show {
             display: block; /* Show when 'show' class is added */
         }
     </style>
@@ -98,7 +104,7 @@
             <a href="#purchase-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Purchase</a>
             <a href="#faq-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">FAQ</a>
         </div>
-        </nav>
+    </nav>
 
     <div class="container mx-auto px-6 py-12 md:py-24 max-w-4xl text-center">
 
@@ -208,21 +214,21 @@
                 <div class="mt-16 pt-12 border-t border-gray-700">
                      <h3 class="text-3xl font-bold mb-8 text-gray-100">✨ How It Works For You (And Saves You Money) ✨</h3>
                      <div class="grid md:grid-cols-3 gap-8 text-left">
-                        
-                        <div class="bg-gray-900/50 p-6 rounded-lg">
-                            <h4 class="font-bold text-xl mb-2 text-purple-300">The Low-Cost Emergency Backup</h4>
-                            <p class="text-gray-400">You use one scanner but keep a spare tablet in case of issues. The screen on your primary device gets cracked ten minutes before doors. No problem: log out on the broken device and log in on the backup. <strong class="text-gray-200">Because only one device is active at a time, you only need one license.</strong></p>
-                        </div>
+                         
+                         <div class="bg-gray-900/50 p-6 rounded-lg">
+                             <h4 class="font-bold text-xl mb-2 text-purple-300">The Low-Cost Emergency Backup</h4>
+                             <p class="text-gray-400">You use one scanner but keep a spare tablet in case of issues. The screen on your primary device gets cracked ten minutes before doors. No problem: log out on the broken device and log in on the backup. <strong class="text-gray-200">Because only one device is active at a time, you only need one license.</strong></p>
+                         </div>
 
-                        <div class="bg-gray-900/50 p-6 rounded-lg">
-                            <h4 class="font-bold text-xl mb-2 text-purple-300">The Multi-Space Venue</h4>
-                            <p class="text-gray-400">You run two performances spaces, but never on the same night. Logistically you can't move your scanners between them constantly. Simply use your license in Venue A on Friday, log out at end-of-night, then log in and use the exact same license in Venue B on Saturday. <strong class="text-gray-200">Pay per active scanner, not per location.</strong></p>
-                        </div>
-                        
-                        <div class="bg-gray-900/50 p-6 rounded-lg">
-                            <h4 class="font-bold text-xl mb-2 text-purple-300">The Summer Festival</h4>
-                            <p class="text-gray-400">Running a 3-week festival in July? Subscribe for just that month and cancel when the event is over. <strong class="text-gray-200">No long-term contracts mean you don't have money tied up in equipment you're not using during your dark months.</strong></p>
-                        </div>
+                         <div class="bg-gray-900/50 p-6 rounded-lg">
+                             <h4 class="font-bold text-xl mb-2 text-purple-300">The Multi-Space Venue</h4>
+                             <p class="text-gray-400">You run two performances spaces, but never on the same night. Logistically you can't move your scanners between them constantly. Simply use your license in Venue A on Friday, log out at end-of-night, then log in and use the exact same license in Venue B on Saturday. <strong class="text-gray-200">Pay per active scanner, not per location.</strong></p>
+                         </div>
+                         
+                         <div class="bg-gray-900/50 p-6 rounded-lg">
+                             <h4 class="font-bold text-xl mb-2 text-purple-300">The Summer Festival</h4>
+                             <p class="text-gray-400">Running a 3-week festival in July? Subscribe for just that month and cancel when the event is over. <strong class="text-gray-200">No long-term contracts mean you don't have money tied up in equipment you're not using during your dark months.</strong></p>
+                         </div>
 
                      </div>
                 </div>
@@ -286,27 +292,31 @@
             </div>
         </section>
 
-        <!-- THIS IS THE UPDATED SECTION -->
         <section id="purchase-section" class="py-16 md:py-24">
             <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gray-100">Ready to make Door Duty a breeze?</h2>
             <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-12">
                 Your future, less-stressed-out self will thank you.
             </p>
             
-            <div class="max-w-md mx-auto mb-8 text-left">
-                <label for="spektrix-id" class="block text-sm font-medium text-gray-400 mb-1">Spektrix Client ID</label>
-                <input type="text" id="spektrix-id" placeholder="e.g. mytheatre" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
-                
-                <label for="customer-email" class="block text-sm font-medium text-gray-400 mt-4 mb-1">Your Email</label>
-                <input type="email" id="customer-email" placeholder="your.email@example.com" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
-            </div>
-            <button id="show-checkout-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg text-lg inline-block mb-8">
-                Continue
-            </button>
-
-            <div class="paddle-container bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700 min-h-[400px]">
-                <!-- The checkout will be embedded here, the placeholder is removed -->
-                <div id="paddle-checkout-container"></div>
+            <div class="max-w-2xl mx-auto bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700">
+                <div class="space-y-6">
+                    <div>
+                        <label for="quantity-input" class="block text-lg font-medium text-gray-300 text-left mb-2">Number of Active Licenses</label>
+                        <p class="text-sm text-gray-400 text-left mb-3">How many devices do you need to scan with at the same time?</p>
+                        <input type="number" id="quantity-input" value="1" min="1" max="500" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3.5">
+                    </div>
+                    <div>
+                        <label for="spektrix-id-input" class="block text-lg font-medium text-gray-300 text-left mb-2">Spektrix Client ID</label>
+                        <p class="text-sm text-gray-400 text-left mb-3">This is your unique client name (e.g., `yourtheatre`). We need this to connect to your Spektrix system.</p>
+                        <input type="text" id="spektrix-id-input" placeholder="e.g., yourtheatre" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3.5">
+                    </div>
+                </div>
+    
+                <button onclick="openCheckout()" class="mt-8 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg text-xl w-full">
+                    Proceed to Payment
+                </button>
+    
+                <div id="checkout-container" class="mt-8 min-h-[450px] bg-gray-800"></div>
             </div>
         </section>
         
@@ -324,40 +334,94 @@
 
     </div>
 
-    <!-- THIS IS THE UPDATED SCRIPT BLOCK -->
-    <script defer>
+    <script type="text/javascript">
+        // These are your specific Paddle credentials.
+        const PADDLE_CLIENT_TOKEN = "test_29269ca6438ad989a04451ab6b0";
+        const PADDLE_PRICE_ID = "pri_01jzbr7ry6ysz1pbddg1v4yf5h";
+
+        // Set the environment to 'sandbox' for testing. Change to 'production' for live transactions.
+        Paddle.Environment.set("sandbox");
+
+        // Initialize Paddle.js with your token and inline checkout settings.
+        Paddle.Initialize({
+            token: PADDLE_CLIENT_TOKEN,
+            checkout: {
+                settings: {
+                    displayMode: "inline",
+                    frameTarget: "checkout-container",
+                    frameInitialHeight: 450,
+                    frameStyle: "width: 100%; border: none; background-color: transparent;",
+                    theme: "dark" // Set theme to dark to match your site
+                }
+            }
+        });
+
+        // Function to open the checkout with dynamic data from the form.
+        function openCheckout() {
+            const quantityInput = document.getElementById('quantity-input');
+            const spektrixInput = document.getElementById('spektrix-id-input');
+
+            const selectedQuantity = parseInt(quantityInput.value, 10);
+            const spektrixId = spektrixInput.value;
+
+            if (!spektrixId |
+
+| spektrixId.trim() === "") {
+                alert("Please provide your Spektrix Client ID.");
+                return;
+            }
+
+            if (isNaN(selectedQuantity) |
+
+| selectedQuantity < 1 |
+| selectedQuantity > 500) {
+                alert("Please enter a valid quantity between 1 and 500.");
+                return;
+            }
+
+            Paddle.Checkout.open({
+                items:,
+                customData: {
+                    spektrixClientId: spektrixId
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // START: JavaScript for Mobile Menu & FAQ
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Mobile Menu
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const openIcon = document.getElementById('menu-open-icon');
             const closeIcon = document.getElementById('menu-close-icon');
 
-            if (menuButton) {
-                menuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                    openIcon.classList.toggle('hidden');
-                    closeIcon.classList.toggle('hidden');
-                });
-            }
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                openIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
         
-            // Initialize FAQ Accordion
-            const faqQuestions = document.querySelectorAll('.faq-item .faq-question');
+            // JavaScript for FAQ accordion
+            const faqQuestions = document.querySelectorAll('.faq-item.faq-question');
 
             faqQuestions.forEach(question => {
                 question.addEventListener('click', () => {
                     const answer = question.nextElementSibling;
                     const icon = question.querySelector('.toggle-icon');
 
+                    // Close other open answers
                     document.querySelectorAll('.faq-answer.show').forEach(openAnswer => {
-                        if (openAnswer !== answer) {
+                        if (openAnswer!== answer) {
                             openAnswer.classList.remove('show');
                             openAnswer.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(0deg)';
                         }
                     });
 
+                    // Toggle the clicked answer visibility
                     answer.classList.toggle('show');
 
+                    // Rotate the arrow icon for the clicked item
                     if (answer.classList.contains('show')) {
                         icon.style.transform = 'rotate(180deg)';
                     } else {
@@ -365,71 +429,8 @@
                     }
                 });
             });
-
-            // Initialize Paddle and the checkout button logic
-            // This check ensures Paddle.js has loaded before we try to use it
-            if (typeof Paddle !== 'undefined') {
-                Paddle.Initialize({
-                    token: 'test_29269ca6438ad989a04451ab6b0', // Your Client-Side Token
-                    environment: 'sandbox',
-                });
-
-                document.getElementById('show-checkout-button').addEventListener('click', function() {
-                    const spektrixId = document.getElementById('spektrix-id').value;
-                    const email = document.getElementById('customer-email').value;
-
-                    if (!spektrixId || !email) {
-                        alert('Please fill in both your Spektrix Client ID and email address.');
-                        return;
-                    }
-
-                    Paddle.Checkout.open({
-                        target: 'paddle-checkout-container',
-                        items: [{
-                            priceId: 'pri_01jzbr7ry6ysz1pbddg1v4yf5h', // The correct Price ID
-                            quantity: 1
-                        }],
-                        customer: {
-                            email: email,
-                        },
-                        customData: {
-                            "spektrix_client_id": spektrixId.toLowerCase()
-                        }
-                    });
-                });
-            } else {
-                window.addEventListener('paddle:load', () => {
-                     Paddle.Initialize({
-                        token: 'test_29269ca6438ad989a04451ab6b0', // Your Client-Side Token
-                        environment: 'sandbox',
-                    });
-
-                    document.getElementById('show-checkout-button').addEventListener('click', function() {
-                        const spektrixId = document.getElementById('spektrix-id').value;
-                        const email = document.getElementById('customer-email').value;
-
-                        if (!spektrixId || !email) {
-                            alert('Please fill in both your Spektrix Client ID and email address.');
-                            return;
-                        }
-
-                        Paddle.Checkout.open({
-                            target: 'paddle-checkout-container',
-                            items: [{
-                                priceId: 'pri_01jzbr7ry6ysz1pbddg1v4yf5h', // The correct Price ID
-                                quantity: 1
-                            }],
-                            customer: {
-                                email: email,
-                            },
-                            customData: {
-                                "spektrix_client_id": spektrixId.toLowerCase()
-                            }
-                        });
-                    });
-                });
-            }
         });
+        // END: JavaScript for Mobile Menu & FAQ
     </script>
 
 </body>
