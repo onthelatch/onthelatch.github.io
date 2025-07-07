@@ -291,7 +291,23 @@
 
     </div>
 
-    <script src="https://cdn.paddle.com/paddle.js" id="paddle-loader"></script>
+    <script type="module">
+  import Paddle from "https://cdn.paddle.com/paddle.js";
+
+  Paddle.Setup({
+    token: 'test_12aa35b6613908729658fd28aba',
+    environment: 'sandbox'
+  });
+
+  window.openOverlayCheckout = ({ priceId, quantity, clientId }) => {
+    console.log('Opening Paddle checkout with', { priceId, quantity, clientId });
+    Paddle.Checkout.open({
+      items: [{ priceId: priceId, quantity: quantity }],
+      customData: { spektrixClientId: clientId }
+    });
+  };
+</script>
+
 
 <script>
     const PRICE_IDS = {
