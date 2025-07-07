@@ -7,7 +7,7 @@
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎟️</text></svg>">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+  
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -290,68 +290,46 @@
 
     </div>
 
-    <script src="https://cdn.paddle.com/paddle/paddle.js" onload="setupCheckout()"></script>
-    
+   <script src="https://cdn.paddle.com/paddle/paddle.js" onload="setupCheckout()" onerror="paddleScriptError()"></script>
+
     <script>
-        // --- UI Interactions (Menu and FAQ) ---
-        // This part runs as soon as the basic HTML page is loaded.
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const openIcon = document.getElementById('menu-open-icon');
-            const closeIcon = document.getElementById('menu-close-icon');
+        /**
+         * IMPORTANT: The next two functions (paddleScriptError and setupCheckout)
+         * must be defined here, in the global scope. Do NOT wrap them inside
+         * another function or a 'DOMContentLoaded' listener, otherwise the 'onload'
+         * attribute on the script tag above will not be able to find them.
+         */
 
-            if (menuButton) {
-                menuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                    openIcon.classList.toggle('hidden');
-                    closeIcon.classList.toggle('hidden');
-                });
+        /**
+         * This function runs if the Paddle script fails to load.
+         */
+        function paddleScriptError() {
+            console.error("CRITICAL: The Paddle.js script failed to load. This is likely due to an ad-blocker or network issue. The checkout cannot function.");
+            const validationError = document.getElementById('validation-error');
+            if (validationError) {
+                validationError.textContent = 'Error: Checkout is unavailable. Please disable your ad-blocker and refresh.';
+                validationError.classList.remove('hidden');
             }
-        
-            const faqQuestions = document.querySelectorAll('.faq-item .faq-question');
-            faqQuestions.forEach(question => {
-                question.addEventListener('click', () => {
-                    const answer = question.nextElementSibling;
-                    const icon = question.querySelector('.toggle-icon');
+        }
 
-                    // Close other open answers
-                    document.querySelectorAll('.faq-answer.show').forEach(openAnswer => {
-                        if (openAnswer !== answer) {
-                            openAnswer.classList.remove('show');
-                            const otherIcon = openAnswer.previousElementSibling.querySelector('.toggle-icon');
-                            if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
-                        }
-                    });
-
-                    // Toggle current answer
-                    answer.classList.toggle('show');
-                    if (icon) {
-                        icon.style.transform = answer.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
-                    }
-                });
-            });
-        });
-
-
-        // --- Paddle Checkout Logic ---
-        // This function is defined globally so it can be called by the `onload` attribute in the script tag above.
+        /**
+         * This function is called by the `onload` attribute in the script tag above.
+         * It sets up all the checkout functionality.
+         */
         function setupCheckout() {
-            // --- Configuration ---
-            const PADDLE_CLIENT_TOKEN = 'test_12aa35b6613908729658fd28aba'; // Replace with your actual Client-side Token
+            console.log("Debug: setupCheckout() called successfully.");
 
-            // Price IDs from your Paddle dashboard
+            // --- Paddle Configuration ---
+            const PADDLE_CLIENT_TOKEN = 'test_12aa35b6613908729658fd28aba';
             const PRICE_IDS = {
-                tier1: 'pri_01jzhhgahv7zy2k7t7g703fc9b', // Price for 1-3 licenses ($15)
-                tier2: 'pri_01jzhhkj7ehqhac6w842pergxj', // Price for 4-9 licenses ($13.50)
-                tier3: 'pri_01jzhhq89fn4fkd2pwf7t1f85s'  // Price for 10+ licenses ($12)
+                tier1: 'pri_01jzhhgahv7zy2k7t7g703fc9b',
+                tier2: 'pri_01jzhhkj7ehqhac6w842pergxj',
+                tier3: 'pri_01jzhhq89fn4fkd2pwf7t1f85s'
             };
 
-            // --- Initialize Paddle ---
-            // We can safely call this now because this function only runs after paddle.js has loaded.
             Paddle.Initialize({ 
                 token: PADDLE_CLIENT_TOKEN,
-                environment: 'sandbox' // Use 'sandbox' for testing, 'production' for live
+                environment: 'sandbox' // Use 'production' for live transactions
             });
 
             // --- Elements ---
@@ -377,14 +355,13 @@
                 const quantity = parseInt(quantityInput.value, 10);
                 const clientId = clientIdInput.value.trim().toLowerCase();
 
-                // 1. Validation
                 if (!quantity || quantity < 1 || !clientId) {
+                    validationError.textContent = 'Please fill in all fields.';
                     validationError.classList.remove('hidden');
                     return;
                 }
                 validationError.classList.add('hidden');
 
-                // 2. Select the correct price based on quantity
                 let priceId;
                 if (quantity >= 10) {
                     priceId = PRICE_IDS.tier3;
@@ -394,30 +371,67 @@
                     priceId = PRICE_IDS.tier1;
                 }
 
-                // 3. Open the Paddle Overlay Checkout
                 Paddle.Checkout.open({
-                    items: [{
-                        priceId: priceId,
-                        quantity: quantity
-                    }],
-                    customData: {
-                        // This data will be passed through to your webhooks
-                        spektrixClientId: clientId
-                    }
+                    items: [{ priceId: priceId, quantity: quantity }],
+                    customData: { spektrixClientId: clientId }
                 });
             }
 
-            // --- Event Listeners ---
-            if (quantityInput) {
-                quantityInput.addEventListener('input', updatePriceFeedback);
-            }
+            // --- Attach Event Listeners ---
             if (purchaseButton) {
                 purchaseButton.addEventListener('click', openOverlayCheckout);
             }
+            if (quantityInput) {
+                quantityInput.addEventListener('input', updatePriceFeedback);
+            }
             
-            // Set the initial price feedback text when the page loads
+            // Set initial price feedback
             updatePriceFeedback();
         }
+
+        /**
+         * This part of the script handles UI elements like the menu and FAQ.
+         * It MUST wait for the page's HTML to be ready, so we keep it 
+         * inside a DOMContentLoaded listener.
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("Debug: DOMContentLoaded event fired. Setting up UI.");
+            
+            // Mobile menu logic
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-open-icon');
+            const closeIcon = document.getElementById('menu-close-icon');
+
+            if (menuButton) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    openIcon.classList.toggle('hidden');
+                    closeIcon.classList.toggle('hidden');
+                });
+            }
+        
+            // FAQ accordion logic
+            const faqQuestions = document.querySelectorAll('.faq-item .faq-question');
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const icon = question.querySelector('.toggle-icon');
+                    document.querySelectorAll('.faq-answer.show').forEach(openAnswer => {
+                        if (openAnswer !== answer) {
+                            openAnswer.classList.remove('show');
+                            const otherIcon = openAnswer.previousElementSibling.querySelector('.toggle-icon');
+                            if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                    answer.classList.toggle('show');
+                    if (icon) {
+                        icon.style.transform = answer.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+                    }
+                });
+            });
+        });
     </script>
+
     </body>
 </html>
