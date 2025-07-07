@@ -417,19 +417,10 @@
     }
 
     function initializePage() {
-        console.log("✅ Paddle.js loaded. Initializing...");
+    console.log("✅ Paddle.js loaded. Initializing UI...");
+    setupUI();
+}
 
-        if (window.Paddle && window.Paddle.Setup) {
-            Paddle.Setup({
-                token: 'test_29269ca6438ad989a04451ab6b0',
-                environment: 'sandbox'
-            });
-        } else {
-            console.error("🚨 Paddle.Setup not found even after script load.");
-        }
-
-        setupUI();
-    }
 
     function handlePaddleError() {
         console.error("🚫 Paddle.js script failed to load.");
