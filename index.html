@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (quantityInput && priceFeedback) {
             quantityInput.addEventListener('input', (e) => {
                 const quantity = parseInt(e.target.value) || 1;
-                let priceText = `$${(basePrice * quantity).toFixed(2)} USD total / month.`;
+                let priceText = `$${(basePrice * quantity).toFixed(2)} USD total / month (local currency/pricing applied at checkout).`;
 
                 if (quantity >= 10) {
                     priceText += ` (20% discount applied!)`;
@@ -387,7 +387,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="faq-answer">
-                        No, this application is an independent product developed by On the Latch. While it is fully compatible with your existing <span style="color: #97cc52;">Spektrix®</span> system, it is not affiliated with, endorsed by, or authorized by Spektrix Ltd. (And if <span style="color: #97cc52;">Spektrix®</span> decide to block the app from working, we may not be able to fix it. But please don't do that, <span style="color: #97cc52;">Spektrix®</span> - we're here because we love you. You're in the arts too - surely know how it feels to be broke and in love?)
+                        No, this application is an independent product developed by On the Latch. While it is fully compatible with your existing <span style="color: #97cc52;">Spektrix®</span> system, it is not affiliated with, endorsed by, or authorized by Spektrix Ltd.
+						<br><br>
+						(...and if <span style="color: #97cc52;">Spektrix®</span> decide to block the app from working, we may not be able to fix it. But please don't do that, <span style="color: #97cc52;">Spektrix®</span> - we're here because we love you. You're in the arts too - surely know how it feels to be broke and in love?)
                     </div>
                 </div>
 				<br>
@@ -407,7 +409,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
 					<br>
                     <div class="faq-answer">
-                        Your subscription and payment information is all handled by Paddle. <a href="https://customer-portal.paddle.com/cpl_01jy537nhn85n2rbe4ymhv8hkq" class="text-indigo-400 hover:text-indigo-300 font-medium">Click here</a> to access your account, or follow the links in your payment confirmation emails! (If you need to increase or decrease the number of licenses you have, please <a href="mailto:dev@onthelat.ch" class="text-indigo-400 hover:text-indigo-300 font-medium">contact us</a> directly.)
+                        Your subscription and payment information is all handled by Paddle. <a href="https://customer-portal.paddle.com/cpl_01jy537nhn85n2rbe4ymhv8hkq" class="text-indigo-400 hover:text-indigo-300 font-medium">Click here</a> to access your account, or follow the links in your payment confirmation emails!
+						<br><br>
+						If you need to increase or decrease the number of licenses you have, please <a href="mailto:dev@onthelat.ch" class="text-indigo-400 hover:text-indigo-300 font-medium">contact us</a> directly.
                     </div>
                 </div>
             </div>
