@@ -91,7 +91,22 @@
             const errorMsg = document.getElementById('validation-error');
             const priceFeedback = document.getElementById('price-feedback');
 
-            const basePrice = 20;
+            // --- LOCALIZATION LOGIC ---
+            let basePrice = 20;
+            let currencySymbol = '$';
+            let currencyCode = 'USD';
+            const userLocale = navigator.language.toUpperCase();
+
+            if (userLocale.includes('GB')) {
+                basePrice = 15;
+                currencySymbol = '£';
+                currencyCode = 'GBP';
+            } else if (userLocale.includes('CA')) {
+                basePrice = 25;
+                currencySymbol = '$';
+                currencyCode = 'CAD';
+            }
+            // Default is USD, which is already set.
 
             if (purchaseButton) {
                 purchaseButton.addEventListener('click', () => {
@@ -128,8 +143,12 @@
             }
 
             if (quantityInput && priceFeedback) {
+                // Set the initial price on page load using detected currency
+                priceFeedback.textContent = `${currencySymbol}${basePrice.toFixed(2)} ${currencyCode} per license/month`;
+
                 quantityInput.addEventListener('input', (e) => {
                     const quantity = parseInt(e.target.value) || 1;
+                    // basePrice is now correctly localized
                     let finalPrice = basePrice * quantity;
                     let discountMessage = "";
 
@@ -141,7 +160,7 @@
                         discountMessage = " (10% discount applied!)";
                     }
 
-                    priceFeedback.textContent = `$${finalPrice.toFixed(2)} USD total / month${discountMessage}`;
+                    priceFeedback.textContent = `${currencySymbol}${finalPrice.toFixed(2)} ${currencyCode} total / month${discountMessage}`;
                 });
             }
 
@@ -329,7 +348,7 @@
                 <div class="mb-6">
                     <label for="quantity-input" class="block mb-2 text-lg font-medium text-gray-200">Number of Licenses:</label>
                     <input type="number" id="quantity-input" value="1" min="1" class="bg-gray-700 border border-gray-600 text-white text-lg rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-3" placeholder="e.g., 4" required>
-                    <p id="price-feedback" class="text-gray-400 mt-2 text-sm">$20.00 USD total / month</p>
+                    <p id="price-feedback" class="text-gray-400 mt-2 text-sm"></p>
                 </div>
             
                 <div class="mb-8">
