@@ -70,112 +70,115 @@
     </style>
     
    <script>
-document.addEventListener("DOMContentLoaded", () => {
-    function waitForPaddle(callback) {
-        const interval = setInterval(() => {
-            if (window.Paddle && window.Paddle.Checkout) {
-                clearInterval(interval);
-                callback();
+    document.addEventListener("DOMContentLoaded", () => {
+        function waitForPaddle(callback) {
+            const interval = setInterval(() => {
+                if (window.Paddle && window.Paddle.Checkout) {
+                    clearInterval(interval);
+                    callback();
+                }
+            }, 100);
+        }
+
+        waitForPaddle(() => {
+            Paddle.Initialize({
+                token: 'live_4a63457984e3bbc1ca5781073fd'
+            });
+
+            const purchaseButton = document.getElementById('purchase-button');
+            const quantityInput = document.getElementById('quantity-input');
+            const clientIdInput = document.getElementById('client-id-input');
+            const errorMsg = document.getElementById('validation-error');
+            const priceFeedback = document.getElementById('price-feedback');
+
+            const basePrice = 20;
+
+            if (purchaseButton) {
+                purchaseButton.addEventListener('click', () => {
+                    const quantity = parseInt(quantityInput.value) || 1;
+                    const clientId = clientIdInput.value.trim();
+
+                    if (quantity < 1 || !clientId) {
+                        errorMsg.classList.remove('hidden');
+                        return;
+                    }
+
+                    errorMsg.classList.add('hidden');
+
+                    let priceId;
+
+                    if (quantity >= 10) {
+                        priceId = 'pri_01jymrekzx06jjpm7kwkaz80sc';
+                    } else if (quantity >= 4) {
+                        priceId = 'pri_01jymrbfdjk0ve16qeq6xgdang';
+                    } else {
+                        priceId = 'pri_01jyg0wrx10vs0xa2f6kadpfg3';
+                    }
+
+                    Paddle.Checkout.open({
+                        items: [{
+                            priceId: priceId,
+                            quantity: quantity
+                        }],
+                        customData: {
+                            spektrixClientId: clientId
+                        }
+                    });
+                });
             }
-        }, 100);
-    }
 
-    waitForPaddle(() => {
-        Paddle.Initialize({
-            token: 'live_4a63457984e3bbc1ca5781073fd'
-        });
+            if (quantityInput && priceFeedback) {
+                quantityInput.addEventListener('input', (e) => {
+                    const quantity = parseInt(e.target.value) || 1;
+                    let finalPrice = basePrice * quantity;
+                    let discountMessage = "";
 
-        const purchaseButton = document.getElementById('purchase-button');
-        const quantityInput = document.getElementById('quantity-input');
-        const clientIdInput = document.getElementById('client-id-input');
-        const errorMsg = document.getElementById('validation-error');
-        const priceFeedback = document.getElementById('price-feedback');
+                    if (quantity >= 10) {
+                        finalPrice *= 0.80; // Apply 20% discount
+                        discountMessage = " (20% discount applied!)";
+                    } else if (quantity >= 4) {
+                        finalPrice *= 0.90; // Apply 10% discount
+                        discountMessage = " (10% discount applied!)";
+                    }
 
-        const basePrice = 18;
+                    priceFeedback.textContent = `$${finalPrice.toFixed(2)} USD total / month${discountMessage}`;
+                });
+            }
 
-        if (purchaseButton) {
-            purchaseButton.addEventListener('click', () => {
-                const quantity = parseInt(quantityInput.value) || 1;
-                const clientId = clientIdInput.value.trim();
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuOpenIcon = document.getElementById('menu-open-icon');
+            const menuCloseIcon = document.getElementById('menu-close-icon');
 
-                if (quantity < 1 || !clientId) {
-                    errorMsg.classList.remove('hidden');
-                    return;
-                }
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    menuOpenIcon.classList.toggle('hidden');
+                    menuCloseIcon.classList.toggle('hidden');
+                });
+            }
 
-                errorMsg.classList.add('hidden');
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                const icon = item.querySelector('.toggle-icon');
 
-                let priceId;
+                question.addEventListener('click', () => {
+                    const isVisible = answer.classList.contains('show');
 
-                if (quantity >= 10) {
-                    priceId = 'pri_01jymrekzx06jjpm7kwkaz80sc';
-                } else if (quantity >= 4) {
-                    priceId = 'pri_01jymrbfdjk0ve16qeq6xgdang';
-                } else {
-                    priceId = 'pri_01jyg0wrx10vs0xa2f6kadpfg3';
-                }
-
-                Paddle.Checkout.open({
-                    items: [{
-                        priceId: priceId,
-                        quantity: quantity
-                    }],
-                    customData: {
-                        spektrixClientId: clientId
+                    if (!isVisible) {
+                        answer.classList.add('show');
+                        icon.classList.add('rotate-180');
+                    } else {
+                        answer.classList.remove('show');
+                        icon.classList.remove('rotate-180');
                     }
                 });
             });
-        }
-
-        if (quantityInput && priceFeedback) {
-            quantityInput.addEventListener('input', (e) => {
-                const quantity = parseInt(e.target.value) || 1;
-                let priceText = `$${(basePrice * quantity).toFixed(2)} USD total / month (local currency/pricing applied at checkout).`;
-
-                if (quantity >= 10) {
-                    priceText += ` (20% discount applied!)`;
-                } else if (quantity >= 4) {
-                    priceText += ` (10% discount applied!)`;
-                }
-
-                priceFeedback.textContent = priceText;
-            });
-        }
-
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuOpenIcon = document.getElementById('menu-open-icon');
-        const menuCloseIcon = document.getElementById('menu-close-icon');
-
-        if (mobileMenuButton) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                menuOpenIcon.classList.toggle('hidden');
-                menuCloseIcon.classList.toggle('hidden');
-            });
-        }
-
-        const faqItems = document.querySelectorAll('.faq-item');
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            const answer = item.querySelector('.faq-answer');
-            const icon = item.querySelector('.toggle-icon');
-
-            question.addEventListener('click', () => {
-                const isVisible = answer.classList.contains('show');
-
-                if (!isVisible) {
-                    answer.classList.add('show');
-                    icon.classList.add('rotate-180');
-                } else {
-                    answer.classList.remove('show');
-                    icon.classList.remove('rotate-180');
-                }
-            });
-        });
-    }); // ✅ Close waitForPaddle
-}); // ✅ Close DOMContentLoaded
-</script>
+        }); // ✅ Close waitForPaddle
+    }); // ✅ Close DOMContentLoaded
+    </script>
     
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     
@@ -261,6 +264,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 </p>
             </div>
             <div>
+                <h2 class="feature-headline">🥰 Automatic Volume Discounts</h2>
+                <p class="feature-description">
+                    The more the merrier! If you license 4 or more devices we'll give you a 10% discount, and 20% off if you license 10+.
+                </p>
+            </div>
+            <div>
                 <h2 class="feature-headline">🚀 Try Before You Buy</h2>
                 <p class="feature-description">
                     Not sure if it's the right fit? We offer a free 7-day trial! Cancel before your trial period is up and you won't pay a thing - so give it a spin!
@@ -274,11 +283,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     Pricing That Makes Sense 🎭
                 </h2>
                 <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-12">
-                    We get it. Budgets are tight. That's why our 'Active License' model is built for how arts organisations really work. Cancel anytime, and never pay for scanners gathering dust in a drawer.
+                    We get it. Budgets are tight. That's why our 'Active License' model is built for maximum flexibility: cancel anytime, and never pay for scanners gathering dust in a drawer.
                 </p>
                 <div class="max-w-2xl mx-auto bg-gray-900 p-8 rounded-xl shadow-lg border-2 border-purple-400 ring-4 ring-purple-400/20">
                     <span class="text-sm font-bold uppercase text-purple-300 bg-purple-500/10 px-3 py-1 rounded-full mb-4 inline-block">Limited Time Offer</span>
-                    <h3 class="text-4xl font-bold text-white mb-4">Early Adopter pricing until October!</h3>
+                    <h3 class="text-4xl font-bold text-white mb-4">Early Adopter pricing until November!</h3>
                     <div class="mb-6">
                         <p class="text-5xl font-bold text-white mb-2">$18 <span class="text-2xl text-gray-400">USD</span></p>
                         <p class="text-lg text-gray-300 mb-1">or £13.50 / $22.50 CAD</p>
@@ -288,27 +297,22 @@ document.addEventListener("DOMContentLoaded", () => {
                         </p>
                     </div>
                     <a href="#purchase-section" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg text-xl inline-block mb-8">Get the Early Adopter Offer</a>
-                    <ul class="text-left text-gray-300 space-y-4 text-lg max-w-md mx-auto">
-                        <li class="flex items-start"><svg class="w-6 h-6 mr-3 text-green-400 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>One <strong>Active License</strong> for each concurrent device in use.</span></li>
-                        <li class="flex items-start"><svg class="w-6 h-6 mr-3 text-green-400 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span><strong>Automatic Volume Discounts:</strong> 10% off for 4-9 licenses & 20% off for 10+ licenses.</span></li>
-                        <li class="flex items-start"><svg class="w-6 h-6 mr-3 text-green-400 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>All the <span style="color: #97cc52;">Spektrix®</span> Scanning Interface features you know and love.</span></li>
-                        <li class="flex items-start"><svg class="w-6 h-6 mr-3 text-green-400 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>Responsive email support & easy-to-follow setup guide.</span></li>
-                    </ul>
+                
                 </div>
                 <div class="mt-16 pt-12 border-t border-gray-700">
                      <h3 class="text-3xl font-bold mb-8 text-gray-100">✨ How It Works For You (And Saves You Money) ✨</h3>
                      <div class="grid md:grid-cols-3 gap-8 text-left">
                          <div class="bg-gray-900/50 p-6 rounded-lg">
                              <h4 class="font-bold text-xl mb-2 text-purple-300">The Low-Cost Emergency Backup</h4>
-                             <p class="text-gray-400">You use one scanner but keep a spare tablet in case of issues. The screen on your primary device gets cracked ten minutes before doors open. No problem: log out on the broken device and log in on the backup. <strong class="text-gray-200">Because only one device is active at a time, you only need one license.</strong></p>
+                             <p class="text-gray-400">You use one scanner but keep a spare tablet in case of issues. The screen on your primary device gets cracked ten minutes before doors open. No problem: swap it out and log in on the backup. <strong class="text-gray-200">Because only one device is active at a time, you only need one license.</strong></p>
                          </div>
                          <div class="bg-gray-900/50 p-6 rounded-lg">
                              <h4 class="font-bold text-xl mb-2 text-purple-300">The Multi-Space Venue</h4>
-                             <p class="text-gray-400">You run two performances spaces, but never on the same night. Logistically you can't move your scanners between them constantly. Simply use your devices in Venue A on Friday, log out at end of night, then log in and use the exact same license in Venue B on Saturday. <strong class="text-gray-200">Pay per active scanner, not per location.</strong></p>
+                             <p class="text-gray-400">You run two performances spaces, but never on the same night. Logistically you can't move your scanners between them constantly. Simply use your devices in Venue A on Friday, then log in using the exact same license in Venue B on Saturday. <strong class="text-gray-200">Pay per active scanner, not per location.</strong></p>
                          </div>
                          <div class="bg-gray-900/50 p-6 rounded-lg">
                              <h4 class="font-bold text-xl mb-2 text-purple-300">The Summer Festival</h4>
-                             <p class="text-gray-400">Running a 3-week festival in July? Subscribe for just that month and cancel before the event is over. <strong class="text-gray-200">No long-term contracts mean you don't have money tied up in equipment you're not using during your dark months - and your access continues until the month is up.</strong></p>
+                             <p class="text-gray-400">Running a 3-week festival in July? Subscribe for just that month and cancel before the event is over. <strong class="text-gray-200">No long-term contract means you don't have money tied up in equipment you're not using while you're dark.</strong></p>
                          </div>
                      </div>
                 </div>
@@ -325,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="mb-6">
                     <label for="quantity-input" class="block mb-2 text-lg font-medium text-gray-200">Number of Licenses:</label>
                     <input type="number" id="quantity-input" value="1" min="1" class="bg-gray-700 border border-gray-600 text-white text-lg rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-3" placeholder="e.g., 4" required>
-                    <p id="price-feedback" class="text-gray-400 mt-2 text-sm">Regular price: $20.00 USD / £15 / $25 CAD per license/month.</p>
+                    <p id="price-feedback" class="text-gray-400 mt-2 text-sm">$20.00 USD total / month</p>
                 </div>
             
                 <div class="mb-8">
@@ -359,11 +363,11 @@ document.addEventListener("DOMContentLoaded", () => {
 				<br>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span class="text-xl font-semibold">💡 How does the 'Active License' thing actually work?</span>
+                        <span class="text-xl font-semibold">💡 How does the 'Active License' thing work?</span>
                         <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="faq-answer">
-                        It's simple! You just pay for each device that you need *actively logged in* at the same time. If you log out on one device and log in on another, that's covered by one license. It’s perfect for having backup devices without paying extra.
+                        It's simple! You just pay for each device that you need <i>actively logged in</i> at the same time. If you log out on one device and log in on another, that's covered by one license. It’s perfect for having backup devices without paying extra.
                     </div>
                 </div>
 				<br>
@@ -385,13 +389,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="faq-answer">
                         No, this application is an independent product developed by On the Latch. While it is fully compatible with your existing <span style="color: #97cc52;">Spektrix®</span> system, it is not affiliated with, endorsed by, or authorized by Spektrix Ltd.
 						<br><br>
-						(...and if <span style="color: #97cc52;">Spektrix®</span> decide to block the app from working, we may not be able to fix it. But please don't do that, <span style="color: #97cc52;">Spektrix®</span> - we're here because we love you. You're in the arts too - surely know how it feels to be broke and in love?)
+						(...and if <span style="color: #97cc52;">Spektrix®</span> decide to stop the app from working, we may not be able to fix it. But please don't do that, <span style="color: #97cc52;">Spektrix®</span> – we're here because we love you. You're in the arts too – surely know how it feels to be broke and in love?)
                     </div>
                 </div>
 				<br>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span class="text-xl font-semibold">🚀 How do I get my hands on the free trial?</span>
+                        <span class="text-xl font-semibold">💸 How do I get my hands on a free trial?</span>
                         <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="faq-answer">
