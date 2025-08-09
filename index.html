@@ -73,7 +73,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     function waitForPaddle(callback) {
         const interval = setInterval(() => {
-            if (window.Paddle && window.Paddle.Environment && window.Paddle.Checkout) {
+            if (window.Paddle && window.Paddle.Checkout) {
                 clearInterval(interval);
                 callback();
             }
@@ -81,9 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     waitForPaddle(() => {
-        Paddle.Environment.set('sandbox'); // Remove for production
         Paddle.Initialize({
-            token: 'test_29269ca6438ad989a04451ab6b0' // Replace with your live token
+            token: 'live_4a63457984e3bbc1ca5781073fd'
         });
 
         const purchaseButton = document.getElementById('purchase-button');
@@ -92,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const errorMsg = document.getElementById('validation-error');
         const priceFeedback = document.getElementById('price-feedback');
 
-        const basePrice = 15;
+        const basePrice = 18;
 
         if (purchaseButton) {
             purchaseButton.addEventListener('click', () => {
@@ -109,11 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 let priceId;
 
                 if (quantity >= 10) {
-                    priceId = 'pri_01jzhhq89fn4fkd2pwf7t1f85s';  // 10+ units
+                    priceId = 'pri_01jymrekzx06jjpm7kwkaz80sc';
                 } else if (quantity >= 4) {
-                    priceId = 'pri_01jzhhkj7ehqhac6w842pergxj';  // 4-9 units
+                    priceId = 'pri_01jymrbfdjk0ve16qeq6xgdang';
                 } else {
-                    priceId = 'pri_01jzhhgahv7zy2k7t7g703fc9b';  // 1-3 units
+                    priceId = 'pri_01jyg0wrx10vs0xa2f6kadpfg3';
                 }
 
                 Paddle.Checkout.open({
@@ -177,9 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }); // ✅ Close waitForPaddle
 }); // ✅ Close DOMContentLoaded
 </script>
-
-
-
     
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     
