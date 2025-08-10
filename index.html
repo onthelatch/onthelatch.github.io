@@ -91,22 +91,7 @@
             const errorMsg = document.getElementById('validation-error');
             const priceFeedback = document.getElementById('price-feedback');
 
-            // --- LOCALIZATION LOGIC ---
-            let basePrice = 20;
-            let currencySymbol = '$';
-            let currencyCode = 'USD';
-            const userLocale = navigator.language.toUpperCase();
-
-            if (userLocale.includes('GB')) {
-                basePrice = 15;
-                currencySymbol = '£';
-                currencyCode = 'GBP';
-            } else if (userLocale.includes('CA')) {
-                basePrice = 25;
-                currencySymbol = '$';
-                currencyCode = 'CAD';
-            }
-            // Default is USD, which is already set.
+            const basePrice = 20;
 
             if (purchaseButton) {
                 purchaseButton.addEventListener('click', () => {
@@ -143,12 +128,8 @@
             }
 
             if (quantityInput && priceFeedback) {
-                // Set the initial price on page load using detected currency
-                priceFeedback.textContent = `${currencySymbol}${basePrice.toFixed(2)} ${currencyCode} per license/month`;
-
                 quantityInput.addEventListener('input', (e) => {
                     const quantity = parseInt(e.target.value) || 1;
-                    // basePrice is now correctly localized
                     let finalPrice = basePrice * quantity;
                     let discountMessage = "";
 
@@ -160,7 +141,7 @@
                         discountMessage = " (10% discount applied!)";
                     }
 
-                    priceFeedback.textContent = `${currencySymbol}${finalPrice.toFixed(2)} ${currencyCode} total / month${discountMessage}`;
+                    priceFeedback.textContent = `$${finalPrice.toFixed(2)} USD total / month${discountMessage}`;
                 });
             }
 
@@ -255,7 +236,7 @@
             <div>
                 <h2 class="feature-headline">✨ Built by and for Arts Workers</h2>
                 <p class="feature-description">
-                    Developed and tested by a team with years of Front of House and Box Office experience. We use this app in our own venues, so it's designed for how things *actually* work on the ground.
+                    Developed and tested by a team with years of Front of House and Box Office experience. We've designed it specifically to suit our needs, and use it in our own venues.
                 </p>
             </div>
             <div>
@@ -273,7 +254,7 @@
             <div>
                 <h2 class="feature-headline">🛡️ Smart Redundancy, Without Overpaying</h2>
                 <p class="feature-description">
-                    Got a backup device just in case? With our 'Active License' model, you don't pay for it unless you're using it. If your main scanner goes down, just log out and log in on the backup. Simple.
+                    Got a backup device just in case? With our 'Active License' model, you don't pay for it unless you're using it. If your main scanner goes down, just log in on the backup. Simple.
                 </p>
             </div>
             <div>
@@ -283,15 +264,15 @@
                 </p>
             </div>
             <div>
-                <h2 class="feature-headline">🥰 Automatic Volume Discounts</h2>
+                <h2 class="feature-headline">❤️ Automatic Volume Discounts</h2>
                 <p class="feature-description">
-                    The more the merrier! If you license 4 or more devices we'll give you a 10% discount, and 20% off if you license 10+.
+                    The more the merrier! If you license 4 or more devices you'll get a 10% discount, increasing to 20% off if you license 10+.
                 </p>
             </div>
             <div>
                 <h2 class="feature-headline">🚀 Try Before You Buy</h2>
                 <p class="feature-description">
-                    Not sure if it's the right fit? We offer a free 7-day trial! Cancel before your trial period is up and you won't pay a thing - so give it a spin!
+                    Not sure if it's the right fit? We offer a free 7-day trial! Cancel before the trial period is up and you won't pay a thing.
                 </p>
             </div>
         </section>
@@ -306,11 +287,12 @@
                 </p>
                 <div class="max-w-2xl mx-auto bg-gray-900 p-8 rounded-xl shadow-lg border-2 border-purple-400 ring-4 ring-purple-400/20">
                     <span class="text-sm font-bold uppercase text-purple-300 bg-purple-500/10 px-3 py-1 rounded-full mb-4 inline-block">Limited Time Offer</span>
-                    <h3 class="text-4xl font-bold text-white mb-4">Early Adopter pricing until November!</h3>
+                    <h3 class="text-4xl font-bold text-white mb-4">Early Adopter pricing</h3>
+<span class="text-sm font-bold uppercase text-purple-300 bg-purple-500/10 px-3 py-1 rounded-full mb-4 inline-block">Subscribe before November</span>
                     <div class="mb-6">
                         <p class="text-5xl font-bold text-white mb-2">$18 <span class="text-2xl text-gray-400">USD</span></p>
                         <p class="text-lg text-gray-300 mb-1">or £13.50 / $22.50 CAD</p>
-                        <p class="text-md text-gray-500">(Local currency determined at checkout)</p>
+                        <p class="text-md text-gray-500">(Local currency determined at checkout; discount applied after trial ends)</p>
                         <p class="text-lg text-gray-500 mt-2">
                             <span class="line-through">$20 USD / £15 / $25 CAD</span> per active license/month
                         </p>
@@ -331,7 +313,7 @@
                          </div>
                          <div class="bg-gray-900/50 p-6 rounded-lg">
                              <h4 class="font-bold text-xl mb-2 text-purple-300">The Summer Festival</h4>
-                             <p class="text-gray-400">Running a 3-week festival in July? Subscribe for just that month and cancel before the event is over. <strong class="text-gray-200">No long-term contract means you don't have money tied up in equipment you're not using while you're dark.</strong></p>
+                             <p class="text-gray-400">Running a 3-week festival in July? Subscribe at the start of the month and cancel before the event is over. Your service will continue until the end of the period you paid for. <strong class="text-gray-200">No long-term contract means you don't have money tied up in equipment you're not using while you're dark.</strong></p>
                          </div>
                      </div>
                 </div>
@@ -347,13 +329,13 @@
             <div class="max-w-md mx-auto text-left bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700">
                 <div class="mb-6">
                     <label for="quantity-input" class="block mb-2 text-lg font-medium text-gray-200">Number of Licenses:</label>
-                    <input type="number" id="quantity-input" value="1" min="1" class="bg-gray-700 border border-gray-600 text-white text-lg rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-3" placeholder="e.g., 4" required>
-                    <p id="price-feedback" class="text-gray-400 mt-2 text-sm"></p>
+                    <input type="number" id="quantity-input" value="1" min="1" class="bg-gray-700 border border-gray-600 text-white text-lg rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-3" placeholder="e.g. 4" required>
+                    <p id="price-feedback" class="text-gray-400 mt-2 text-sm">$20.00 USD total / month</p>
                 </div>
             
                 <div class="mb-8">
                     <label for="client-id-input" class="block mb-2 text-lg font-medium text-gray-200">Spektrix Client ID:</label>
-                    <input type="text" id="client-id-input" class="bg-gray-700 border border-gray-600 text-white text-lg rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-3" placeholder="e.g., mytheatre" required>
+                    <input type="text" id="client-id-input" class="bg-gray-700 border border-gray-600 text-white text-lg rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-3" placeholder="e.g. mytheatre" required>
                 <p id="client-id-feedback" class="text-gray-400 mt-2 text-sm">Please ensure this is correct before proceeding!</p>
 				</div>
             
@@ -386,7 +368,7 @@
                         <svg class="w-6 h-6 text-indigo-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <div class="faq-answer">
-                        It's simple! You just pay for each device that you need <i>actively logged in</i> at the same time. If you log out on one device and log in on another, that's covered by one license. It’s perfect for having backup devices without paying extra.
+                        It's simple! You just pay for each device that you need <i>actively logged in</i> at the same time. If you log out on one device and log in on another, that's covered by a single license. It’s perfect for having backup devices without paying extra.
                     </div>
                 </div>
 				<br>
