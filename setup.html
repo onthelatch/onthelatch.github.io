@@ -18,16 +18,16 @@
             font-family: 'Inter', sans-serif;
         }
         .content-page h1 {
-            @apply text-4xl md:text-5xl font-bold mb-4 text-indigo-400;
+            @apply text-4xl md:text-5xl font-bold;
         }
         .content-page h2 {
-            @apply text-2xl font-semibold mt-10 mb-4 text-purple-300 border-b border-gray-700 pb-2;
+            @apply text-3xl font-semibold mt-12 mb-6 text-purple-300 border-b border-gray-700 pb-3;
         }
         .content-page p, .content-page ul {
-            @apply mb-4 leading-relaxed text-gray-300;
+            @apply mb-4 leading-relaxed text-gray-300 text-lg;
         }
         .content-page ul {
-            @apply list-disc pl-5;
+            @apply list-disc pl-6;
         }
         .content-page li {
             @apply mb-2;
@@ -39,7 +39,10 @@
             @apply text-white font-semibold;
         }
         .content-page .page-intro {
-            @apply text-lg text-gray-400 mb-12;
+            @apply text-xl text-gray-400 mb-12 text-center max-w-2xl mx-auto;
+        }
+        .content-page .step-number {
+            @apply text-indigo-400 font-bold;
         }
     </style>
 </head>
@@ -77,58 +80,60 @@
         </div>
     </nav>
 
-    <div class="container mx-auto px-6 py-12 md:py-16 max-w-3xl content-page">
+    <div class="container mx-auto px-6 py-12 md:py-16 max-w-4xl content-page">
         <div class="text-center mb-12">
-            <h1>Setup Guide</h1>
+            <h1 class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-600">Setup Guide</h1>
         </div>
 
-        <p class="page-intro">For basic scanning functionality, you only need to log into the app with an account that has <strong>Scanning User</strong> permissions in Spektrix. However, for full functionality, we'll need to set up a few other things.</p>
+        <p class="page-intro">For basic scanning functionality, you only need to log in with a Spektrix account that has <strong>Scanning User</strong> permissions. To unlock the app's full potential, follow the steps below.</p>
 
         <section>
-            <h2>User Permissions</h2>
-            <p>To use the attendee lists, scan reports, and group scanning features, your user account also needs <strong>Collect Report</strong> permissions. You can set this in the Spektrix Settings interface, under <strong>Users > User Accounts</strong>.</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/permissions.png" alt="Spektrix user roles with Scanning User and Collect Report checked" class="rounded-lg shadow-lg my-6 mx-auto block max-w-xs w-full">
+            <h2><span class="step-number">Step 1:</span> User Permissions</h2>
+            <p>To use attendee lists, scan reports, and group scanning, your user account also needs <strong>Collect Report</strong> permissions. You can set this in the Spektrix Settings interface, under <strong>Users > User Accounts</strong>.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/permissions.png" alt="Spektrix user roles with Scanning User and Collect Report checked" class="rounded-lg shadow-lg my-8 mx-auto block max-w-sm w-full">
         </section>
 
         <section>
-            <h2>Report Configuration</h2>
-            <p>The app's advanced features rely on a specific report. Go to the <strong>Insights and Mailings</strong> interface and set up a new <strong>Sales</strong> report named 'Ticket Scanning Report'.</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/addreport.png" alt="Creating a new sales report in Spektrix" class="rounded-lg shadow-lg my-6 mx-auto block">
+            <h2><span class="step-number">Step 2:</span> Report Configuration</h2>
+            <p>The app's advanced features rely on a specific report. Go to the <strong>Insights and Mailings</strong> interface and create a new <strong>Sales</strong> report named exactly 'Ticket Scanning Report'.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/addreport.png" alt="Creating a new sales report in Spektrix" class="rounded-lg shadow-lg my-8 mx-auto block">
             
-            <p class="mt-8">The criteria set should be named 'Today's sales'. It needs to search for tickets with the <strong>Seat Status</strong> of 'Sold' or 'Scanned', and the event's <strong>Start Date</strong> (under 'Event Instances') should be for 'Today'.</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/reportcriteria.png" alt="Report criteria showing Seat Status and Start Date" class="rounded-lg shadow-lg my-6 mx-auto block">
+            <p class="mt-8">The criteria set should be named 'Today's sales'. It needs to find tickets with the <strong>Seat Status</strong> of 'Sold' or 'Scanned', for events where the <strong>Start Date</strong> (under 'Event Instances') is 'Today'.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/reportcriteria.png" alt="Report criteria showing Seat Status and Start Date" class="rounded-lg shadow-lg my-8 mx-auto block">
 
-            <p class="mt-8">The report output columns must be configured exactly as follows:</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/reportoutput.png" alt="Required output columns for the report" class="rounded-lg shadow-lg my-6 mx-auto block">
+            <p class="mt-8">The report's output columns must be configured exactly as shown below.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/reportoutput.png" alt="Required output columns for the report" class="rounded-lg shadow-lg my-8 mx-auto block">
 
-            <p class="mt-8">These output columns can be found in the following categories:</p>
-            <ul>
-                <li><strong>Events:</strong> Duration, Event Name</li>
-                <li><strong>Event Instances:</strong> Event Date/Time, Event Instance ID, Seating Plan Web Name, Event Instance Capacity, Number Sold</li>
-                <li><strong>Seats:</strong> Area, Scanned</li>
-                <li><strong>Tickets/Reservations:</strong> Seat, Group Size, Ticket Attributes, Ticket Type, Barcode</li>
-                <li><strong>Customers:</strong> Owner ID, Owner First Name, Owner Last Name</li>
-            </ul>
+            <div class="bg-gray-800 p-6 rounded-lg my-8">
+                <h3 class="text-xl font-semibold text-white mb-4">Output Column Categories:</h3>
+                <ul>
+                    <li><strong>Events:</strong> Duration, Event Name</li>
+                    <li><strong>Event Instances:</strong> Event Date/Time, Event Instance ID, Seating Plan Web Name, Event Instance Capacity, Number Sold</li>
+                    <li><strong>Seats:</strong> Area, Scanned</li>
+                    <li><strong>Tickets/Reservations:</strong> Seat, Group Size, Ticket Attributes, Ticket Type, Barcode</li>
+                    <li><strong>Customers:</strong> Owner ID, Owner First Name, Owner Last Name</li>
+                </ul>
+            </div>
         </section>
 
         <section>
-            <h2>Report Schedule Setup</h2>
-            <p>Next, we need to give your user accounts access to this report. In the <strong>Insights & Mailings</strong> interface, click 'Report Schedules' and then 'Add' to create a new schedule.</p>
-            <p>Name it something memorable like 'Ticket Scanning app report', check the 'Run on demand' box, and proceed to the next step to add the report.</p>
-            <p>Select the 'Ticket Scanning Report' you just created, using the 'Today's events' criteria. In the delivery details, ensure the name is 'Ticket Scanning Report' and add the email addresses of all scanning user accounts, separated by commas. Deliver as a <strong>Link</strong> with a file format of <strong>CSV</strong>.</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/schedulereport.png" alt="Report schedule delivery details" class="rounded-lg shadow-lg my-6 mx-auto block">
+            <h2><span class="step-number">Step 3:</span> Report Schedule</h2>
+            <p>Next, give your user accounts access to this report. In <strong>Insights & Mailings</strong>, go to 'Report Schedules' and click 'Add'.</p>
+            <p>Name it something memorable (e.g., 'Ticket Scanning app report'), check the <strong>'Run on demand'</strong> box, and proceed to the next step to add your report.</p>
+            <p>Select the 'Ticket Scanning Report' with the 'Today's events' criteria. In the delivery details, name the report 'Ticket Scanning Report' and add the email addresses of all scanning users, separated by commas. Deliver as a <strong>Link</strong> with a <strong>CSV</strong> file format.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/schedulereport.png" alt="Report schedule delivery details" class="rounded-lg shadow-lg my-8 mx-auto block">
         </section>
 
         <section>
-            <h2>Access Notes Feature</h2>
-            <p>Finally, the 'Access Notes' feature requires a specific Ticket Attribute. In the <strong>Settings</strong> interface, under 'Attribute Definitions', click on 'Ticket' and add a new attribute called 'Accessibility Needs'.</p>
-            <p>For consistency, setting this up as a dropdown list is recommended. You can then define the specific notes your Front of House team will find most useful. Alternatively, you can use a text field, but a character limit is advised.</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/accessattribute.png" alt="Defining a ticket attribute for accessibility needs" class="rounded-lg shadow-lg my-6 mx-auto block">
-            <p class="mt-8">Once these steps are complete, you're ready to use all the features of the Ticket Scanner app!</p>
+            <h2><span class="step-number">Step 4:</span> Access Notes Attribute</h2>
+            <p>Finally, the 'Access Notes' feature requires a specific Ticket Attribute. In the <strong>Settings</strong> interface, under 'Attribute Definitions', click on 'Ticket' and add a new attribute named 'Accessibility Needs'.</p>
+            <p>We recommend setting this up as a <strong>dropdown list</strong> for consistency. You can then define the specific notes your Front of House team will find most useful. A text field will also work, but a character limit is advised.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/accessattribute.png" alt="Defining a ticket attribute for accessibility needs" class="rounded-lg shadow-lg my-8 mx-auto block">
+            <p class="mt-8 text-center text-xl text-green-400 font-bold">Once these steps are complete, you're ready to use all the features of the Ticket Scanner app!</p>
         </section>
 
 
-        <footer class="mt-16 text-center text-gray-500">
+        <footer class="mt-24 text-center text-gray-500">
             <p>&copy; 2025 On the Latch. All rights reserved.</p>
             <p class="mt-2 text-sm">
                 <a href="eula.html" class="text-indigo-400 hover:text-indigo-300 mx-2">End-User License Agreement</a> | 
