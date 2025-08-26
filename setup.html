@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Guide - On the Latch</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎟️</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .content-page h1 {
+            @apply text-4xl md:text-5xl font-bold mb-4 text-indigo-400;
+        }
+        .content-page h2 {
+            @apply text-2xl font-semibold mt-10 mb-4 text-purple-300 border-b border-gray-700 pb-2;
+        }
+        .content-page p, .content-page ul {
+            @apply mb-4 leading-relaxed text-gray-300;
+        }
+        .content-page ul {
+            @apply list-disc pl-5;
+        }
+        .content-page li {
+            @apply mb-2;
+        }
+        .content-page a {
+            @apply text-indigo-400 hover:text-indigo-300 font-medium;
+        }
+        .content-page strong {
+            @apply text-white font-semibold;
+        }
+        .content-page .page-intro {
+            @apply text-lg text-gray-400 mb-12;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white antialiased">
+
+    <nav class="bg-gray-800 p-4 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center max-w-4xl">
+            <a href="index.html" class="text-2xl font-bold text-indigo-400 hover:text-purple-300 transition-colors duration-200">On the Latch</a>
+            
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                    <svg id="menu-open-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                    <svg id="menu-close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="features.html" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">Features</a>
+                <a href="setup.html" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">Setup</a>
+                <a href="index.html#pricing-section" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">Pricing</a>
+                <a href="index.html#purchase-section" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">Purchase</a>
+                <a href="index.html#faq-section" class="text-gray-300 hover:text-white transition-colors duration-200 font-medium">FAQ</a>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden mt-4">
+            <a href="features.html" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Features</a>
+            <a href="setup.html" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Setup</a>
+            <a href="index.html#pricing-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Pricing</a>
+            <a href="index.html#purchase-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Purchase</a>
+            <a href="index.html#faq-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">FAQ</a>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-6 py-12 md:py-16 max-w-3xl content-page">
+        <div class="text-center mb-12">
+            <h1>Setup Guide</h1>
+        </div>
+
+        <p class="page-intro">For basic scanning functionality, you only need to log into the app with an account that has <strong>Scanning User</strong> permissions in Spektrix. However, for full functionality, we'll need to set up a few other things.</p>
+
+        <section>
+            <h2>User Permissions</h2>
+            <p>To use the attendee lists, scan reports, and group scanning features, your user account also needs <strong>Collect Report</strong> permissions. You can set this in the Spektrix Settings interface, under <strong>Users > User Accounts</strong>.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/permissions.png" alt="Spektrix user roles with Scanning User and Collect Report checked" class="rounded-lg shadow-lg my-6 mx-auto block max-w-xs w-full">
+        </section>
+
+        <section>
+            <h2>Report Configuration</h2>
+            <p>The app's advanced features rely on a specific report. Go to the <strong>Insights and Mailings</strong> interface and set up a new <strong>Sales</strong> report named 'Ticket Scanning Report'.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/addreport.png" alt="Creating a new sales report in Spektrix" class="rounded-lg shadow-lg my-6 mx-auto block">
+            
+            <p class="mt-8">The criteria set should be named 'Today's sales'. It needs to search for tickets with the <strong>Seat Status</strong> of 'Sold' or 'Scanned', and the event's <strong>Start Date</strong> (under 'Event Instances') should be for 'Today'.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/reportcriteria.png" alt="Report criteria showing Seat Status and Start Date" class="rounded-lg shadow-lg my-6 mx-auto block">
+
+            <p class="mt-8">The report output columns must be configured exactly as follows:</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/reportoutput.png" alt="Required output columns for the report" class="rounded-lg shadow-lg my-6 mx-auto block">
+
+            <p class="mt-8">These output columns can be found in the following categories:</p>
+            <ul>
+                <li><strong>Events:</strong> Duration, Event Name</li>
+                <li><strong>Event Instances:</strong> Event Date/Time, Event Instance ID, Seating Plan Web Name, Event Instance Capacity, Number Sold</li>
+                <li><strong>Seats:</strong> Area, Scanned</li>
+                <li><strong>Tickets/Reservations:</strong> Seat, Group Size, Ticket Attributes, Ticket Type, Barcode</li>
+                <li><strong>Customers:</strong> Owner ID, Owner First Name, Owner Last Name</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Report Schedule Setup</h2>
+            <p>Next, we need to give your user accounts access to this report. In the <strong>Insights & Mailings</strong> interface, click 'Report Schedules' and then 'Add' to create a new schedule.</p>
+            <p>Name it something memorable like 'Ticket Scanning app report', check the 'Run on demand' box, and proceed to the next step to add the report.</p>
+            <p>Select the 'Ticket Scanning Report' you just created, using the 'Today's events' criteria. In the delivery details, ensure the name is 'Ticket Scanning Report' and add the email addresses of all scanning user accounts, separated by commas. Deliver as a <strong>Link</strong> with a file format of <strong>CSV</strong>.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/schedulereport.png" alt="Report schedule delivery details" class="rounded-lg shadow-lg my-6 mx-auto block">
+        </section>
+
+        <section>
+            <h2>Access Notes Feature</h2>
+            <p>Finally, the 'Access Notes' feature requires a specific Ticket Attribute. In the <strong>Settings</strong> interface, under 'Attribute Definitions', click on 'Ticket' and add a new attribute called 'Accessibility Needs'.</p>
+            <p>For consistency, setting this up as a dropdown list is recommended. You can then define the specific notes your Front of House team will find most useful. Alternatively, you can use a text field, but a character limit is advised.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/accessattribute.png" alt="Defining a ticket attribute for accessibility needs" class="rounded-lg shadow-lg my-6 mx-auto block">
+            <p class="mt-8">Once these steps are complete, you're ready to use all the features of the Ticket Scanner app!</p>
+        </section>
+
+
+        <footer class="mt-16 text-center text-gray-500">
+            <p>&copy; 2025 On the Latch. All rights reserved.</p>
+            <p class="mt-2 text-sm">
+                <a href="eula.html" class="text-indigo-400 hover:text-indigo-300 mx-2">End-User License Agreement</a> | 
+                <a href="terms.html" class="text-indigo-400 hover:text-indigo-300 mx-2">Terms of Service</a> | 
+                <a href="privacy.html" class="text-indigo-400 hover:text-indigo-300 mx-2">Privacy Policy</a>
+            </p>
+            <p class="mt-4 text-sm text-gray-600">
+                <span style="color: #97cc52;">Spektrix®</span> is a registered trademark of Spektrix Ltd. Android™ is a trademark of Google LLC. This application is an independent product developed by On the Latch and is not affiliated with, endorsed by, or authorized by <span style="color: #97cc52;">Spektrix®</span> Ltd. or Google LLC.
+            </p>
+        </footer>
+    </div>
+    <script>
+        // Simple script for mobile menu
+        document.addEventListener("DOMContentLoaded", () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuOpenIcon = document.getElementById('menu-open-icon');
+            const menuCloseIcon = document.getElementById('menu-close-icon');
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    menuOpenIcon.classList.toggle('hidden');
+                    menuCloseIcon.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
