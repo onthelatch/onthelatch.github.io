@@ -17,27 +17,12 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        .content-page h1 {
-            @apply text-4xl md:text-5xl font-bold mb-4 text-indigo-400;
-        }
-        .content-page h2 {
-            @apply text-2xl font-semibold mt-10 mb-4 text-purple-300 border-b border-gray-700 pb-2;
-        }
-        .content-page p {
-            @apply mb-4 leading-relaxed text-gray-300 max-w-2xl;
-        }
-        .content-page a {
-            @apply text-indigo-400 hover:text-indigo-300 font-medium;
-        }
-        .content-page .page-intro {
-            @apply text-lg text-gray-400 mb-12 text-center;
-        }
     </style>
 </head>
 <body class="bg-gray-900 text-white antialiased">
 
     <nav class="bg-gray-800 p-4 sticky top-0 z-50 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center max-w-4xl">
+        <div class="container mx-auto flex justify-between items-center max-w-5xl">
             <a href="index.html" class="text-2xl font-bold text-indigo-400 hover:text-purple-300 transition-colors duration-200">On the Latch</a>
             
             <div class="md:hidden">
@@ -68,48 +53,54 @@
         </div>
     </nav>
 
-    <div class="container mx-auto px-6 py-12 md:py-16 max-w-3xl content-page">
-        <div class="text-center mb-12">
-            <h1>App Features</h1>
+    <div class="container mx-auto px-6 py-12 md:py-16 max-w-5xl">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-600">
+                Features
+            </h1>
         </div>
 
-        <section>
-            <h2>Scan</h2>
-            <p>Scan tickets or digital passes quickly and with ease using the camera on your Android device.</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/appoverview.png" alt="App main menu overview" class="rounded-lg shadow-lg my-6 mx-auto block max-w-sm w-full">
-        </section>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
 
-        <section>
-            <h2>Scan Report</h2>
-            <p>Get all the information you need about capacities and scan counts at a glance in the Scan Report.</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/scanreport.png" alt="Scan report showing percentages for multiple shows" class="rounded-lg shadow-lg my-6 mx-auto block max-w-sm w-full">
-        </section>
-        
-        <section>
-            <h2>Attendee List</h2>
-            <p>Patron lost their ticket? Look them up by name or seat number on the door, and manually admit them without needing to visit the Box Office for a reprint.</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/attendeelist.png" alt="Attendee list with search and manual scan buttons" class="rounded-lg shadow-lg my-6 mx-auto block max-w-sm w-full">
-        </section>
+            <div class="flex flex-col items-center text-center">
+                <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/appoverview.png" alt="App main menu overview" class="rounded-lg shadow-lg mb-4 max-w-xs w-full">
+                <h2 class="text-2xl font-bold text-purple-300 mb-2">Scan</h2>
+                <p class="text-gray-300">Scan tickets or digital passes quickly and with ease using the camera on your Android device.</p>
+            </div>
 
-        <section>
-            <h2>Access Notes</h2>
-            <p>Powered by Ticket Attributes, give your team the information they need to ensure patrons with accessibility needs are anticipated and prepared for.</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/accessnotes.png" alt="Access notes for different patrons" class="rounded-lg shadow-lg my-6 mx-auto block max-w-sm w-full">
-        </section>
+            <div class="flex flex-col items-center text-center">
+                <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/scanreport.png" alt="Scan report showing percentages for multiple shows" class="rounded-lg shadow-lg mb-4 max-w-xs w-full">
+                <h2 class="text-2xl font-bold text-purple-300 mb-2">Scan Report</h2>
+                <p class="text-gray-300">Get all the information you need about capacities and scan counts at a glance in the Scan Report.</p>
+            </div>
 
-        <section>
-            <h2>Group Scan Mode</h2>
-            <p>Enable Group Scan mode to automatically scan all tickets in a group just from one ticket!</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/groupscan.png" alt="Group Scan confirmation dialog" class="rounded-lg shadow-lg my-6 mx-auto block max-w-sm w-full">
-        </section>
+            <div class="flex flex-col items-center text-center">
+                <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/attendeelist.png" alt="Attendee list with search and manual scan buttons" class="rounded-lg shadow-lg mb-4 max-w-xs w-full">
+                <h2 class="text-2xl font-bold text-purple-300 mb-2">Attendee List</h2>
+                <p class="text-gray-300">Patron lost their ticket? Look them up by name or seat number on the door and manually admit them without needing to visit the Box Office for a reprint.</p>
+            </div>
 
-        <section>
-            <h2>Scan Speed</h2>
-            <p>Scanning speed can be adjusted to suit your ushers and to match their comfort-level.</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/scanspeed.png" alt="Scan speed selection dialog" class="rounded-lg shadow-lg my-6 mx-auto block max-w-sm w-full">
-        </section>
+            <div class="flex flex-col items-center text-center">
+                <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/accessnotes.png" alt="Access notes for different patrons" class="rounded-lg shadow-lg mb-4 max-w-xs w-full">
+                <h2 class="text-2xl font-bold text-purple-300 mb-2">Access Notes</h2>
+                <p class="text-gray-300">Powered by Ticket Attributes, give your team the information they need to ensure patrons with accessibility needs are anticipated and prepared for.</p>
+            </div>
 
-        <footer class="mt-16 text-center text-gray-500">
+            <div class="flex flex-col items-center text-center">
+                <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/groupscan.png" alt="Group Scan confirmation dialog" class="rounded-lg shadow-lg mb-4 max-w-xs w-full">
+                <h2 class="text-2xl font-bold text-purple-300 mb-2">Group Scan Mode</h2>
+                <p class="text-gray-300">Enable Group Scan mode to automatically scan all tickets in a group from just one ticket!</p>
+            </div>
+
+            <div class="flex flex-col items-center text-center">
+                <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/scanspeed.png" alt="Scan speed selection dialog" class="rounded-lg shadow-lg mb-4 max-w-xs w-full">
+                <h2 class="text-2xl font-bold text-purple-300 mb-2">Scan Speed</h2>
+                <p class="text-gray-300">Scanning speed can be adjusted to suit your ushers and match their comfort level.</p>
+            </div>
+
+        </div>
+
+        <footer class="mt-24 text-center text-gray-500">
             <p>&copy; 2025 On the Latch. All rights reserved.</p>
             <p class="mt-2 text-sm">
                 <a href="eula.html" class="text-indigo-400 hover:text-indigo-300 mx-2">End-User License Agreement</a> | 
