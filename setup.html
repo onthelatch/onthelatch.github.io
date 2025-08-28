@@ -78,7 +78,7 @@
             </h1>
         </div>
 
-        <p class="page-intro">For basic scanning functionality, you only need to log in with a Spektrix account that has <strong>Scanning User</strong> permissions. To unlock the app's full potential, follow the steps below.</p><br>
+        <p class="page-intro">For basic scanning functionality, you only need to log in with a Spektrix account that has <strong>Scanning User</strong> permissions. To unlock the full potential of the app, follow the steps below.</p><br>
 
         <section class="mb-12">
             <h2 class="text-2xl font-bold text-purple-300 mb-4">User Permissions</h2>
@@ -88,13 +88,13 @@
 
         <section class="mb-12">
             <h2 class="text-2xl font-bold text-purple-300 mb-4">Report Configuration</h2>
-            <p>The app's advanced features rely on a specific report. Go to the <strong>Insights and Mailings</strong> interface and create a new <strong>Sales</strong> report named exactly 'Ticket Scanning Report'.</p>
+            <p>The app's advanced features rely on a specific report. Go to the <strong>Insights & Mailings</strong> interface and create a new <strong>Sales</strong> report named 'Ticket Scanning Report':</p>
             <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/addreport.png" alt="Creating a new sales report in Spektrix" class="rounded-lg shadow-lg my-8 mx-auto block">
             
             <p class="mt-8">The criteria set should be named 'Today's sales'. It needs to find tickets with the <strong>Seat Status</strong> of 'Sold' or 'Scanned', for events where the <strong>Start Date</strong> (under 'Event Instances') is 'Today'.</p>
             <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/reportcriteria.png" alt="Report criteria showing Seat Status and Start Date" class="rounded-lg shadow-lg my-8 mx-auto block">
 
-            <p class="mt-8">The report's output columns must be configured exactly as shown below.</p>
+            <p class="mt-8">The report's output columns must include the same as shown below:</p>
             <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/reportoutput.png" alt="Required output columns for the report" class="rounded-lg shadow-lg my-8 mx-auto block">
 
             <div class="bg-gray-800 p-6 rounded-lg my-8">
@@ -111,20 +111,22 @@
 
         <section class="mb-12">
             <h2 class="text-2xl font-bold text-purple-300 mb-4">Report Schedule</h2>
-            <p>Next, give your user accounts access to this report. In <strong>Insights & Mailings</strong>, go to 'Report Schedules' and click 'Add'.</p>
-            <p>Name it something memorable (e.g., 'Ticket Scanning app report'), check the <strong>'Run on demand'</strong> box, and proceed to the next step to add your report.</p>
-            <p>Select the 'Ticket Scanning Report' with the 'Today's events' criteria. In the delivery details, name the report 'Ticket Scanning Report' and add the email addresses of all scanning users, separated by commas. Deliver as a <strong>Link</strong> with a <strong>CSV</strong> file format.</p>
+            <p>Next, give your user accounts access to this report. In <strong>Insights & Mailings</strong>, go to 'Report Schedules' and click 'Add'.</p><br>
+            <p>Choose our 'Ticket Sales Report' with the 'Today's sales' criteria. Name it something memorable (e.g., 'Ticket Scanning Report'). Make sure the schedule is active, and check the <strong>'Run on demand'</strong> box. Everything else can remain unchanged. Proceed to the next step to add your report.</p><br>
+            <p>In the Delivery Details, name it 'Ticket Scanning Report', and add the email addresses of all the user accounts you'll have logging into the app separated by commas. Set to deliver as a <strong>Link</strong> in <strong>CSV</strong> format. Click 'Next' and then 'Ok', and then 'Ok' again to add the report schedule.</p><br>
             <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/schedulereport.png" alt="Report schedule delivery details" class="rounded-lg shadow-lg my-8 mx-auto block">
         </section>
 
         <section class="mb-12">
             <h2 class="text-2xl font-bold text-purple-300 mb-4">Access Notes Attribute</h2>
-            <p>Finally, the 'Access Notes' feature requires a specific Ticket Attribute. In the <strong>Settings</strong> interface, under 'Attribute Definitions', click on 'Ticket' and add a new attribute named 'Accessibility Needs'.</p>
+            <p>Finally, the 'Access Notes' feature requires a specific Ticket Attribute. In the <strong>Settings</strong> interface, under 'Attribute Definitions', click on 'Ticket' and add a new attribute named 'Accessibility Needs'.</p><br>
             <p>We recommend setting this up as a <strong>dropdown list</strong> for consistency. You can then define the specific notes your Front of House team will find most useful. A text field will also work, but a character limit is advised.</p>
-            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/accessattribute.png" alt="Defining a ticket attribute for accessibility needs" class="rounded-lg shadow-lg my-8 mx-auto block">
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/accessattribute.png" alt="Defining a ticket attribute for accessibility needs" class="rounded-lg shadow-lg my-8 mx-auto block"><br>
+            
+            <p>You'll need to instruct your Box Office team to add an attribute when an access ticket is booked. They can select the tickets in the <strong>Sales</strong> Interface, then click 'Ticket attributes' from the 'Reserve' dropdown menu.</p><br>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/ticketattribute.png" alt="Setting a ticket attribute for accessibility needs" class="rounded-lg shadow-lg my-8 mx-auto block">
             <p class="mt-8 text-center text-xl text-green-400 font-bold">Once these steps are complete, you're ready to use all the features of the Ticket Scanner app!</p>
         </section>
-
 
         <footer class="mt-24 text-center text-gray-500">
             <p>&copy; 2025 On the Latch. All rights reserved.</p>
