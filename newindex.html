@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Scanner App for Android</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎟️</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Using Inter as a solid replacement for the custom fonts on Bvckup2 */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1c1e; /* Dark background similar to Bvckup2 */
+            color: #e0e0e0;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Custom styles inspired by Bvckup2 */
+        .x-button {
+            display: inline-block;
+            height: 34px;
+            line-height: 34px;
+            padding: 0 30px;
+            background-color: #0e88d5; /* Bvckup2 blue */
+            color: white;
+            text-align: center;
+            font-weight: 600;
+            border-radius: 2px;
+            border: 1px solid #0a6ca9;
+            transition: all 150ms ease-in-out;
+            text-decoration: none;
+        }
+        .x-button:hover {
+            background-color: #1098f0;
+            text-decoration: none;
+        }
+        .x-button-purchase {
+            background-color: #444;
+            border-color: #222;
+        }
+        .x-button-purchase:hover {
+             background-color: #555;
+        }
+        .dotline {
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-image: repeating-linear-gradient(to right, #444 0, #444 1px, transparent 1px, transparent 4px);
+            margin: 64px 0;
+        }
+
+        /* FAQ specific styles */
+        .faq-item {
+            border-bottom: 1px solid #333;
+            padding: 1rem 0;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: #e0e0e0;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            color: #a0a0a0;
+            padding-top: 0.5rem;
+        }
+        .faq-answer.show {
+            max-height: 200px; /* Adjust as needed */
+            transition: max-height 0.3s ease-in;
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        .toggle-icon.rotate-180 {
+            transform: rotate(180deg);
+        }
+        .spektrix-green {
+            color: #97cc52;
+        }
+        .sup-tm {
+            font-size: 0.6em; /* Smaller font size */
+            top: -0.5em; /* Fine-tune vertical position */
+            position: relative;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        .animate-bounce-slow {
+            animation: bounce 2s infinite;
+        }
+    </style>
+    
+   <script>
+    // All JS remains the same as your original file
+    document.addEventListener("DOMContentLoaded", () => {
+        function waitForPaddle(callback) {
+            const interval = setInterval(() => {
+                if (window.Paddle && window.Paddle.Checkout) {
+                    clearInterval(interval);
+                    callback();
+                }
+            }, 100);
+        }
+
+        waitForPaddle(() => {
+            Paddle.Initialize({
+                token: 'live_4a63457984e3bbc1ca5781073fd'
+            });
+
+            const purchaseButton = document.getElementById('purchase-button');
+            const quantityInput = document.getElementById('quantity-input');
+            const clientIdInput = document.getElementById('client-id-input');
+            const errorMsg = document.getElementById('validation-error');
+            const priceFeedback = document.getElementById('price-feedback');
+
+            const basePrice = 20;
+
+            if (purchaseButton) {
+                purchaseButton.addEventListener('click', () => {
+                    const quantity = parseInt(quantityInput.value) || 1;
+                    const clientId = clientIdInput.value.trim();
+
+                    if (quantity < 1 || !clientId) {
+                        errorMsg.classList.remove('hidden');
+                        return;
+                    }
+
+                    errorMsg.classList.add('hidden');
+
+                    let priceId;
+
+                    if (quantity >= 10) {
+                        priceId = 'pri_01jymrekzx06jjpm7kwkaz80sc'; // Corresponds to 20% discount
+                    } else if (quantity >= 4) {
+                        priceId = 'pri_01jymrbfdjk0ve16qeq6xgdang'; // Corresponds to 10% discount
+                    } else {
+                        priceId = 'pri_01jyg0wrx10vs0xa2f6kadpfg3'; // Base price
+                    }
+
+                    Paddle.Checkout.open({
+                        items: [{
+                            priceId: priceId,
+                            quantity: quantity
+                        }],
+                        customData: {
+                            spektrixClientId: clientId
+                        }
+                    });
+                });
+            }
+
+            if (quantityInput && priceFeedback) {
+                quantityInput.addEventListener('input', (e) => {
+                    const quantity = parseInt(e.target.value) || 1;
+                    let finalPrice = basePrice * quantity;
+                    let discountMessage = "";
+
+                    if (quantity >= 10) {
+                        finalPrice *= 0.80; // Apply 20% discount
+                        discountMessage = " (20% discount applied!)";
+                    } else if (quantity >= 4) {
+                        finalPrice *= 0.90; // Apply 10% discount
+                        discountMessage = " (10% discount applied!)";
+                    }
+
+                    priceFeedback.textContent = `$${finalPrice.toFixed(2)} USD total / month${discountMessage}`;
+                });
+            }
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuOpenIcon = document.getElementById('menu-open-icon');
+            const menuCloseIcon = document.getElementById('menu-close-icon');
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    menuOpenIcon.classList.toggle('hidden');
+                    menuCloseIcon.classList.toggle('hidden');
+                });
+            }
+
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                const icon = item.querySelector('.toggle-icon');
+
+                question.addEventListener('click', () => {
+                    const isVisible = answer.classList.contains('show');
+
+                    if (!isVisible) {
+                        answer.classList.add('show');
+                        icon.classList.add('rotate-180');
+                    } else {
+                        answer.classList.remove('show');
+                        icon.classList.remove('rotate-180');
+                    }
+                });
+            });
+        });
+    });
+    </script>
+    
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+    
+</head>
+<body class="bg-gray-900 text-white antialiased">
+
+    <nav class="bg-gray-800 p-3 sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto flex justify-between items-center max-w-4xl">
+            <a href="index.html" class="text-xl font-bold text-gray-200 hover:text-white transition-colors duration-200">On the Latch</a>
+            
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                    <svg id="menu-open-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                    <svg id="menu-close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="hidden md:flex space-x-4 text-xs font-semibold uppercase tracking-wider">
+                <a href="https://play.google.com/store/apps/details?id=com.onthelatch.ticketscanner" target="_blank" class="text-blue-400 hover:text-blue-300 border-b-2 border-transparent hover:border-blue-300 transition-all duration-200 pb-1">Download</a>
+                <a href="#features-section" class="text-gray-400 hover:text-white border-b-2 border-transparent hover:border-white transition-all duration-200 pb-1">Features</a>
+                <a href="#pricing-section" class="text-gray-400 hover:text-white border-b-2 border-transparent hover:border-white transition-all duration-200 pb-1">Pricing</a>
+                <a href="#purchase-section" class="text-gray-400 hover:text-white border-b-2 border-transparent hover:border-white transition-all duration-200 pb-1">Purchase</a>
+                <a href="#setup-section" class="text-gray-400 hover:text-white border-b-2 border-transparent hover:border-white transition-all duration-200 pb-1">Setup</a>
+                <a href="#faq-section" class="text-gray-400 hover:text-white border-b-2 border-transparent hover:border-white transition-all duration-200 pb-1">FAQ</a>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden mt-4">
+            <a href="https://play.google.com/store/apps/details?id=com.onthelatch.ticketscanner" target="_blank" class="block py-2 px-4 text-sm text-blue-400 hover:bg-gray-700 rounded">Download</a>
+            <a href="#features-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Features</a>
+            <a href="#pricing-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Pricing</a>
+            <a href="#purchase-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Purchase</a>
+            <a href="#setup-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Setup</a>
+            <a href="#faq-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">FAQ</a>
+        </div>
+    </nav>
+
+    <div id="download-section" class="container mx-auto px-6 py-16 md:py-24 max-w-4xl text-center">
+        <h1 class="text-4xl md:text-5xl font-light leading-tight mb-6 text-gray-100">
+            The <strong class="font-semibold text-white spektrix-green"><span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span></strong>-compatible Ticket Scanner App 🎟️
+        </h1>
+        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+            Scan tickets without the drama. Our app is a fast, reliable, and affordable solution for <span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> users, running on the Android™ devices you already own.
+        </p>
+        
+        <div class="mb-12">
+            <a href="https://play.google.com/store/apps/details?id=com.onthelatch.ticketscanner" target="_blank">
+                <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/googleplaybutton.png" alt="Get it on Google Play" class="h-12 mx-auto w-auto">
+            </a>
+        </div>
+
+        <p class="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto mt-12">
+            Can your scanners do this?
+        </p>
+        <div class="mt-4">
+            <a href="#features-section" class="inline-block animate-bounce-slow">
+                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </a>
+        </div>
+    </div>
+    
+    <div id="features-section" class="bg-gray-800 py-20">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <h2 class="text-3xl md:text-4xl font-light mb-16 text-center text-gray-100"><strong class="font-semibold text-white">Features</strong> at a glance</h2>
+
+            <div class="space-y-12">
+                <div class="grid md:grid-cols-2 gap-12 items-start">
+                    <div class="flex flex-col items-center text-center md:text-left">
+                        <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/scanreport2.png" alt="Scan Report Screenshot" class="mb-6 w-full max-w-sm rounded-lg shadow-lg border border-gray-700">
+                        <h3 class="text-2xl font-semibold text-gray-200 mb-2">Scan & Scan Report</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            Scan tickets or digital passes quickly using your device's camera. Get all the information you need about capacities and scan counts at a glance in the Scan Report.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center text-center md:text-left">
+                        <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/attendeelist2.png" alt="Attendee List Screenshot" class="mb-6 w-full max-w-sm rounded-lg shadow-lg border border-gray-700">
+                        <h3 class="text-2xl font-semibold text-gray-200 mb-2">Attendee List</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            Patron lost their ticket? Look them up by name or seat number on the door and manually admit them without needing to visit the Box Office for a reprint.
+                        </p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-start mt-12">
+                    <div class="flex flex-col items-center text-center md:text-left">
+                        <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/accessnotes2.png" alt="Access Notes Screenshot" class="mb-6 w-full max-w-sm rounded-lg shadow-lg border border-gray-700">
+                        <h3 class="text-2xl font-semibold text-gray-200 mb-2">Access Notes</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                             Powered by Ticket Attributes, give your team the information they need to ensure patrons with accessibility needs are anticipated and prepared for.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center text-center md:text-left">
+                        <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/groupscan2.png" alt="Group Scan Screenshot" class="mb-6 w-full max-w-sm rounded-lg shadow-lg border border-gray-700">
+                        <h3 class="text-2xl font-semibold text-gray-200 mb-2">Group Scan & Scan Speed</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            Enable Group Scan mode to admit all party members from a single ticket. Scanning speed can also be adjusted to suit your ushers.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="pricing-section" class="py-20 md:py-24">
+        <div class="container mx-auto px-6 max-w-4xl text-center">
+            <h2 class="text-3xl md:text-4xl font-light mb-6 text-gray-100">
+                <strong class="font-semibold text-white">Pricing</strong> That Makes Sense
+            </h2>
+            <p class="text-lg text-gray-400 max-w-3xl mx-auto mb-12">
+                Our 'Active License' model is built for flexibility: cancel anytime, and never pay for scanners gathering dust in a drawer. Discounts are applied automatically for multiple licenses.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-12">
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 flex flex-col">
+                    <h3 class="text-2xl font-bold text-gray-300 mb-2">Studio</h3>
+                    <p class="text-gray-500 mb-4 font-semibold">1-3 Licenses</p>
+                    <div class="my-4">
+                        <p class="text-4xl font-bold text-white">$20 <span class="text-xl text-gray-400">USD</span></p>
+                    </div>
+                    <p class="text-gray-500 text-sm mt-auto">Per active device, per month.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border-2 border-blue-500 flex flex-col">
+                    <h3 class="text-2xl font-bold text-blue-400 mb-2">Mainstage</h3>
+                    <p class="text-gray-500 mb-4 font-semibold">4-9 Licenses</p>
+                    <div class="my-4">
+                        <p class="text-4xl font-bold text-white">$18 <span class="text-xl text-gray-400">USD</span></p>
+                    </div>
+                    <p class="text-gray-200 font-bold text-lg">10% OFF</p>
+                    <p class="text-gray-500 text-sm mt-auto">Per active device, per month.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 flex flex-col">
+                    <h3 class="text-2xl font-bold text-gray-300 mb-2">Festival</h3>
+                    <p class="text-gray-500 mb-4 font-semibold">10+ Licenses</p>
+                    <div class="my-4">
+                        <p class="text-4xl font-bold text-white">$16 <span class="text-xl text-gray-400">USD</span></p>
+                    </div>
+                    <p class="text-gray-200 font-bold text-lg">20% OFF</p>
+                    <p class="text-gray-500 text-sm mt-auto">Per active device, per month.</p>
+                </div>
+            </div>
+            <p class="text-gray-400 text-sm mt-4">Local pricing will be applied at checkout. Base price for a single license: $20 USD / $28 CAD / £15 GBP.</p>
+        </div>
+    </section>
+    
+    <div id="purchase-section" class="bg-gray-800 py-20">
+        <section class="container mx-auto px-6 max-w-xl text-center">
+            <h2 class="text-3xl md:text-4xl font-light mb-4 text-gray-100">Get <strong class="font-semibold text-white">Started</strong> 🎭</h2>
+            <p class="text-lg text-gray-400 mb-8">
+                All plans start with a free 7-day trial.
+            </p>
+            
+            <div class="max-w-md mx-auto text-left bg-gray-900 p-8 rounded-lg border border-gray-700">
+                <div class="mb-6">
+                    <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-300">Number of Licenses:</label>
+                    <input type="number" id="quantity-input" value="1" min="1" class="bg-gray-800 border border-gray-600 text-white text-md rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                    <p id="price-feedback" class="text-gray-400 mt-2 text-xs">$20.00 USD total / month</p>
+                </div>
+            
+                <div class="mb-8">
+                    <label for="client-id-input" class="block mb-2 text-sm font-medium text-gray-300"><span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> Client ID:</label>
+                    <input type="text" id="client-id-input" class="bg-gray-800 border border-gray-600 text-white text-md rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="e.g. mytheatre" required>
+                    <p class="text-gray-400 mt-2 text-xs">Please ensure this is correct before proceeding!</p>
+                </div>
+            
+                <button id="purchase-button" class="w-full x-button text-lg x-button-purchase">
+                    Proceed to Checkout
+                </button>
+                <p id="validation-error" class="text-red-400 mt-4 text-center hidden text-sm">Please fill in all fields.</p>
+            </div>
+        </section>
+    </div>
+
+    <div id="setup-section" class="py-20 md:py-24">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <h2 class="text-3xl md:text-4xl font-light mb-12 text-center text-gray-100">
+                <strong class="font-semibold text-white">Setup</strong> Guide
+            </h2>
+            <div class="max-w-3xl mx-auto text-gray-300 leading-relaxed space-y-8">
+                <p>For basic scanning, you only need a <span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> account with <strong>Scanning User</strong> permissions. To unlock the full feature set (attendee lists, scan reports, group scanning), follow these steps in your <span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> system:</p>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-100 mb-2">1. User Permissions</h3>
+                    <p>Ensure your user account also has <strong>Collect Report</strong> permissions. This is set under <code class="bg-gray-700 px-2 py-1 rounded text-sm">Settings > Users > User Accounts</code>.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-100 mb-2">2. Report Configuration</h3>
+                    <p>In <code class="bg-gray-700 px-2 py-1 rounded text-sm">Insights & Mailings</code>, create a new <strong>Sales</strong> report named exactly 'Ticket Scanning Report'. Set the criteria to find tickets with a <strong>Seat Status</strong> of 'Sold' or 'Scanned', for events where the <strong>Start Date</strong> is 'Today'.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-100 mb-2">3. Report Schedule & Access Notes</h3>
+                    <p>Create a <strong>Report Schedule</strong> for this report, set to 'Run on demand', delivered as a <strong>Link</strong> in <strong>CSV</strong> format to the email addresses of your scanner users. For Access Notes, create a <strong>Ticket Attribute</strong> in Settings called 'Accessibility Needs'.</p>
+                </div>
+                 <p class="text-center pt-4">
+                    <a href="setup.html" class="text-blue-400 hover:text-blue-300 font-semibold">See the full, detailed setup guide &rarr;</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <section id="faq-section" class="bg-gray-800 py-20 md:py-24 text-left">
+         <h2 class="text-3xl md:text-4xl font-light mb-12 text-center text-gray-100">
+            Got <strong class="font-semibold text-white">Questions?</strong>
+        </h2>
+
+        <div class="max-w-2xl mx-auto px-4">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="text-lg font-semibold">What devices can I use this on?</span>
+                    <svg class="w-5 h-5 text-gray-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="faq-answer">
+                    Our app runs on over 98% of Android™ devices, utilising the built-in camera to scan tickets.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="text-lg font-semibold">How does the 'Active License' model work?</span>
+                    <svg class="w-5 h-5 text-gray-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="faq-answer">
+                    It's simple! You just pay for each device that you need <i>actively logged in</i> at the same time. If you log out on one device and log in on another, that's covered by a single license. It’s perfect for having backup devices without paying extra.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="text-lg font-semibold">Is this an official <span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> app?</span>
+                    <svg class="w-5 h-5 text-gray-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="faq-answer">
+                    No, this application is an independent product developed by On the Latch. While it is fully compatible with your existing <span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> system, it is not affiliated with, endorsed by, or authorized by Spektrix Ltd.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="text-lg font-semibold">How do I manage my subscription/payment information?</span>
+                    <svg class="w-5 h-5 text-gray-400 toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="faq-answer">
+                    Your subscription and payment information is all handled by Paddle. <a href="https://customer-portal.paddle.com/cpl_01jy537nhn85n2rbe4ymhv8hkq" class="text-blue-400 hover:text-blue-300 font-medium">Click here</a> to access your account, or follow the links in your payment confirmation emails! If you need to increase or decrease the number of licenses you have, please <a href="mailto:dev@onthelat.ch" class="text-blue-400 hover:text-blue-300 font-medium">contact us</a> directly.
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="mt-16 py-10 bg-gray-900 border-t border-gray-800 text-center text-gray-500">
+        <p>&copy; 2025 On the Latch. All rights reserved.</p>
+        <p class="mt-2 text-sm">
+            <a href="eula.html" class="text-blue-400 hover:text-blue-300 mx-2">End-User License Agreement</a> | 
+            <a href="terms.html" class="text-blue-400 hover:text-blue-300 mx-2">Terms of Service</a> | 
+            <a href="privacy.html" class="text-blue-400 hover:text-blue-300 mx-2">Privacy Policy</a>
+        </p>
+        <p class="mt-4 text-xs text-gray-600 max-w-xl mx-auto">
+            <span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> is a registered trademark of Spektrix Ltd. Android™ is a trademark of Google LLC. This application is an independent product developed by On the Latch and is not affiliated with, endorsed by, or authorized by <span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> Ltd. or Google LLC.
+        </p>
+    </footer>
+
+</body>
+</html>

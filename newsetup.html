@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Guide - On the Latch</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎟️</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1c1e;
+            color: #e0e0e0;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .spektrix-green {
+            color: #97cc52;
+        }
+        .sup-tm {
+            font-size: 0.6em; /* Smaller font size */
+            top: -0.5em; /* Fine-tune vertical position */
+            position: relative;
+        }
+        /* Match heading styles from index page */
+        .content-page h1 {
+            @apply text-4xl md:text-5xl font-light leading-tight text-gray-100;
+        }
+        .content-page h2 {
+            @apply text-3xl font-semibold text-gray-200 pb-2 border-b-2 border-gray-700;
+        }
+        .content-page h3 {
+             @apply text-xl font-semibold text-gray-100 mb-2;
+        }
+        .content-page p, .content-page ul {
+            @apply leading-relaxed text-gray-300 text-lg;
+        }
+        .content-page ul {
+            @apply list-disc pl-6;
+        }
+        .content-page li {
+            @apply mb-2;
+        }
+        .content-page a {
+            @apply text-blue-400 hover:text-blue-300;
+        }
+        .content-page code {
+            @apply bg-gray-800 px-2 py-1 rounded text-sm text-gray-300;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white antialiased">
+
+    <nav class="bg-gray-800 p-3 sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto flex justify-between items-center max-w-4xl">
+            <a href="index.html" class="text-xl font-bold text-gray-200 hover:text-white transition-colors duration-200">On the Latch</a>
+            
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                    <svg id="menu-open-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                    <svg id="menu-close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="hidden md:flex space-x-4 text-xs font-semibold uppercase tracking-wider">
+                <a href="https://play.google.com/store/apps/details?id=com.onthelatch.ticketscanner" target="_blank" class="text-blue-400 hover:text-blue-300 border-b-2 border-transparent hover:border-blue-300 transition-all duration-200 pb-1">Download</a>
+                <a href="index.html#features-section" class="text-gray-400 hover:text-white border-b-2 border-transparent hover:border-white transition-all duration-200 pb-1">Features</a>
+                <a href="index.html#pricing-section" class="text-gray-400 hover:text-white border-b-2 border-transparent hover:border-white transition-all duration-200 pb-1">Pricing</a>
+                <a href="index.html#purchase-section" class="text-gray-400 hover:text-white border-b-2 border-transparent hover:border-white transition-all duration-200 pb-1">Purchase</a>
+                <a href="index.html#setup-section" class="text-gray-400 hover:text-white border-b-2 border-transparent hover:border-white transition-all duration-200 pb-1">Setup</a>
+                <a href="index.html#faq-section" class="text-gray-400 hover:text-white border-b-2 border-transparent hover:border-white transition-all duration-200 pb-1">FAQ</a>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden mt-4">
+            <a href="https://play.google.com/store/apps/details?id=com.onthelatch.ticketscanner" target="_blank" class="block py-2 px-4 text-sm text-blue-400 hover:bg-gray-700 rounded">Download</a>
+            <a href="index.html#features-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Features</a>
+            <a href="index.html#pricing-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Pricing</a>
+            <a href="index.html#purchase-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Purchase</a>
+            <a href="index.html#setup-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">Setup</a>
+            <a href="index.html#faq-section" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700 rounded">FAQ</a>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-6 py-12 md:py-16 max-w-4xl content-page">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-light"><strong class="font-semibold text-white">Setup</strong> Guide</h1>
+        </div>
+
+        <p class="text-xl text-gray-400 mb-12">For basic scanning functionality, you only need to log in with a <span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> account that has <strong>Scanning User</strong> permissions. To unlock the full potential of the app, follow the steps below.</p>
+
+        <section class="mb-12">
+            <h2 class="mt-16 mb-8">User Permissions</h2>
+            <p class="mb-6">To use attendee lists, scan reports, and group scanning, your user account also needs <strong>Collect Report</strong> permissions. You can set this in the <span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> Settings interface, under <code>Users > User Accounts</code>.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/permissions.png" alt="Spektrix user roles with Scanning User and Collect Report checked" class="rounded-lg shadow-lg my-8 mx-auto block w-3/4 max-w-xs border border-gray-700">
+        </section>
+
+        <section class="mb-12">
+            <h2 class="mt-16 mb-8">Report Configuration</h2>
+            <p class="mb-6">The app's advanced features rely on a specific report. Go to the <strong>Insights & Mailings</strong> interface and create a new <strong>Sales</strong> report named 'Ticket Scanning Report'.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/addreport.png" alt="Creating a new sales report in Spektrix" class="rounded-lg shadow-lg my-8 mx-auto block w-3/4 border border-gray-700">
+            
+            <p class="mt-8 mb-6">The criteria set should be named 'Today's sales'. It needs to find tickets with the <strong>Seat Status</strong> of 'Sold' or 'Scanned', for events where the <strong>Start Date</strong> (under 'Event Instances') is 'Today'.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/reportcriteria.png" alt="Report criteria showing Seat Status and Start Date" class="rounded-lg shadow-lg my-8 mx-auto block w-3/4 border border-gray-700">
+
+            <p class="mt-8 mb-6">The report's output columns must include the same as shown below:</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/reportoutput.png" alt="Required output columns for the report" class="rounded-lg shadow-lg my-8 mx-auto block w-3/4 border border-gray-700">
+
+            <div class="bg-gray-800 p-6 rounded-lg my-8">
+                <h3 class="text-xl font-semibold text-white mb-4">Output Column Categories:</h3>
+                <ul>
+                    <li><strong>Events:</strong> Duration, Event Name</li>
+                    <li><strong>Event Instances:</strong> Event Date/Time, Event Instance ID, Seating Plan Web Name, Event Instance Capacity, Number Sold</li>
+                    <li><strong>Seats:</strong> Area, Scanned</li>
+                    <li><strong>Tickets/Reservations:</strong> Seat, Group Size, Ticket Attributes, Ticket Type, Barcode</li>
+                    <li><strong>Customers:</strong> Owner ID, Owner First Name, Owner Last Name</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="mt-16 mb-8">Report Schedule</h2>
+            <p class="mb-6">Next, give your user accounts access to this report. In <strong>Insights & Mailings</strong>, go to 'Report Schedules' and click 'Add'.</p>
+            <p class="mb-6">Choose our 'Ticket Sales Report' with the 'Today's sales' criteria. Name it something memorable (e.g., 'Ticket Scanning Report'). Make sure the schedule is active, and check the <strong>'Run on demand'</strong> box. Everything else can remain unchanged. Proceed to the next step to add your report.</p>
+            <p class="mb-6">In the Delivery Details, name it 'Ticket Scanning Report', and add the email addresses of all the user accounts you'll have logging into the app separated by commas. Set to deliver as a <strong>Link</strong> in <strong>CSV</strong> format. Click 'Next' and then 'Ok', and then 'Ok' again to add the report schedule.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/schedulereport.png" alt="Report schedule delivery details" class="rounded-lg shadow-lg my-8 mx-auto block w-3/4 border border-gray-700">
+        </section>
+
+        <section class="mb-12">
+            <h2 class="mt-16 mb-8">Access Notes Attribute</h2>
+            <p class="mb-6">Finally, the 'Access Notes' feature requires a specific Ticket Attribute. In the <strong>Settings</strong> interface, under 'Attribute Definitions', click on 'Ticket' and add a new attribute named 'Accessibility Needs'.</p>
+            <p class="mb-6">We recommend setting this up as a <strong>dropdown list</strong> for consistency. You can then define the specific notes your Front of House team will find most useful. A text field will also work, but a character limit is advised.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/accessattribute.png" alt="Defining a ticket attribute for accessibility needs" class="rounded-lg shadow-lg my-8 mx-auto block w-3/4 border border-gray-700">
+            
+            <p class="mb-6">You'll need to instruct your Box Office team to add an attribute when an access ticket is booked. They can select the tickets in the <strong>Sales</strong> Interface, then click 'Ticket attributes' from the 'Reserve' dropdown menu.</p>
+            <img src="https://raw.githubusercontent.com/onthelatch/onthelatch.github.io/main/ticketattribute.png" alt="Setting a ticket attribute for accessibility needs" class="rounded-lg shadow-lg my-8 mx-auto block w-3/4 border border-gray-700">
+            <p class="mt-8 text-center text-xl spektrix-green font-bold">Once these steps are complete, you're ready to use all the features of the Ticket Scanner app!</p>
+        </section>
+
+        <footer class="mt-24 text-center text-gray-500">
+            <p>&copy; 2025 On the Latch. All rights reserved.</p>
+            <p class="mt-2 text-sm">
+                <a href="eula.html" class="text-blue-400 hover:text-blue-300 mx-2">End-User License Agreement</a> | 
+                <a href="terms.html" class="text-blue-400 hover:text-blue-300 mx-2">Terms of Service</a> | 
+                <a href="privacy.html" class="text-blue-400 hover:text-blue-300 mx-2">Privacy Policy</a>
+            </p>
+            <p class="mt-4 text-xs text-gray-600 max-w-xl mx-auto">
+                <span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> is a registered trademark of Spektrix Ltd. Android™ is a trademark of Google LLC. This application is an independent product developed by On the Latch and is not affiliated with, endorsed by, or authorized by <span class="spektrix-green">Spektrix<span class="sup-tm">®</span></span> Ltd. or Google LLC.
+            </p>
+        </footer>
+    </div>
+    <script>
+        // Simple script for mobile menu
+        document.addEventListener("DOMContentLoaded", () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuOpenIcon = document.getElementById('menu-open-icon');
+            const menuCloseIcon = document.getElementById('menu-close-icon');
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    menuOpenIcon.classList.toggle('hidden');
+                    menuCloseIcon.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
