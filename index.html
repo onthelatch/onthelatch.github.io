@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>On the Latch — Ticket Scanner for Spektrix®</title>
+    <title>House Manager - the Spektrix®-Compatible FOH App</title>
     <meta name="description" content="A fast, affordable Spektrix®-compatible ticket scanner for Android. Scan reports, attendee lookup, access notes, and offline scanning that syncs when you're back online.">
 
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎟️</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,9 +31,15 @@
         @media (max-width:900px){ .hero .wrap{ grid-template-columns:1fr; } }
         .hero h1{ font-size:clamp(2.35rem, 4.6vw, 3.4rem); line-height:1.06; margin:1.1rem 0 1.3rem; }
         .hero h1 em{ font-style:italic; color:var(--brand-secondary); }
+        .hero-mark{
+            display:inline-grid; place-items:center; width:.78em; height:.78em; margin-left:.3em;
+            border-radius:24%; background:linear-gradient(135deg,var(--brand-secondary),var(--brand-primary));
+            vertical-align:.03em; box-shadow:var(--shadow);
+        }
+        .hero-mark img{ width:60%; height:60%; }
         .hero-ctas{ display:flex; align-items:center; gap:1.25rem; margin-top:2rem; flex-wrap:wrap; }
         .hero-trust{ margin-top:2.25rem; display:flex; gap:1.75rem; flex-wrap:wrap; }
-        .hero-trust div{ font-family:var(--font-mono); font-size:.78rem; color:var(--text-secondary); }
+        .hero-trust div{ font-family:var(--font-body); font-size:.82rem; color:var(--text-secondary); }
         .hero-trust strong{ display:block; font-family:var(--font-display); font-size:1.5rem; color:var(--text-primary); font-weight:600; }
 
         /* ---------- Phone mockup ---------- */
@@ -68,7 +74,7 @@
         .feature-card{ background:var(--bg-surface); border:1px solid var(--card-border); border-radius:18px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; box-shadow:var(--shadow); }
         .feature-card h3{ font-size:1.3rem; }
         .feature-card p{ color:var(--text-secondary); font-size:.96rem; margin:0; }
-        .feature-tag{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; font-weight:600; }
+        .feature-tag{ font-family:var(--font-body); font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; font-weight:700; color:var(--brand-secondary); }
 
         /* mini UI illustrations — always rendered in the app's dark theme regardless of site theme */
         .mini{ background:#0B1E27; border:1px solid #22404E; border-radius:12px; padding:.9rem; font-family:var(--font-body); }
@@ -76,6 +82,7 @@
         .mini-row + .mini-row{ border-top:1px solid #1D3947; }
         .mini-name{ color:#E8ECEE; font-weight:700; font-size:.82rem; }
         .mini-sub{ color:#8AA3AE; font-size:.68rem; margin-top:.1rem; }
+        .mini-sub b{ color:#E8ECEE; font-weight:700; }
         .pill{ font-family:var(--font-mono); font-weight:700; font-size:.6rem; letter-spacing:.03em; padding:.35rem .6rem; border-radius:999px; text-shadow:0 1px 2px rgba(0,0,0,.35); }
         .pill-red{ background:#F57EA2; color:#fff; }
         .pill-green{ background:#71C33A; color:rgba(232,236,238,.75); }
@@ -249,7 +256,7 @@
 
 <nav class="nav">
     <div class="wrap">
-        <a class="brand" href="index.html"><span class="brand-mark">◆</span>On the Latch</a>
+        <a class="brand" href="index.html"><span class="brand-mark"><img src="app icon.svg" alt=""></span>On the Latch</a>
         <div class="nav-links">
             <a href="#features">Features</a>
             <a href="#pricing">Pricing</a>
@@ -273,7 +280,7 @@
 <header class="hero">
     <div class="wrap">
         <div>
-            <h1><em>House Manager</em><br>The ticket scanner and FOH multi&#8209;tool.</h1>
+            <h1><em>House Manager</em><span class="hero-mark"><img src="app icon.svg" alt=""></span><br>The ticket scanner and FOH multi&#8209;tool.</h1>
             <p class="lede">All the power of <span class="spektrix-brand">Spektrix</span><span class="sup-tm">®</span> without the reliance on Box Office. Live scan reports, attendee lookup and admission by name, and accessibility notes all in one app.</p>
             <div class="hero-ctas">
                 <a href="https://play.google.com/store/apps/details?id=com.onthelatch.ticketscanner" class="btn btn-filled" target="_blank" rel="noopener">Get it on <img src="lockup_Google_Play_RGB_color_reverse_horizontal_3657x745px.png" alt="Google Play" class="play-lockup"></a>
@@ -353,6 +360,7 @@
                         <div>
                             <div class="mini-sub" style="font-family:var(--font-mono)">19:00 · Studio</div>
                             <div class="mini-name">Event 2</div>
+                            <div class="mini-sub">Sold: <b>101</b> · Scanned: <b>62</b></div>
                         </div>
                         <div class="ring">
                             <svg width="46" height="46" viewbox="0 0 54 54">
@@ -503,7 +511,7 @@
     <div class="wrap">
         <p>&copy; 2026 On the Latch. All rights reserved.</p>
         <p style="margin-top:.75rem;"><a href="eula.html">End-User License Agreement</a> · <a href="terms.html">Terms of Service</a> · <a href="privacy.html">Privacy Policy</a></p>
-        <p class="legal-fineprint"><span class="spektrix-brand">Spektrix</span><span class="sup-tm">®</span> is a registered trademark of <span class="spektrix-brand">Spektrix</span><span class="sup-tm">®</span> Ltd. Android™ is a trademark of Google LLC. This application is an independent product developed by On the Latch and is not affiliated with, endorsed by, or authorized by <span class="spektrix-brand">Spektrix</span><span class="sup-tm">®</span> Ltd. or Google LLC.</p>
+        <p class="legal-fineprint"><span class="spektrix-brand">Spektrix</span><span class="sup-tm">®</span> is a registered trademark of <span class="spektrix-brand">Spektrix</span><span class="sup-tm">®</span> Ltd. Android™ is a trademark of Google LLC. This application is an independent product developed by On the Latch.</p>
     </div>
 </footer>
 
