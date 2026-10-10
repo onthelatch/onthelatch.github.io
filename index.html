@@ -96,6 +96,7 @@
         .mini-dialog .dbody{ color:#9DB3BE; font-size:.7rem; margin-top:.35rem; line-height:1.45; }
         .mini-dialog .dactions{ display:flex; justify-content:flex-end; gap:1rem; margin-top:.7rem; }
         .mini-dialog .dactions span{ font-family:var(--font-mono); font-size:.62rem; font-weight:700; color:#C33AB5; letter-spacing:.03em; }
+        .mini-dialog .dactions.stack{ flex-direction:column; align-items:flex-end; gap:.6rem; }
         .sync-dot{ width:.5rem; height:.5rem; border-radius:50%; background:#bb00a8; display:inline-block; margin-right:.4rem; box-shadow:0 0 0 4px rgba(187,0,168,.25); }
 
         /* ---------- Setup summary ---------- */
@@ -364,14 +365,14 @@
                         <div>
                             <div class="mini-sub" style="font-family:var(--font-mono)">19:00 · Studio</div>
                             <div class="mini-name">Event 2</div>
-                            <div class="mini-sub">Sold: <b>101</b> · Scanned: <b>62</b></div>
+                            <div class="mini-sub">Sold: <b>101</b> · Scanned: <b id="scan-ring-scanned">62</b></div>
                         </div>
                         <div class="ring">
                             <svg width="46" height="46" viewbox="0 0 54 54">
                                 <circle cx="27" cy="27" r="22" fill="none" stroke="#2E5061" stroke-width="6"></circle>
-                                <circle cx="27" cy="27" r="22" fill="none" stroke="#F9CE71" stroke-width="6" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="53.9"></circle>
+                                <circle id="scan-ring-arc" cx="27" cy="27" r="22" fill="none" stroke="#F9CE71" stroke-width="6" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="53.9"></circle>
                             </svg>
-                            <div class="pct">61%</div>
+                            <div class="pct" id="scan-ring-pct">61%</div>
                         </div>
                     </div>
                 </div>
@@ -385,24 +386,28 @@
             <div class="feature-card">
                 <div class="mini">
                     <div class="mini-row">
-                        <div><div class="mini-name">Bottom, Nick</div><div class="mini-sub">Tickets: 2</div></div>
+                        <div><div class="mini-name">Capulet, Juliet</div><div class="mini-sub">Tickets: 2</div></div>
                         <span class="pill pill-red">SCAN ALL</span>
                     </div>
                     <div class="mini-row">
-                        <div class="mini-sub" style="padding-left:1rem">H3</div>
+                        <div class="mini-sub" style="padding-left:1rem">H3 (Stalls) - Adult</div>
                         <span class="pill pill-green">SCANNED</span>
+                    </div>
+                    <div class="mini-row">
+                        <div class="mini-sub" style="padding-left:1rem">H4 (Stalls) - Concession</div>
+                        <span class="pill pill-red">SCAN</span>
                     </div>
                 </div>
                 <div>
                     <span class="feature-tag">Attendee list</span>
                     <h3>No need to reprint lost tickets</h3>
-                    <p>Trips to the Box Office are a thing of the past: search for patrons by name or seat number and admit a party on the spot, even if they can't find their tickets.</p>
+                    <p>Search for patrons by name or seat number, and admit a party with a single button press, even if they can't find their tickets.</p>
                 </div>
             </div>
 
             <div class="feature-card">
                 <div class="mini">
-                    <div class="mini-name">Helmer, Torvald</div>
+                    <div class="mini-name">Montague, Romeo</div>
                     <div class="mini-sub">Seat: I3</div>
                     <span class="chip-teal">Wheelchair User</span>
                 </div>
@@ -417,8 +422,8 @@
                 <div class="mini">
                     <div class="mini-dialog">
                         <div class="dtitle"><span class="sync-dot"></span>Sync complete</div>
-                        <div class="dbody">8 offline scans were processed (8 successful, 0 errors). Clear cached scans?</div>
-                        <div class="dactions"><span>CLEAR ALL</span><span>KEEP ALL</span></div>
+                        <div class="dbody">8 offline scans were processed (8 successful, 0 errors). Clear saved scans?</div>
+                        <div class="dactions stack"><span>CLEAR SUCCESSFUL ONLY</span><span>CLEAR ALL</span><span>KEEP ALL</span></div>
                     </div>
                 </div>
                 <div>
@@ -555,5 +560,37 @@
     </div>
 </footer>
 
+    <script>
+    // Scan report card: the ring fills from 0% to 100% as it travels up the screen,
+    // using the app's own colour steps (red <25, orange <50, yellow <75, green).
+    (function () {
+        var arc = document.getElementById('scan-ring-arc');
+        var pct = document.getElementById('scan-ring-pct');
+        var scanned = document.getElementById('scan-ring-scanned');
+        if (!arc || !pct || !scanned) return;
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var CIRC = 138.2, SOLD = 101, ticking = false;
+        function colour(p) { return p < 25 ? '#F57EA2' : p < 50 ? '#F5A17D' : p < 75 ? '#F9CE71' : '#71C33A'; }
+        function update() {
+            ticking = false;
+            var r = arc.getBoundingClientRect();
+            var vh = window.innerHeight || document.documentElement.clientHeight;
+            var centre = r.top + r.height / 2;
+            // 0% as the ring enters at the bottom, 100% as it reaches the top (below the nav bar).
+            var start = vh - 24, end = 110;
+            var t = Math.min(1, Math.max(0, (start - centre) / (start - end)));
+            var n = Math.round(SOLD * t);
+            var p = Math.round(n / SOLD * 100);
+            arc.setAttribute('stroke-dashoffset', (CIRC * (1 - n / SOLD)).toFixed(1));
+            arc.setAttribute('stroke', colour(p));
+            pct.textContent = p + '%';
+            scanned.textContent = n;
+        }
+        function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        update();
+    })();
+    </script>
 </body>
 </html>
