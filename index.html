@@ -78,6 +78,9 @@
 
         /* mini UI illustrations — always rendered in the app's dark theme regardless of site theme */
         .mini{ background:#0B1E27; border:1px solid #22404E; border-radius:12px; padding:.9rem; font-family:var(--font-body); }
+        .feature-card .mini{ min-height:var(--mini-h); display:flex; flex-direction:column; justify-content:center; }
+        .feature-card{ --mini-h:7.75rem; }
+        .mini.mini-flush{ padding:.45rem; }
         .mini-row{ display:flex; align-items:center; justify-content:space-between; padding:.4rem 0; }
         .mini-row + .mini-row{ border-top:1px solid #1D3947; }
         .mini-name{ color:#E8ECEE; font-weight:700; font-size:.82rem; }
@@ -90,13 +93,14 @@
         .mini-check .box{ width:.95rem; height:.95rem; border-radius:3px; border:1.5px solid #3A5A69; flex:none; display:flex; align-items:center; justify-content:center; font-size:.65rem; line-height:1; color:#fff; }
         .mini-check.on{ color:#E8ECEE; font-weight:700; }
         .mini-check.on .box{ background:#71C33A; border-color:#71C33A; }
-        .chip-teal{ display:inline-block; background:#88E9F2; color:#172830; font-size:.68rem; font-weight:700; padding:.3rem .65rem; border-radius:999px; margin-top:.45rem; }
+        .chip-teal{ align-self:flex-start; display:inline-block; background:#88E9F2; color:#172830; font-size:.68rem; font-weight:700; padding:.3rem .65rem; border-radius:999px; margin-top:.45rem; }
         .mini-dialog{ background:#224353; border-radius:10px; padding:.8rem .9rem; }
         .mini-dialog .dtitle{ color:#E8ECEE; font-weight:800; font-size:.85rem; }
         .mini-dialog .dbody{ color:#9DB3BE; font-size:.7rem; margin-top:.35rem; line-height:1.45; }
         .mini-dialog .dactions{ display:flex; justify-content:flex-end; gap:1rem; margin-top:.7rem; }
         .mini-dialog .dactions span{ font-family:var(--font-mono); font-size:.62rem; font-weight:700; color:#C33AB5; letter-spacing:.03em; }
         .mini-dialog .dactions.row{ flex-wrap:wrap; justify-content:space-between; gap:.5rem .6rem; }
+        @media (max-width:480px){ .mini-dialog .dactions.row{ gap:.4rem; } .mini-dialog .dactions.row span{ font-size:.56rem; letter-spacing:0; } }
         .sync-dot{ width:.5rem; height:.5rem; border-radius:50%; background:#bb00a8; display:inline-block; margin-right:.4rem; box-shadow:0 0 0 4px rgba(187,0,168,.25); }
 
         /* ---------- Setup summary ---------- */
@@ -393,10 +397,6 @@
                         <div class="mini-sub" style="padding-left:1rem">H3 (Stalls) - Standard</div>
                         <span class="pill pill-green">SCANNED</span>
                     </div>
-                    <div class="mini-row">
-                        <div class="mini-sub" style="padding-left:1rem">H4 (Stalls) - 35 &amp; Under</div>
-                        <span class="pill pill-red">SCAN</span>
-                    </div>
                 </div>
                 <div>
                     <span class="feature-tag">Attendee list</span>
@@ -419,7 +419,7 @@
             </div>
 
             <div class="feature-card">
-                <div class="mini">
+                <div class="mini mini-flush">
                     <div class="mini-dialog">
                         <div class="dtitle"><span class="sync-dot"></span>Sync complete</div>
                         <div class="dbody">8 offline scans were processed (8 successful, 0 errors). Clear saved scans?</div>
@@ -436,15 +436,11 @@
             <div class="feature-card">
                 <div class="mini">
                     <div class="mini-row">
-                        <div><div class="mini-name">Event 2 · Adult</div><div class="mini-sub">19:00 · Studio · Seat H3</div></div>
+                        <div><div class="mini-name">Event 2 · Standard</div><div class="mini-sub">19:00 · Studio · Seat H3</div></div>
                         <div class="mini-name">£12.00</div>
                     </div>
-                    <div class="mini-row">
-                        <div><div class="mini-name">Programme</div><div class="mini-sub">Merchandise</div></div>
-                        <div class="mini-name">£3.00</div>
-                    </div>
                     <div class="mini-row" style="padding-bottom:0;">
-                        <div class="mini-sub">Total <b>£15.00</b></div>
+                        <div class="mini-sub">Total <b>£12.00</b></div>
                         <span class="pill pill-green">PAY BY CARD</span>
                     </div>
                 </div>
@@ -457,7 +453,6 @@
 
             <div class="feature-card">
                 <div class="mini">
-                    <div class="mini-name" style="margin-bottom:.35rem;">Roles</div>
                     <div class="mini-check on"><span class="box">&#10003;</span>Collect Report</div>
                     <div class="mini-check"><span class="box"></span>Sales User</div>
                     <div class="mini-check on"><span class="box">&#10003;</span>Scanning User</div>
