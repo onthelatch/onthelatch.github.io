@@ -86,6 +86,10 @@
         .pill{ font-family:var(--font-mono); font-weight:700; font-size:.6rem; letter-spacing:.03em; padding:.35rem .6rem; border-radius:999px; text-shadow:0 1px 2px rgba(0,0,0,.35); }
         .pill-red{ background:#F57EA2; color:#fff; }
         .pill-green{ background:#71C33A; color:rgba(232,236,238,.75); }
+        .mini-check{ display:flex; align-items:center; gap:.65rem; padding:.28rem 0; color:#8AA3AE; font-size:.74rem; }
+        .mini-check .box{ width:.95rem; height:.95rem; border-radius:3px; border:1.5px solid #3A5A69; flex:none; display:flex; align-items:center; justify-content:center; font-size:.65rem; line-height:1; color:#fff; }
+        .mini-check.on{ color:#E8ECEE; font-weight:700; }
+        .mini-check.on .box{ background:#71C33A; border-color:#71C33A; }
         .chip-teal{ display:inline-block; background:#88E9F2; color:#172830; font-size:.68rem; font-weight:700; padding:.3rem .65rem; border-radius:999px; margin-top:.45rem; }
         .mini-dialog{ background:#224353; border-radius:10px; padding:.8rem .9rem; }
         .mini-dialog .dtitle{ color:#E8ECEE; font-weight:800; font-size:.85rem; }
@@ -447,10 +451,25 @@
             </div>
 
             <div class="feature-card">
+                <div class="mini">
+                    <div class="mini-name" style="margin-bottom:.35rem;">Roles</div>
+                    <div class="mini-check"><span class="box"></span>General Administrator</div>
+                    <div class="mini-check on"><span class="box">&#10003;</span>Collect Report</div>
+                    <div class="mini-check"><span class="box"></span>Opportunities Administrator</div>
+                    <div class="mini-check"><span class="box"></span>Opportunities User</div>
+                    <div class="mini-check"><span class="box"></span>Insights &amp; Mailings Administrator</div>
+                    <div class="mini-check"><span class="box"></span>Insights &amp; Mailings User</div>
+                    <div class="mini-check"><span class="box"></span>Can view and edit protected data</div>
+                    <div class="mini-check"><span class="box"></span>Sales Administrator</div>
+                    <div class="mini-check"><span class="box"></span>Sales User</div>
+                    <div class="mini-check on"><span class="box">&#10003;</span>Scanning User</div>
+                    <div class="mini-check"><span class="box"></span>Settings Administrator</div>
+                    <div class="mini-check"><span class="box"></span>Web Integration Administrator</div>
+                </div>
                 <div>
                     <span class="feature-tag">Privacy</span>
                     <h3>Your data, under your control.</h3>
-                    <p>House Manager does not require invasive permissions, and customer data never leaves your devices or <span class="spektrix-brand">Spektrix</span><span class="sup-tm">®</span> system.</p>
+                    <p>House Manager does not require invasive permissions, and customer data never leaves your devices or <span class="spektrix-brand">Spektrix</span><span class="sup-tm">®</span> system. Enable only the access you need.</p>
                 </div>
             </div>
         </div>
