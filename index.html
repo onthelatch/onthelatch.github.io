@@ -96,7 +96,7 @@
         .mini-dialog .dbody{ color:#9DB3BE; font-size:.7rem; margin-top:.35rem; line-height:1.45; }
         .mini-dialog .dactions{ display:flex; justify-content:flex-end; gap:1rem; margin-top:.7rem; }
         .mini-dialog .dactions span{ font-family:var(--font-mono); font-size:.62rem; font-weight:700; color:#C33AB5; letter-spacing:.03em; }
-        .mini-dialog .dactions.stack{ flex-direction:column; align-items:flex-end; gap:.6rem; }
+        .mini-dialog .dactions.row{ flex-wrap:wrap; justify-content:space-between; gap:.5rem .6rem; }
         .sync-dot{ width:.5rem; height:.5rem; border-radius:50%; background:#bb00a8; display:inline-block; margin-right:.4rem; box-shadow:0 0 0 4px rgba(187,0,168,.25); }
 
         /* ---------- Setup summary ---------- */
@@ -390,11 +390,11 @@
                         <span class="pill pill-red">SCAN ALL</span>
                     </div>
                     <div class="mini-row">
-                        <div class="mini-sub" style="padding-left:1rem">H3 (Stalls) - Adult</div>
+                        <div class="mini-sub" style="padding-left:1rem">H3 (Stalls) - Standard</div>
                         <span class="pill pill-green">SCANNED</span>
                     </div>
                     <div class="mini-row">
-                        <div class="mini-sub" style="padding-left:1rem">H4 (Stalls) - Concession</div>
+                        <div class="mini-sub" style="padding-left:1rem">H4 (Stalls) - 35 &amp; Under</div>
                         <span class="pill pill-red">SCAN</span>
                     </div>
                 </div>
@@ -407,7 +407,7 @@
 
             <div class="feature-card">
                 <div class="mini">
-                    <div class="mini-name">Montague, Romeo</div>
+                    <div class="mini-name">Thropp, Nessarose</div>
                     <div class="mini-sub">Seat: I3</div>
                     <span class="chip-teal">Wheelchair User</span>
                 </div>
@@ -423,7 +423,7 @@
                     <div class="mini-dialog">
                         <div class="dtitle"><span class="sync-dot"></span>Sync complete</div>
                         <div class="dbody">8 offline scans were processed (8 successful, 0 errors). Clear saved scans?</div>
-                        <div class="dactions stack"><span>CLEAR SUCCESSFUL ONLY</span><span>CLEAR ALL</span><span>KEEP ALL</span></div>
+                        <div class="dactions row"><span>CLEAR SUCCESSFUL ONLY</span><span>CLEAR ALL</span><span>KEEP ALL</span></div>
                     </div>
                 </div>
                 <div>
