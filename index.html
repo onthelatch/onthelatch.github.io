@@ -216,10 +216,24 @@
             const clientIdInput = document.getElementById('client-id-input');
             const errorMsg = document.getElementById('validation-error');
 
+            // The app removes spaces and lower-cases the client ID typed at
+            // activation, then must match it to the licence. Clean it the same
+            // way here, as it's typed, so the licence holds what the app checks.
+            const cleanClientId = (text) => text.replace(/\s+/g, '').toLowerCase();
+            if (clientIdInput) {
+                clientIdInput.addEventListener('input', () => {
+                    const cleaned = cleanClientId(clientIdInput.value);
+                    if (cleaned === clientIdInput.value) return;
+                    const caret = cleanClientId(clientIdInput.value.slice(0, clientIdInput.selectionStart)).length;
+                    clientIdInput.value = cleaned;
+                    clientIdInput.setSelectionRange(caret, caret);
+                });
+            }
+
             if (purchaseButton) {
                 purchaseButton.addEventListener('click', () => {
                     const quantity = parseInt(quantityInput.value) || 1;
-                    const clientId = clientIdInput.value.trim();
+                    const clientId = cleanClientId(clientIdInput.value);
 
                     if (quantity < 1 || !clientId) {
                         errorMsg.classList.remove('hidden');
@@ -497,7 +511,7 @@
             </div>
             <div class="field">
                 <label for="client-id-input"><span class="spektrix-brand">Spektrix</span><span class="sup-tm">®</span> Client ID</label>
-                <input type="text" id="client-id-input" placeholder="e.g. mytheatre" required>
+                <input type="text" id="client-id-input" placeholder="e.g. mytheatre" autocapitalize="none" autocorrect="off" spellcheck="false" required>
                 <p class="hint">Please ensure this is correct before proceeding!</p>
             </div>
             <button id="purchase-button" class="btn btn-filled full">Proceed to Checkout</button>
