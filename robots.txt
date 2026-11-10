@@ -2,3 +2,4 @@ User-agent: *
 Disallow: /privacy.html
 Disallow: /terms.html
 Disallow: /eula.html
+Disallow: /support.html
