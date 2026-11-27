@@ -103,13 +103,14 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:600; letter-spacing:-0.01
 .store-badges a:focus-visible{ outline:2px solid var(--brand-secondary); outline-offset:3px; }
 .store-badges img{ height:48px; width:auto; display:block; }
 
-/* "Android only" and similar, beside a feature's tag */
+/* "Android only", "Coming soon" and similar, beside a feature's tag */
 .platform-chip{
   display:inline-block; margin-left:.5rem; padding:.15rem .5rem; border-radius:999px;
   border:1px solid var(--card-border); color:var(--text-secondary);
   font-family:var(--font-mono); font-size:.64rem; font-weight:600; letter-spacing:.02em; text-transform:none;
   vertical-align:.1em;
 }
+.platform-chip.soon{ border-color:var(--brand-secondary); color:var(--brand-secondary); }
 
 /* ---------- Nav ---------- */
 .nav{
