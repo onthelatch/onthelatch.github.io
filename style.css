@@ -94,6 +94,24 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:600; letter-spacing:-0.01
 .btn-text{ color:var(--brand-secondary); font-weight:700; background:none; padding:.4rem .2rem; text-decoration:none; }
 .play-lockup{ height:22px; width:auto; display:block; }
 
+/* ---------- Store badges ----------
+   Apple's and Google's own artwork, unmodified. Apple: black badge when other stores'
+   badges appear, App Store first, at least 40px tall, clear space of a quarter of its
+   height. Google: its badge no smaller than the others. Both are 48px tall here. */
+.store-badges{ display:flex; align-items:center; gap:1rem; flex-wrap:wrap; scroll-margin-top:6rem; }
+.store-badges a{ display:block; line-height:0; border-radius:9px; }
+.store-badges a:focus-visible{ outline:2px solid var(--brand-secondary); outline-offset:3px; }
+.store-badges img{ height:48px; width:auto; display:block; }
+
+/* "Android only", "Coming soon" and similar, beside a feature's tag */
+.platform-chip{
+  display:inline-block; margin-left:.5rem; padding:.15rem .5rem; border-radius:999px;
+  border:1px solid var(--card-border); color:var(--text-secondary);
+  font-family:var(--font-mono); font-size:.64rem; font-weight:600; letter-spacing:.02em; text-transform:none;
+  vertical-align:.1em;
+}
+.platform-chip.soon{ border-color:var(--brand-secondary); color:var(--brand-secondary); }
+
 /* ---------- Nav ---------- */
 .nav{
   position:sticky; top:0; z-index:40;
